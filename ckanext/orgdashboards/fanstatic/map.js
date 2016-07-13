@@ -12,7 +12,7 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
     var mainField = mainProperty;
     $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURI(countryName)).done(function (data) {
       if (data['status'] == 'ZERO_RESULTS') {
-        initLeaflet(elementId, 39, 40, 2);
+        initLeaflet(elementId, 36.74, -96.58, 4);
       } else {
         var lat = data['results'][0]['geometry']['location']['lat'],
           lng = data['results'][0]['geometry']['location']['lng'];
