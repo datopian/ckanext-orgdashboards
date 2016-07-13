@@ -1,0 +1,286 @@
+{% extends "page.html" %}
+
+{% block styles %}
+    {% resource 'orgdashboards/main' %}
+    {% resource 'orgdashboards/map' %}
+    {% resource 'orgdashboards/vendor/jquery-1_12_3.js' %}
+    {% resource 'orgdashboards/dashboard.js' %}
+    {% resource 'orgdashboards/font-awesome.css' %}
+{% endblock %}
+
+{% if organization.org_dashboard_base_color %}
+  {% set base_color = "#" + organization.org_dashboard_base_color %}
+{% else %}
+  {% set base_color = "#000000" %}
+{% endif %}
+
+{% if organization.org_dashboard_secondary_color %}
+  {% set secondary_color = "#" + organization.org_dashboard_secondary_color %}
+{% else %}
+  {% set secondary_color = "#000000" %}
+{% endif %}
+
+{% if organization.org_dashboard_main_color %}
+  {% set font_base_color = "#" + organization.org_dashboard_main_color %}
+{% else %}
+  {% set font_base_color = "#818181" %}
+{% endif %}
+
+{% if organization.org_dashboard_new_data_color %}
+  {% set font_new_data_color = "#" + organization.org_dashboard_new_data_color %}
+{% else %}
+  {% set font_new_data_color = "#000000" %}
+{% endif %}
+
+{% if organization.org_dashboard_all_data_color %}
+  {% set font_all_data_color = "#" + organization.org_dashboard_all_data_color %}
+{% else %}
+  {% set font_all_data_color = "#000000" %}
+{% endif %}
+
+{#  set base_color = "#" + organization.org_dashboard_base_color #}
+{# set secondary_color = "#" + organization.org_dashboard_secondary_color #}
+{# set font_base_color = "#" + organization.org_dashboard_main_color #}
+{# set font_new_data_color = "#" + organization.org_dashboard_new_data_color #}
+{# set font_all_data_color = "#" + organization.org_dashboard_all_data_color #}
+
+
+{% block page %}
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-5 col-md-3 country-logo">
+                    <a href="#"><img class="img-responsive" src="{{ organization.image_display_url }}" height="130"
+                                     alt="USEDATA logo"></a>
+                </div>
+                <div class="col-sm-5 col-md-3">
+                  <h1 class="">{{ organization.org_dashboard_header }}</h1>
+                </div>
+
+
+              {% if organization.org_dashboard_lang_is_active == '1'%}
+                <div class="col-sm-2 col-md-2 language-selector">
+                    <ul class="list-inline">
+                        <li class="active">
+                            <img class="language-flag" src="/img/uk-flag-23x17.png" height="17" alt="UK flag">
+                            <span class="language-name">En</span>
+                        </li>
+                        <li>
+                            <img class="language-flag" src="/img/myanmar-flag-60x40.png" width="21" alt="BUR flag">
+                            <a href="#">
+                                <span class="language-name">Mya</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+              {% endif %}
+
+    <nav class="top-navigation pull-right" style="background-color: {{ base_color }}">
+        <div class="">
+            <ul class="list-inline">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Help</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+            </div>
+        </div>
+    </header>
+    <!--
+    <nav class="main-navigation" style="background-color: {{ base_color }}">
+        <div class="container">
+            <ul class="list-inline">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Help</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    -->
+    <div class="container">
+
+    <div class="hero-map-wrap">
+      <div class="hero-controls">
+          <div class="hero-block hero-info-select hidden" id="map-info">
+              <div class="media hero-info">
+                  <div class="media-left">
+                      <img id="map-info-img" class="language-flag" src="/images/usedata-info-icon.svg" width="41" alt="icon">
+                  </div>
+                  <div class="media-body">All efforts have been made to make this map accurate. However, USEDATA and its Service Providers accept no liability for any errors, omissions, or inaccuracies in the information provided on this map.
+                  </div>
+              </div>
+              <div class="hero-select" style="border: 5px solid {{ base_color }}">
+                  <select id="dataset" class="form-control" style="color: {{ base_color }};"></select>
+              </div>
+          </div>
+          <div class="hero-block hero-country">
+              <h2 class="hero-country-title" style="border-left: 5px solid {{ base_color }}; border-right: 5px solid {{ base_color }}; color: {{ base_color }}">{{ organization.display_name }}</h2>
+          </div>
+      </div>
+      {% if organization.org_dashboard_map %}
+        {% set geojsonurl = h._get_resource_url(organization.org_dashboard_map) %}
+      {% endif %}
+      <div
+              data-module="orgdashboards_map"
+              data-module-id="hero_map"
+              data-module-mapurl="{{ geojsonurl }}"
+              data-module-countryname="{{ organization.display_name }}"
+              data-module-color="{{ base_color }}"
+              data-module-main_property="{{ organization.org_dashboard_map_main_property }}"
+              id="hero_map"
+      >
+      </div>
+    </div>
+    
+    </div>
+
+    <main class="container">
+        <div class="graphs">
+          <div class="row">
+            {% if organization.org_dashboard_chart_1 %}
+                {% snippet 'dashboards/snippets/show_charts.html', 
+                    resource_view_id=organization.org_dashboard_chart_1,
+                    subheader=organization.org_dashboard_chart_1_subheader 
+                %}
+            {% endif %}
+            {% if organization.org_dashboard_chart_2 %}
+                {% snippet 'dashboards/snippets/show_charts.html', 
+                    resource_view_id=organization.org_dashboard_chart_2,
+                    subheader=organization.org_dashboard_chart_2_subheader 
+                %}
+            {% endif %}
+            {% if organization.org_dashboard_chart_3 %}
+                {% snippet 'dashboards/snippets/show_charts.html', 
+                    resource_view_id=organization.org_dashboard_chart_3,
+                    subheader=organization.org_dashboard_chart_3_subheader 
+                %}
+            {% endif %}
+              </div>
+          <div class="row">
+            {% if organization.org_dashboard_chart_4 %}
+                {% snippet 'dashboards/snippets/show_charts.html', 
+                    resource_view_id=organization.org_dashboard_chart_4,
+                    subheader=organization.org_dashboard_chart_4_subheader 
+                %}
+            {% endif %}
+            {% if organization.org_dashboard_chart_5 %}
+                {% snippet 'dashboards/snippets/show_charts.html', 
+                    resource_view_id=organization.org_dashboard_chart_5,
+                    subheader=organization.org_dashboard_chart_5_subheader 
+                %}
+            {% endif %}
+            {% if organization.org_dashboard_chart_6 %}
+                {% snippet 'dashboards/snippets/show_charts.html', 
+                    resource_view_id=organization.org_dashboard_chart_6,
+                    subheader=organization.org_dashboard_chart_6_subheader 
+                %}
+            {% endif %}
+          </div>
+        </div>
+        <div class="new-data">
+            <h2 class="data-block-heading" style="color: {{ font_base_color }}">Newly Released Data
+            <a id="newly-released-data-btn" type="button">
+              <i class="fa fa-expand pull-right"></i>
+            </a>
+            </h2>
+            <div
+                id="newly-released-data"
+                class="hidden"
+                style="border-top: 3px solid {{ base_color }};
+                       border-bottom: 3px solid {{ base_color }}">
+                {{ h.snippet('dashboards/snippets/show_datasets.html',
+                              packages=h._get_newly_released_data(),
+                              datasets_group_name='newdata',
+                              color=font_new_data_color) }}
+            </div>
+        </div>
+
+        <div class="all-data" id="search-data">
+            {% set facets = {
+          'fields': c.fields_grouped,
+          'search': c.search_facets,
+          'titles': [{"value": "groups", "name": "Themes"},
+                     {"value": "tags", "name": "Tags"},
+                     {"value": "res_format", "name": "Resource Format"},
+                     {"value": "license_id", "name": "Licenses"},
+                     {"value": "author", "name": "Authors"},],
+          'translated_fields': c.translated_fields,
+          'remove_field': c.remove_field } %}
+            {% set sorting = [
+          (_('Relevance'), 'score desc, metadata_modified desc'),
+          (_('Name Ascending'), 'title_string asc'),
+          (_('Name Descending'), 'title_string desc'),
+          (_('Last Modified'), 'metadata_modified desc'),
+          (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ] %}
+            {% snippet 'dashboards/snippets/search_form.html', form_id='dataset-search-form',
+                                                           type='dataset',
+                                                           query=c.q,
+                                                           sorting=sorting,
+                                                           sorting_selected=c.sort_by_selected,
+                                                           count=c.page.item_count,
+                                                           facets=facets,
+                                                           show_empty=request.params,
+                                                           error=c.query_error,
+                                                           fields=c.fields,
+                                                           font_base_color=font_base_color,
+                                                           base_color=base_color,
+                                                           secondary_color=secondary_color %}
+            <div class="data-block-header">
+                <div class="row">
+                    <div class="col-md-2">
+                        <h3 class="data-block-heading" style="color: {{ font_base_color }}">Filter Data by:</h3>
+                    </div>
+                    {% for facet in facets.titles %}
+                        {{ h.snippet('dashboards/snippets/facet_list.html', name=facet) }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="data-block">
+                {{ h.snippet('dashboards/snippets/show_datasets.html',
+                                                                      packages=c.page.items,
+                                                                      datasets_group_name='search',
+                                                                      color=font_all_data_color) }}
+            </div>
+        </div>
+          {{h.snippet('dashboards/snippets/pagination.html', current=c.page.page, per_page=c.page.items_per_page, total=c.page.item_count)}}
+    </main>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2 col-lg-4">
+                    <ul class="list-unstyled list-footer-nav">
+                        <li><a href="#">About USEDATA</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 col-lg-3">
+                    <ul class="list-inline list-social-buttons">
+                        <li><a class="btn-animated" href="#"><img src="/img/facebook-circle-color.svg" width="50"
+                                                                  height="50"
+                                                                  alt="Share on Facebook"></a></li>
+                        <li><a class="btn-animated" href="#"><img src="/img/instagram-circle-color.svg" width="50"
+                                                                  height="50" alt="Share on Instagram"></a></li>
+                        <li><a class="btn-animated" href="#"><img src="/img/twitter-circle-color.svg" width="50"
+                                                                  height="50"
+                                                                  alt="Tweet"></a></li>
+                        <li><a class="btn-animated" href="#"><img src="/img/linkedin-circle-color.svg" width="50"
+                                                                  height="50"
+                                                                  alt="Share on LinkedIn"></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-8 col-lg-5">
+                    <ul class="list-inline list-footer-logos">
+                        <li><a href="#"><img src="/img/ukaid-logo-246x260.png" height="130" alt="UKAID logo"></a></li>
+                        <li><a href="#"><img src="/img/montrose-logo-720x240.png" height="100" alt="Montrose logo"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">© {{ organization.org_dashboard_copyright }}</div>
+        </div>
+    </footer>
+{% endblock %}

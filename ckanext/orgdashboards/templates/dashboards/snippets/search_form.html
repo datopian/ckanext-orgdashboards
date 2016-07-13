@@ -1,0 +1,38 @@
+{% import 'macros/form.html' as form %}
+
+{% set placeholder = placeholder if placeholder else _('Search datasets...') %}
+{% set sorting = sorting if sorting else [(_('Name Ascending'), 'name asc'), (_('Name Descending'), 'name desc')] %}
+{% set search_class = search_class if search_class else 'search-giant' %}
+{% set no_bottom_border = no_bottom_border if no_bottom_border else false %}
+{% set form_id = form_id if form_id else false %}
+
+<div class="data-block-header" style="background: {{ secondary_color }}">
+    <div class="row">
+        <div class="col-md-2">
+            <h2 class="data-block-heading" style="color: {{ font_base_color }}">Data [{{ count }}]</h2>
+        </div>
+        <div class="col-md-2">
+           <!-- <ul class="list-inline list-data-sets-number">
+                <li>Show:</li>
+                <li class="active">25</li>
+                <li><a href="#">50</a></li>
+                <li><a href="#">100</a></li>
+            </ul>-->
+        </div>
+        <div class="col-md-4">
+            <form {% if form_id %}id="{{ form_id }}" {% endif %}class="search-form{% if no_bottom_border %} no-bottom-border{% endif %}"
+                  method="get" data-module="select-switch">
+                <input type="text" name="q" value="{{ query }}" autocomplete="off"
+                       class="form-control input-search-data" placeholder="{{ placeholder }}"
+                       style="border-color: {{ base_color }} ">
+            </form>
+
+        </div>
+    </div>
+</div>
+
+{% if error %}
+    {% trans %}
+        <p><strong>There was an error while searching.</strong> Please try again.</p>
+    {% endtrans %}
+{% endif %}

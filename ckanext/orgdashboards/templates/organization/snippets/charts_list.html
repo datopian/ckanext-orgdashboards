@@ -1,0 +1,62 @@
+{% for n in range(1,7) %}
+  <fieldset>
+    <legend>{{ _('Chart') }} {{ n }}</legend>
+
+    {% set chart_number_key =  ['org_dashboard_chart_', n]|join('') %}
+    {% set chart_subheader_key =  ['org_dashboard_chart_', n, '_subheader']|join('') %}
+    {% set chart_subheader = data[chart_subheader_key] %}
+    {% set hidden_value = data[chart_number_key] %}
+
+    {% if data[chart_number_key] %}
+      {% set chart = h._get_chart_resources(data[chart_number_key]) %}
+      
+      {% if chart is not none %}
+      
+	      {% set dataset_name = chart[2].title %}
+	      {% set resource_name = chart[1].name %}
+	      {% set view_name = chart[0].title %}
+	
+	      <div class="graph-container" id="chart_resourceview_{{ n }}_preview">
+	        <b>Dataset:</b> {{ dataset_name }} <br>
+	        <b>Resource:</b> {% if resource_name %}{{ chart[1].name }}{% else %}Unnamed resourcce{% endif %} <br>
+	        <b>View name:</b> {{ view_name }} <br>
+	        <b>Subheader:</b> {{ chart_subheader }} <br>
+	
+	        {% snippet 'dashboards/snippets/resource_view.html',
+	                         resource_view=chart[0],
+	                         resource=chart[1],
+	                         package=chart[2] %}
+	      </div>
+	
+	      <a class="btn btn-default pull-right" type="button" href="#"
+	              onclick="$('#change_chart_{{ n }}').removeClass('hidden'); $(this).addClass('hidden'); return false">
+	        Change
+	      </a>
+	
+	      {% snippet 'organization/snippets/charts_fields.html',
+	                  n=n,
+	                  class='hidden' %}
+	                  
+	   {% else %}
+	   
+	      {% snippet 'organization/snippets/charts_fields.html',
+	                  n=n,
+	                  class='hidden' %}
+	                  
+	      <a class="btn btn-default pull-right" type="button" href="#"
+          onclick="$('#change_chart_{{ n }}').removeClass('hidden'); $(this).addClass('hidden'); return false">
+	        Change
+	      </a>
+	   {% endif %}
+
+    {% else %}
+      <div class="graph-container" id="chart_resourceview_{{ n }}_preview"></div>
+      {% snippet 'organization/snippets/charts_fields.html',
+                  n=n %}
+    {% endif %}
+
+    <input type="hidden" id="{{ chart_number_key }}" name="{{ chart_number_key }}" value="{{ hidden_value }}"/>
+
+  </fieldset>
+
+{% endfor %}

@@ -1,0 +1,151 @@
+{#
+Displays a list of datasets.
+
+packages            - A list of packages to display.
+datasets_group_name - Name for the datasets group used for js handling
+list_class          - The class name for the list item.
+item_class          - The class name to use on each item.
+truncate            - The length to trucate the description to (default: 300)
+truncate_title      - The length to truncate the title to (default: 150).
+
+Example:
+
+  {% snippet 'snippets/package_list.html', packages=c.datasets, datasets_group_name='new_data' %}
+
+#}
+{% set truncate = truncate or 300 %}
+{% set truncate_title = truncate_title or 150 %}
+{% set datasets_group_name = datasets_group_name or 'anonymous' %}
+
+{% if packages %}
+  {% for package in packages %}
+    {% set title = package.title or package.name %}
+    {% set notes = h.markdown_extract(package.notes, extract_length=truncate) %}
+    <article class="data-set">
+      <div class="row">
+        <div class="col-md-4">
+          <h4 class="data-set-title">
+            <a href="#"
+               onclick="toggleResources('{{ datasets_group_name }}-resources-{{ package.id }}'); return false;"
+               style="color: {{ color }}">
+              {{ package.title }}
+            </a>
+          </h4>
+          <p>{{ h._convert_time_format(package) }}</p>
+        </div>
+        <div class="col-sm-11 col-md-5">
+          <p>{{ package.notes }}</p>
+
+        </div>
+        <div class="col-md-2">
+        <a href="/dataset/{{package.name}}" target="_blank"><i class="fa fa-desktop "></i> View dataset</a>
+        </div>
+        <div class="col-sm-1 col-md-1">
+          <a class="btn-animated btn-download"
+             href="#"
+             onclick="toggleResources('{{ datasets_group_name }}-resources-{{ package.id }}'); return false;">
+            <img
+                src="/img/usedata-download-icon.svg"
+                alt="Download">
+          </a>
+        </div>
+      </div>
+      <div class="hidden resources-dropdown" id="{{ datasets_group_name }}-resources-{{ package.id }}">
+        {% if package.resources %}
+          {% for resource in package.resources %}
+            <div class="row">
+              <div class="col-md-4 resources-dropdown-name">
+                {% if resource.name %}
+                  <h5 class="resources-title">
+                    <i class="fa fa-caret-right fa-2" aria-hidden="true"></i>
+                    <a href="{{ resource.url }}">{{ resource.name }}</a></h5>
+                {% else %}
+                  <h5 class="resources-title">
+                    <i class="fa fa-caret-right fa-2" aria-hidden="true"></i>
+                    <a href="{{ resource.url }}">Unnamed resource</a></h5>
+                {% endif %}
+              </div>
+              <div class="col-md-2">
+                {% if resource.format == 'ODS' %}
+                  <a href="{{ resource.url }}"
+                     class="noclick btn btn-xs btn-success">{{ resource.format }}</a>
+                {% elif resource.format == 'PDF' %}
+                  <a href="{{ resource.url }}"
+                     class="noclick btn btn-xs btn-warning">{{ resource.format }}</a>
+                {% elif resource.format == 'GeoJSON' %}
+                  <a href="{{ resource.url }}"
+                     class="noclick btn btn-xs btn-primary">{{ resource.format }}</a>
+                {% else %}
+                  <a href="{{ resource.url }}"
+                     class="noclick btn btn-xs btn-primary">{{ resource.format }}</a>
+                {% endif %}
+              </div>
+              <div class="col-md-4">
+                {% if resource.description %}
+                  <p>{{ resource.description }}</p>
+                {% else %}
+                  <p class="resources-dropdown-description">This resource does not contain any description.</p>
+                {% endif %}
+              </div>
+              <div class="col-md-2">
+              <a href="{{h._get_resource_view_url(dataset=package.name, id=resource.id)}}" target="_blank"><i class="fa fa-desktop "></i> View resource</a>
+              </div>
+            </div>
+
+          {% endfor %}
+        {% else %}
+          <div class="row">
+            <div class="col-md-12">
+              This dataset does not contain any resources yet.
+            </div>
+          </div>
+        {% endif %}
+        <div class="data-block-header">
+          <div class="row">
+            <div class="col-md-12">
+              <h5>Additional information</h5>
+            </div>
+          </div>
+          {% if package.author %}
+            <div class="row">
+              <div class="col-md-1">
+                <strong>Author:</strong>
+              </div>
+              <div class="col-md-8 additional-information">
+                {{ package.author }}
+              </div>
+            </div>
+          {% endif %}
+          {% if package.url %}
+            <div class="row">
+              <div class="col-md-1">
+                <strong>Source:</strong>
+              </div>
+              <div class="col-md-8 additional-information">
+                <a href="{{ package.url }}">{{ package.url }}</a>
+              </div>
+            </div>
+          {% endif %}
+          {% if package.license_title %}
+            <div class="row">
+              <div class="col-md-1">
+                <strong>License:</strong>
+              </div>
+              <div class="col-md-8 additional-information">
+                <a href="{{ package.license_url }}">{{ package.license_title }}</a>
+              </div>
+            </div>
+          {% endif %}
+
+
+        </div>
+
+
+      
+
+
+
+      </div>
+    </article>
+  {% endfor %}
+{% endif %}

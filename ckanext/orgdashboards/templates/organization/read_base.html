@@ -1,0 +1,13 @@
+{% ckan_extends %}
+
+{% block content_action %}
+	{{super()}}
+
+
+
+  <a class="btn" href="{% url_for controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController',
+                                                                 action='organization_dashboard',
+                                                                 name=c.group_dict.name%}" target="_blank"><i class="icon-globe"></i> View dashboard</a>
+    
+
+{% endblock %}

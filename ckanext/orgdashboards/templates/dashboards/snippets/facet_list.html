@@ -1,0 +1,32 @@
+{#
+Construct a facet module populated with links to filtered results.
+
+name
+  The field name identifying the facet field, eg. "tags"
+
+#}
+{% with items = h.get_facet_items_dict(name.value) %}
+    <div class="col-md-2">
+        <select class="form-control montrose-filters">
+            {% block facet_list_items %}
+                {% with items = h.get_facet_items_dict(name.value) %}
+                    {% set extras={'name': c.name} %}
+                    <option value="{{ h.remove_url_param(key=name.value, controller=c.controller, action=c.action, extras=extras) }}">{{ name.name }}</option>
+                    {% if items %}
+                        {% for item in items %}
+                            {% set href = h.montrose_replace_or_add_url_param(name.value, item.name) %}
+                            {% set label = label_function(item) if label_function else item.display_name %}
+                            {% set label_truncated = h.truncate(label, 22) if not label_function else label %}
+                            {% if item.active %}
+                                <option selected="selected" value="{{ href }}">{{ label_truncated }}</option>
+                            {% else %}
+                                <option value="{{ href }}">{{ label_truncated }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            {% endblock %}
+        </select>
+    </div>
+{% endwith %}
+

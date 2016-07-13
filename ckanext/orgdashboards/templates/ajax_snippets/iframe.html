@@ -1,0 +1,13 @@
+{% if not width %}
+	{% set width = 600 %}
+{% endif %}
+
+{% if not height %}
+	{% set height = 350 %}
+{% endif %}
+
+{% if not source %}
+	{% set source = 'https://montrose-staging.ckan.io/dataset/ruby-production/resource/4e7beee4-cbdb-4fec-8936-28518521a7b6/view/0a844f3b-a0a4-4ba1-af07-302607105b3e' %}
+{% endif %}
+
+<iframe width="{{width}}" height="{{height}}" src="{{source}}" frameBorder="0"></iframe>
