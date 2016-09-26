@@ -18,6 +18,33 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin, lib_plugins.DefaultOrganizati
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IFacets, inherit=True)
+    plugins.implements(plugins.IConfigurable)
+
+    ## IConfigurable
+
+    def configure(self, config):
+        # pass
+        organizations = toolkit.get_action('organization_list')(data_dict={})
+        data_dict = {
+            'org_dashboard_header': '',
+            'org_dashboard_footer': '',
+            'org_dashboard_copyright': '',
+            'org_dashboard_lang_is_active': '1',
+            'org_dashboard_base_color': '',
+            'org_dashboard_secondary_color': '',
+            'org_dashboard_is_active': '1',
+            'org_dashboard_datasets_per_page': '5',
+            'org_dashboard_charts': '',
+            'org_dashboard_map': '',
+            'org_dashboard_map_main_property': '',
+            'org_dashboard_main_color': '',
+            'org_dashboard_new_data_color': '',
+            'org_dashboard_all_data_color': ''
+        }
+
+        for organization in organizations:
+            data_dict.update({'id': organization})
+            toolkit.get_action('organization_patch')(data_dict=data_dict)
 
     ## IRoutes
 
@@ -83,6 +110,7 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin, lib_plugins.DefaultOrganizati
         schema.update({
             'org_dashboard_header': default_validators,
             'org_dashboard_footer': default_validators,
+            'org_dashboard_description': default_validators,
             'org_dashboard_copyright': default_validators,
             'org_dashboard_lang_is_active': default_validators,
             'org_dashboard_base_color': default_validators,
@@ -95,6 +123,11 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin, lib_plugins.DefaultOrganizati
             'org_dashboard_main_color': default_validators,
             'org_dashboard_new_data_color': default_validators,
             'org_dashboard_all_data_color': default_validators,
+            'org_dashboard_secondary_dashboard': default_validators,
+            'org_dashboard_secondary_language': default_validators,
+            'org_dashboard_survey_enabled': default_validators,
+            'org_dashboard_survey_text': default_validators,
+            'org_dashboard_survey_link': default_validators
         })
         
         charts = {}
@@ -119,6 +152,7 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin, lib_plugins.DefaultOrganizati
         schema.update({
             'org_dashboard_header': default_validators,
             'org_dashboard_footer': default_validators,
+            'org_dashboard_description': default_validators,
             'org_dashboard_copyright': default_validators,
             'org_dashboard_lang_is_active': default_validators,
             'org_dashboard_base_color': default_validators,
@@ -131,6 +165,11 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin, lib_plugins.DefaultOrganizati
             'org_dashboard_main_color': default_validators,
             'org_dashboard_new_data_color': default_validators,
             'org_dashboard_all_data_color': default_validators,
+            'org_dashboard_secondary_dashboard': default_validators,
+            'org_dashboard_secondary_language': default_validators,
+            'org_dashboard_survey_enabled': default_validators,
+            'org_dashboard_survey_text': default_validators,
+            'org_dashboard_survey_link': default_validators,
             'num_followers': [_not_empty],
             'package_count': [_not_empty],
         })
