@@ -41,11 +41,11 @@
 {% endif %}
 
 {% if organization.org_dashboard_map %}
-    {% set organizations_maps = h.montrose_convert_to_list(organization.org_dashboard_map) %}
+    {% set organizations_maps = h.org_dashboard_convert_to_list(organization.org_dashboard_map) %}
     {% set orgdashboards_geoJsonUrlList = [] %}}
     {% for org_dashboard_map in organizations_maps %}
         {#                Apparently we can append only in an if statement#}
-        {% if orgdashboards_geoJsonUrlList.append(h.montrose_get_resource_url(org_dashboard_map)) %}
+        {% if orgdashboards_geoJsonUrlList.append(h.org_dashboard_get_resource_url(org_dashboard_map)) %}
         {% endif %}
     {% endfor %}
 {% else %}
@@ -54,20 +54,20 @@
 {% endif %}
 
 {% if organization.org_dashboard_map_main_property %}
-    {% set orgdashboards_map_main_properties = h.montrose_convert_to_list(organization.org_dashboard_map_main_property) %}
+    {% set orgdashboards_map_main_properties = h.org_dashboard_convert_to_list(organization.org_dashboard_map_main_property) %}
 {% endif %}
 
 
 {% if organizations_maps %}
-{% set orgdashboards_resource_names = h.montrose_get_resource_names_from_ids(organizations_maps) %}
+{% set orgdashboards_resource_names = h.org_dashboard_get_resource_names_from_ids(organizations_maps) %}
 {% endif %}
 
 
-{#  set base_color = "#" + country.org_dashboard_base_color #}
-{# set secondary_color = "#" + country.org_dashboard_secondary_color #}
-{# set font_base_color = "#" + country.org_dashboard_main_color #}
-{# set font_new_data_color = "#" + country.org_dashboard_new_data_color #}
-{# set font_all_data_color = "#" + country.org_dashboard_all_data_color #}
+{#  set base_color = "#" + organization.org_dashboard_base_color #}
+{# set secondary_color = "#" + organization.org_dashboard_secondary_color #}
+{# set font_base_color = "#" + organization.org_dashboard_main_color #}
+{# set font_new_data_color = "#" + organization.org_dashboard_new_data_color #}
+{# set font_all_data_color = "#" + organization.org_dashboard_all_data_color #}
 
 
 {% block page %}
@@ -84,30 +84,30 @@
                 </div>
 
               {% if organization.org_dashboard_lang_is_active == '1'%}
-                {% if organization.montrose_secondary_language == 'en' %}
-                  {% set country_name = organization.montrose_secondary_dashboard %}
+                {% if organization.org_dashboard_secondary_language == 'en' %}
+                  {% set organization_name = organization.org_dashboard_secondary_dashboard %}
                 {% else  %}
-                  {% set country_name = c.name %}
+                  {% set organization_name = c.name %}
                 {% endif %}
                 <div class="col-sm-2 col-md-2 language-selector">
                     <ul class="list-inline">
                         <li>
                             <img class="language-flag" src="/img/uk-flag-23x17.png" height="17" alt="UK flag">
-                            <a href="{{ h.url_for(controller='ckanext.montrose.controllers.dashboard:DashboardsController', action='montrose_country_dashboard', name=country_name, locale='en') }}" class="language-picker-link">
+                            <a href="{{ h.url_for(controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController', action='organization_dashboard', name=organization_name, locale='en') }}" class="language-picker-link">
                                 <span class="language-name">En</span>
                             </a>
                         </li>
-                        {% if organization.montrose_secondary_dashboard and organization.montrose_secondary_dashboard != 'none' and organization.montrose_secondary_language and organization.montrose_secondary_language != 'none' %}
-                          {% if country.montrose_secondary_language == 'my_MM' %}
-                            {% set organization = '/img/myanmar-flag-60x40.png' %}
+                        {% if organization.org_dashboard_secondary_dashboard and organization.org_dashboard_secondary_dashboard != 'none' and organization.org_dashboard_secondary_language and organization.org_dashboard_secondary_language != 'none' %}
+                          {% if organization.org_dashboard_secondary_language == 'my_MM' %}
+                            {% set flag_url = '/img/myanmar-flag-60x40.png' %}
                             {% set country_short_name = 'Mya' %}
                             {% set locale = 'my_MM' %}
-                            {% set country_name = organization.montrose_secondary_dashboard %}
-                          {% elif organization.montrose_secondary_language == 'sw' %}
+                            {% set organization_name = organization.org_dashboard_secondary_dashboard %}
+                          {% elif organization.org_dashboard_secondary_language == 'sw' %}
                             {% set flag_url = '/img/tanzania_flag.jpg' %}
                             {% set country_short_name = 'Sw' %}
                             {% set locale = 'sw' %}
-                            {% set country_name = organization.montrose_secondary_dashboard %}
+                            {% set organization_name = organization.org_dashboard_secondary_dashboard %}
                           {% else %}
                             {% set locale = request.environ.get('CKAN_LANG') %}
 
@@ -119,15 +119,15 @@
                               {% set country_short_name = 'Sw' %}
                             {% endif %}
 
-                            {% if organization.montrose_secondary_language == 'en' %}
-                              {% set country_name = c.name %}
+                            {% if organization.org_dashboard_secondary_language == 'en' %}
+                              {% set organization_name = c.name %}
                             {% else  %}
-                              {% set country_name = organization.montrose_secondary_dashboard %}
+                              {% set organization_name = organization.org_dashboard_secondary_dashboard %}
                             {% endif %}
                           {% endif %}
                           <li>
                               <img class="language-flag" src="{{ flag_url }}" width="21" alt="{{ country_short_name | upper }} flag">
-                              <a href="{{ h.url_for(controller='ckanext.montrose.controllers.dashboard:DashboardsController', action='montrose_country_dashboard', name=country_name, locale=locale) }}" class="language-picker-link">
+                              <a href="{{ h.url_for(controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController', action='organization_dashboard', name=organization_name, locale=locale) }}" class="language-picker-link">
                                   <span class="language-name">{{ country_short_name }}</span>
                               </a>
                           </li>
@@ -182,7 +182,7 @@
       </div>
 
       <div
-              data-module="org_dashboard_map"
+              data-module="orgdashboards_map"
               data-module-id="hero_map"
               {% if orgdashboards_geoJsonUrlList|length > 0 %}
                 data-module-mapurl="{{ orgdashboards_geoJsonUrlList|join(',') }}"
@@ -206,66 +206,67 @@
       </div>
 
     </div>
+
         <div class="description-short">
-            <p class="dashboard-description">{{ h.montrose_smart_truncate(organization.montrose_country_description) }}{% if organization.montrose_country_description|length > 800 %}..
+            <p class="dashboard-description">{{ h.org_dashboard_smart_truncate(organization.org_dashboard_description) }}{% if organization.org_dashboard_description|length > 800 %}..
                     <a href="#" class="more-link">Read more</a>
                 {% endif %}
             </p>
         </div>
         <div class="description-full hidden">
-            <p class="dashboard-description">{{ organization.montrose_country_description }}
+            <p class="dashboard-description">{{ organization.org_dashboard_description }}
                 <a href="#" class="more-link">Read less</a></p>
         </div>
     </div>
-    {% if organization.montrose_survey_enabled == '1' %}
+    {% if organization.org_dashboard_survey_link == '1' %}
         <div id="survey_popup" class="hidden">
             <h4>Feedback Survey</h4>
             <hr>
-            <p class="survey_text">{{ organization.montrose_survey_text }}</p>
+            <p class="survey_text">{{ organization.org_dashboard_survey_text }}</p>
             <button id="survey_popup_close" class="btn btn-default">No, thanks</button>
-            <a href="{{ organization.montrose_survey_link }}" id="survey_link_button" class="survey_link btn btn-success" target="_blank">Yes, I'll give feedback</a>
+            <a href="{{ organization.org_dashboard_survey_link }}" id="survey_link_button" class="survey_link btn btn-success" target="_blank">Yes, I'll give feedback</a>
         </div>
     {% endif %}
 
     <main class="container">
         <div class="graphs">
           <div class="row">
-            {% if organization.montrose_chart_1 %}
+            {% if organization.org_dashboard_chart_1 %}
                 {% snippet 'dashboards/snippets/show_charts.html',
-                    resource_view_id=organization.montrose_chart_1,
-                    subheader=organization.montrose_chart_1_subheader
+                    resource_view_id=organization.org_dashboard_chart_1,
+                    subheader=organization.org_dashboard_chart_1_subheader
                 %}
             {% endif %}
-            {% if organization.montrose_chart_2 %}
+            {% if organization.org_dashboard_chart_2 %}
                 {% snippet 'dashboards/snippets/show_charts.html',
-                    resource_view_id=organization.montrose_chart_2,
-                    subheader=organization.montrose_chart_2_subheader
+                    resource_view_id=organization.org_dashboard_chart_2,
+                    subheader=organization.org_dashboard_chart_2_subheader
                 %}
             {% endif %}
-            {% if organization.montrose_chart_3 %}
+            {% if organization.org_dashboard_chart_3 %}
                 {% snippet 'dashboards/snippets/show_charts.html',
-                    resource_view_id=organization.montrose_chart_3,
-                    subheader=organization.montrose_chart_3_subheader
+                    resource_view_id=organization.org_dashboard_chart_3,
+                    subheader=organization.org_dashboard_chart_3_subheader
                 %}
             {% endif %}
               </div>
           <div class="row">
-            {% if organization.montrose_chart_4 %}
+            {% if organization.org_dashboard_chart_4 %}
                 {% snippet 'dashboards/snippets/show_charts.html',
-                    resource_view_id=organization.montrose_chart_4,
-                    subheader=organization.montrose_chart_4_subheader
+                    resource_view_id=organization.org_dashboard_chart_4,
+                    subheader=organization.org_dashboard_chart_4_subheader
                 %}
             {% endif %}
-            {% if organization.montrose_chart_5 %}
+            {% if organization.org_dashboard_chart_5 %}
                 {% snippet 'dashboards/snippets/show_charts.html',
-                    resource_view_id=organization.montrose_chart_5,
-                    subheader=organization.montrose_chart_5_subheader
+                    resource_view_id=organization.org_dashboard_chart_5,
+                    subheader=organization.org_dashboard_chart_5_subheader
                 %}
             {% endif %}
-            {% if organization.montrose_chart_6 %}
+            {% if organization.org_dashboard_chart_6 %}
                 {% snippet 'dashboards/snippets/show_charts.html',
-                    resource_view_id=country.montrose_chart_6,
-                    subheader=organization.montrose_chart_6_subheader
+                    resource_view_id=organization.org_dashboard_chart_6,
+                    subheader=organization.org_dashboard_chart_6_subheader
                 %}
             {% endif %}
           </div>
@@ -324,7 +325,7 @@
                         <h3 class="data-block-heading" style="color: {{ font_base_color }}">{{ _('Filter Data by') }}:</h3>
                     </div>
                     {% for facet in facets.titles %}
-                        {{ h.snippet('dashboards/snippets/facet_list.html', name=facet, country_name=organization.name) }}
+                        {{ h.snippet('dashboards/snippets/facet_list.html', name=facet, organization_name=organization.name) }}
                     {% endfor %}
                 </div>
             </div>
@@ -378,7 +379,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="copyright">© {{ organization.montrose_country_copyright }}</div>
+            <div class="copyright">© {{ organization.org_dashboard_copyright }}</div>
         </div>
     </footer>
 {% endblock %}

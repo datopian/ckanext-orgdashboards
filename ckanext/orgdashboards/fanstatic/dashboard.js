@@ -1,5 +1,5 @@
 $(function () {
-  $('.montrose-filters').on('change', function () {
+  $('.orgdashboards-filters').on('change', function () {
     var url = $(this).val();
     if (url) {
       window.location = url + '#search-data';
@@ -91,7 +91,7 @@ $(function () {
          $('#survey_popup').popup('hide');
      });
 
-    _setFocusOnMontroseFilters();
+    _setFocusOnSelectFilters();
   });
 
 });
@@ -125,7 +125,7 @@ function _setActiveLanguage() {
   }
 }
 
-function _setFocusOnMontroseFilters() {
+function _setFocusOnSelectFilters() {
   var baseColor = $('.data-block-header')[0].style.background;
   var rule = ['border-color: ' + baseColor + ';',
               'box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 3px ' + baseColor + ';'].join('');
@@ -133,7 +133,7 @@ function _setFocusOnMontroseFilters() {
 
   // Check whether there is already a rule set for the current country
   if (!_ruleExists('.' + country + ':focus')) {
-    _addCssRule('.form-control.montrose-filters:focus', rule);
+    _addCssRule('.form-control.orgdashboards-filters:focus', rule);
   }
 }
 

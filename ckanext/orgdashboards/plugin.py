@@ -3,6 +3,7 @@ import logging
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.plugins as lib_plugins
+from ckan.lib.plugins import DefaultTranslation
 import ckanext.orgdashboards.helpers as helpers
 
 from routes.mapper import SubMapper
@@ -10,7 +11,7 @@ from pylons import config
 
 log = logging.getLogger(__name__)
 
-class OrgDashboardsPlugin(plugins.SingletonPlugin, lib_plugins.DefaultOrganizationForm):
+class OrgDashboardsPlugin(plugins.SingletonPlugin, lib_plugins.DefaultOrganizationForm, DefaultTranslation):
     
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.IActions)
@@ -19,32 +20,33 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin, lib_plugins.DefaultOrganizati
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IFacets, inherit=True)
     plugins.implements(plugins.IConfigurable)
+    plugins.implements(plugins.ITranslation)
 
     ## IConfigurable
 
     def configure(self, config):
-        # pass
-        organizations = toolkit.get_action('organization_list')(data_dict={})
-        data_dict = {
-            'org_dashboard_header': '',
-            'org_dashboard_footer': '',
-            'org_dashboard_copyright': '',
-            'org_dashboard_lang_is_active': '1',
-            'org_dashboard_base_color': '',
-            'org_dashboard_secondary_color': '',
-            'org_dashboard_is_active': '1',
-            'org_dashboard_datasets_per_page': '5',
-            'org_dashboard_charts': '',
-            'org_dashboard_map': '',
-            'org_dashboard_map_main_property': '',
-            'org_dashboard_main_color': '',
-            'org_dashboard_new_data_color': '',
-            'org_dashboard_all_data_color': ''
-        }
+        pass
+        # organizations = toolkit.get_action('organization_list')(data_dict={})
+        # data_dict = {
+        #     'org_dashboard_header': '',
+        #     'org_dashboard_footer': '',
+        #     'org_dashboard_copyright': '',
+        #     'org_dashboard_lang_is_active': '1',
+        #     'org_dashboard_base_color': '',
+        #     'org_dashboard_secondary_color': '',
+        #     'org_dashboard_is_active': '1',
+        #     'org_dashboard_datasets_per_page': '5',
+        #     'org_dashboard_charts': '',
+        #     'org_dashboard_map': '',
+        #     'org_dashboard_map_main_property': '',
+        #     'org_dashboard_main_color': '',
+        #     'org_dashboard_new_data_color': '',
+        #     'org_dashboard_all_data_color': ''
+        # }
 
-        for organization in organizations:
-            data_dict.update({'id': organization})
-            toolkit.get_action('organization_patch')(data_dict=data_dict)
+        # for organization in organizations:
+        #     data_dict.update({'id': organization})
+        #     toolkit.get_action('organization_patch')(data_dict=data_dict)
 
     ## IRoutes
 
@@ -193,27 +195,41 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin, lib_plugins.DefaultOrganizati
 
     def get_helpers(self):
         return {
-            '_get_newly_released_data':
-                helpers._get_newly_released_data,
-            '_convert_time_format':
-                helpers._convert_time_format,
-            'montrose_replace_or_add_url_param':
-                helpers._replace_or_add_url_param,
+            'org_dashboard_get_newly_released_data':
+                helpers.org_dashboard_get_newly_released_data,
+            'org_dashboard_convert_time_format':
+                helpers.org_dashboard_convert_time_format,
+            'org_dashboard_replace_or_add_url_param':
+                helpers.org_dashboard_replace_or_add_url_param,
             'organization_list':
                 helpers.organization_list,
             'get_org_chart_views':
                 helpers.org_views.get_charts,
-            '_get_chart_resources':
+            'org_dashboard_get_chart_resources':
                 helpers.get_resourceview_resource_package,
             'get_org_map_views': 
                 helpers.org_views.get_maps,
-            '_get_resource_url':
-                helpers._get_resource_url,
-            '_get_geojson_properties': 
-                helpers._get_geojson_properties,
+            'org_dashboard_get_resource_url':
+                helpers.org_dashboard_get_resource_url,
+            'org_dashboard_get_geojson_properties': 
+                helpers.org_dashboard_get_geojson_properties,
             '_get_resource_view_url':
                 lambda id, dataset: '/dataset/{0}/resource/{1}'\
-                                    .format(dataset, id)
+                                    .format(dataset, id),
+            'org_dashboard_get_all_organizations':
+                helpers.org_dashboard_get_all_organizations,
+            'org_dashboard_available_languages':
+                helpers.org_dashboard_available_languages,
+            'org_dashboard_convert_to_list':
+                helpers.org_dashboard_convert_to_list,
+            'org_dashboard_get_resource_names_from_ids':
+                helpers.org_dashboard_get_resource_names_from_ids,
+            'org_dashboard_smart_truncate':
+                helpers.org_dashboard_smart_truncate,
+            'org_dashboard_get_secondary_language':
+                helpers.org_dashboard_get_secondary_language,
+            'org_dashboard_get_current_url':
+                helpers.org_dashboard_get_current_url
         }
         
     ## IConfigurer

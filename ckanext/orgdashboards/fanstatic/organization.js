@@ -20,7 +20,7 @@
 
     // Fetch and populate datasets dropdowns
 
-    api.get('montrose_show_datasets', {id: name}).done(function (data) {
+    api.get('orgdashboards_show_datasets', {id: name}).done(function (data) {
       var inputs = $('[id*=chart_dataset_]');
       $.each(data.result, function (idx, elem) {
         inputs.append(new Option(elem.title, elem.name));
@@ -42,7 +42,7 @@
         $('#' + resourceview_select_id + '_preview').empty();
 
         // Fetch and populate resources drop down
-        api.get('montrose_dataset_show_resources', {id: dataset_name}).done(
+        api.get('orgdashboards_dataset_show_resources', {id: dataset_name}).done(
           function (data) {
 
             var opts = $('#' + resource_select_id);
@@ -70,7 +70,7 @@
 
         $('#' + resourceview_select_id + '_preview').html();
 
-        api.get('montrose_resource_show_resource_views', {id: resource_id}).done(
+        api.get('orgdashboards_resource_show_resource_views', {id: resource_id}).done(
           function (data) {
 
             var opts = $('#' + resourceview_select_id);
@@ -113,7 +113,7 @@
 
     function changeMainPropertyValues(element) {
       var map_main_property = $(element).parent().parent().parent()
-        .find($('select[name="montrose_map_main_property"]'));
+        .find($('select[name="org_dashboard_map_main_property"]'));
 
       if ($(element).find('option').length > 0)
         map_main_property.empty();
@@ -121,7 +121,7 @@
       // Get resource id
       var resource_id = $(element).find('option:selected').val();
       var params = {id: resource_id};
-      api.get('montrose_resource_show_map_properties', params)
+      api.get('orgdashboards_resource_show_map_properties', params)
         .done(function (data) {
           var opts = map_main_property;
           $.each(data.result, function (idx, elem) {
@@ -131,21 +131,21 @@
         });
     }
 
-    var selects = $('select[name="montrose_map"]');
+    var selects = $('select[name="org_dashboard_map"]');
     for (var i = 0; i < selects.length; i++) {
       changeMainPropertyValues(selects[i]);
     }
 
     $('.map-properties').on('change', 'select', function (event) {
-        if ($(event.target).attr('id') == 'montrose_map') {
+        if ($(event.target).attr('id') == 'org_dashboard_map') {
           changeMainPropertyValues($(event.target));
         }
     });
 
     //Base color change event handler
-    var secondary_element = $('#montrose_dashboard_secondary_color'),
+    var secondary_element = $('#org_dashboard_dashboard_secondary_color'),
         lighter_color;
-    $('#montrose_dashboard_base_color').change(function () {
+    $('#org_dashboard_base_color').change(function () {
       lighter_color = ColorLuminance('#' + this.value, 0.4);
       secondary_element.val(lighter_color.substr(1));
       secondary_element.css({'background-color': lighter_color});

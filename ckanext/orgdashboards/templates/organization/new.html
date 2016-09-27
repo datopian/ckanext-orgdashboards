@@ -1,0 +1,13 @@
+{% ckan_extends %}
+
+{% block subtitle %}{{ _('Create a Country') }}{% endblock %}
+
+{% block breadcrumb_link %}{{ h.nav_link(_('Create a Country'), controller='organization', action='edit', id=c.organization.name) }}{% endblock %}
+
+{% block page_heading %}{{ _('Create a Country') }}{% endblock %}
+
+{% block page_header %}{% endblock %}
+
+{% block breadcrumb_content_inner %}
+  <li class="active"><a href="#">{{ _('Create a Country') }}</a></li>
+{% endblock %}

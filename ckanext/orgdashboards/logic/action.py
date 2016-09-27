@@ -8,8 +8,8 @@ import ckan.plugins as p
 import ckan.lib.helpers as h
 
 from ckanext.orgdashboards.helpers import (_get_action, 
-                                           _get_geojson_properties,
-                                           _get_resource_url,
+                                           org_dashboard_get_geojson_properties,
+                                           org_dashboard_get_resource_url,
                                            get_resource_resource_views,
                                            get_resourceview_resource_package)
 
@@ -38,7 +38,7 @@ def orgdashboards_resource_show_resource_views(context, data_dict):
 
 @p.toolkit.side_effect_free
 def orgdashboards_resource_show_map_properties(context, data_dict):
-    return _get_geojson_properties(data_dict.get('id'))
+    return org_dashboard_get_geojson_properties(data_dict.get('id'))
 
 @p.toolkit.side_effect_free
 def orgdashboards_resource_show_resource_views(context, data_dict):

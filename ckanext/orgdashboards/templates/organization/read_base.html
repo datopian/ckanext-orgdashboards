@@ -2,12 +2,15 @@
 
 {% block content_action %}
 	{{super()}}
+        
+    {% if c.group_dict.org_dashboard_secondary_language and c.group_dict.org_dashboard_secondary_language == 'en' %}
+      {% set locale = h.org_dashboard_get_secondary_language(c.group_dict.org_dashboard_secondary_dashboard) %}
+    {% else %}
+      {% set locale = 'en' %}
+    {% endif %}
 
-
-
-  <a class="btn" href="{% url_for controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController',
-                                                                 action='organization_dashboard',
-                                                                 name=c.group_dict.name%}" target="_blank"><i class="icon-globe"></i> View dashboard</a>
-    
-
+    <a class="btn" href="{% url_for controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController',
+                                                                   action='organization_dashboard',
+                                                                   locale=locale,
+                                                                   name=c.group_dict.name%}" target="_blank"><i class="icon-globe"></i> View dashboard</a>
 {% endblock %}

@@ -7,20 +7,20 @@ name
 #}
 {% with items = h.get_facet_items_dict(name.value) %}
     <div class="col-md-2">
-        <select class="form-control montrose-filters">
+        <select class="form-control orgdashboards-filters {{ organization_name|lower }}">
             {% block facet_list_items %}
                 {% with items = h.get_facet_items_dict(name.value) %}
                     {% set extras={'name': c.name} %}
                     <option value="{{ h.remove_url_param(key=name.value, controller=c.controller, action=c.action, extras=extras) }}">{{ name.name }}</option>
                     {% if items %}
                         {% for item in items %}
-                            {% set href = h.montrose_replace_or_add_url_param(name.value, item.name) %}
+                            {% set href = h.org_dashboard__replace_or_add_url_param(name.value, item.name) %}
                             {% set label = label_function(item) if label_function else item.display_name %}
                             {% set label_truncated = h.truncate(label, 22) if not label_function else label %}
                             {% if item.active %}
-                                <option selected="selected" value="{{ href }}">{{ label_truncated }}</option>
+                                <option selected="selected" value="{{ href }}">{{ label }}</option>
                             {% else %}
-                                <option value="{{ href }}">{{ label_truncated }}</option>
+                                <option value="{{ href }}">{{ label }}</option>
                             {% endif %}
                         {% endfor %}
                     {% endif %}
