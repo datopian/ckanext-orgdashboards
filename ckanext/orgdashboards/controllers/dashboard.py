@@ -186,6 +186,10 @@ class DashboardsController(PackageController):
             }
 
             query = get_action('package_search')(context, data_dict)
+
+            # Override the "author" list, to include full name authors
+            query['search_facets']['author']['items'] = self._get_full_name_authors(context, name)
+
             c.sort_by_selected = query['sort']
 
             c.page = h.Page(
@@ -248,3 +252,31 @@ class DashboardsController(PackageController):
         package = toolkit.get_action('package_show')({}, data_dict)
 
         return [resource_view, resource, package]
+
+    def _get_full_name_authors(self, context, name):
+
+        # "rows" is set to a big number because by default Solr will
+        # return only 10 rows, and we need all datasets
+        all_packages_dict = {
+            'fq': '+dataset_type:dataset +organization:' + name,
+            'rows': 10000000
+        }
+
+        # Find all datasets for the current organization (country)
+        datasets_query = get_action('package_search')(context, 
+                                                     all_packages_dict)
+
+        full_name_authors = set()
+        authors_list = []
+
+        for dataset in datasets_query['results']:
+            full_name_authors.add(dataset['author'])
+
+        for author in full_name_authors:
+            authors_list.append({
+                'name': author, 
+                'display_name': author, 
+                'count': 1
+            })
+
+        return authors_list
