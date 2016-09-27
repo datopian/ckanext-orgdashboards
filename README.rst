@@ -67,7 +67,10 @@ To install ckanext-orgdashboards:
    config file (by default the config file is located at
    ``/etc/ckan/default/production.ini``).
 
-4. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
+4. Add ``ckanext.orgdashboards.datasets_per_page`` as a setting in the config file:
+``ckanext.orgdashboards.datasets_per_page = 5``
+
+5. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
 
      sudo service apache2 reload
 
@@ -95,6 +98,53 @@ do::
     python setup.py develop
     pip install -r dev-requirements.txt
 
+------------------------
+Languages Installation
+------------------------
+
+In order to use languages that are not supported by CKAN, you have to install
+them manually. Open up a terminal inside the CKAN's source directory, and type
+the following command to initialize a new catalog for a language::
+
+    python setup.py init_catalog --locale YOUR_LANGUAGE
+
+where ``YOUR_LANGUAGE`` is the locale of the language. This command will 
+create a ``.po`` file inside ``ckan/i18n/YOUR_LANGUAGE/LC_MESSAGES``
+which contains the strings for the language. 
+
+Next you have to compile tha language into a binary format with the following
+command::
+
+    python setup.py compile_catalog --locale YOUR_LANGUAGE
+
+where ``YOUR_LANGUAGE`` is the locale of the language. This command will 
+create a ``.mo`` file, and the one which CKAN will read the strings from.
+
+The created languages will contain the strings in English. In order to
+translate the already defined strings, and extend the catalog with new ones,
+you need to follow the next steps.
+
+Right now there are only two languages inside this extension, Burmese and
+Swahili. They are located in the ``i18n`` directory which is in the
+``orgdashboards`` directory. Inside it are listed all languages installed.
+
+For instance, to translate the Burmese language, open up the ``.po`` file
+located in ``i18n/my_MM/LC_MESSAGES`` with `Poedit <https://poedit.net/>`_.
+Once you are done translating the language, save it. After that, open up a
+terminal and inside the extension's source directory, and type the following
+command to compile the catalog::
+
+    python setup.py compile_catalog --locale my_MM
+
+Every time you install or compile the language, in order to see the changes in
+the web portal, you have to restart the server where CKAN is running.
+
+To translate a totaly new language, first you need to follow the steps defined
+above for adding a language to CKAN, and after that, you have to add the
+language to the extension as well, inside the ``i18n`` directory.
+
+More information on translating extensions can be found on the offical
+documentation on CKAN.
 
 -----------------
 Running the Tests
