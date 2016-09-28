@@ -283,7 +283,7 @@
                 style="border-top: 3px solid {{ base_color }};
                        border-bottom: 3px solid {{ base_color }}">
                 {{ h.snippet('dashboards/snippets/show_datasets.html',
-                              packages=h.montrose_get_newly_released_data(),
+                              packages=h.org_dashboard_get_newly_released_data(),
                               datasets_group_name='newdata',
                               color=font_new_data_color) }}
             </div>

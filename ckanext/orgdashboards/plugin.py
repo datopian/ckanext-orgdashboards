@@ -213,7 +213,7 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin, lib_plugins.DefaultOrganizati
                 helpers.org_dashboard_get_resource_url,
             'org_dashboard_get_geojson_properties': 
                 helpers.org_dashboard_get_geojson_properties,
-            '_get_resource_view_url':
+            'org_dashboard_get_resource_view_url':
                 lambda id, dataset: '/dataset/{0}/resource/{1}'\
                                     .format(dataset, id),
             'org_dashboard_get_all_organizations':
