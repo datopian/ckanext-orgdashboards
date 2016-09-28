@@ -303,8 +303,7 @@ def org_dashboard_get_secondary_language(organization_name):
 
     organization = _get_action('organization_show', {}, {'id': organization_id})
 
-    return 'none'
-    # return organization['org_dashboard_secondary_language']
+    return organization['org_dashboard_secondary_language']
 
 def org_dashboard_get_current_url(page, exclude_param=''):
     params = request.params.items()
