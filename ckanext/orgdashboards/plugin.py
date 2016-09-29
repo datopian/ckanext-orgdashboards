@@ -3,7 +3,6 @@ import logging
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.plugins as lib_plugins
-from ckan.lib.plugins import DefaultTranslation
 import ckanext.orgdashboards.helpers as helpers
 
 from routes.mapper import SubMapper
@@ -11,7 +10,8 @@ from pylons import config
 
 log = logging.getLogger(__name__)
 
-class OrgDashboardsPlugin(plugins.SingletonPlugin, lib_plugins.DefaultOrganizationForm, DefaultTranslation):
+class OrgDashboardsPlugin(plugins.SingletonPlugin, 
+    lib_plugins.DefaultOrganizationForm, lib_plugins.DefaultTranslation):
     
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.IActions)
