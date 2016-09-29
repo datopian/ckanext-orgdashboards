@@ -120,28 +120,64 @@ command::
 where ``YOUR_LANGUAGE`` is the locale of the language. This command will 
 create a ``.mo`` file, and the one which CKAN will read the strings from.
 
-The created languages will contain the strings in English. In order to
-translate the already defined strings, and extend the catalog with new ones,
-you need to follow the next steps.
+------------------------
+Languages Translation
+------------------------
 
-Right now there are only two languages inside this extension, Burmese and
-Swahili. They are located in the ``i18n`` directory which is in the
-``orgdashboards`` directory. Inside it are listed all languages installed.
+If you want to add additional strings for a certain language and translate
+them, then follow these instructions:
 
-For instance, to translate the Burmese language, open up the ``.po`` file
-located in ``i18n/my_MM/LC_MESSAGES`` with `Poedit <https://poedit.net/>`_.
-Once you are done translating the language, save it. After that, open up a
-terminal and inside the extension's source directory, and type the following
-command to compile the catalog::
+1. Switch to the extension's directory and add a directory to store your 
+translations::
 
-    python setup.py compile_catalog --locale my_MM
+    mkdir ckanext/orgdashboards/i18n
 
-Every time you install or compile the language, in order to see the changes in
-the web portal, you have to restart the server where CKAN is running.
+2. Extract the strings from the extension with this 
+command::
 
-To translate a totaly new language, first you need to follow the steps defined
-above for adding a language to CKAN, and after that, you have to add the
-language to the extension as well, inside the ``i18n`` directory.
+    python setup.py extract_messages
+
+This will create a template ``.po`` file named 
+``ckanext/orgdashboards/i18n/ckanext-orgdashboards.pot``
+
+3. The next step is to create the translations. Let's say that you want to
+translate strings for the ``de`` locale. Create the translation ``.po`` file 
+for the locale that you are translating for by running ``init_catalog``::
+
+    python setup.py init_catalog -l de
+
+This will generate a file called ``i18n/de/LC_MESSAGES/ckanext-orgdashboards.po``.
+It contains every string extracted from the extension. For example, if you want
+to translate the string ``Groups``, locate it in the ``.po`` file and type the
+appropriate translation::
+
+    msgid "Groups"
+    msgstr "Gruppen"
+
+A ``.po`` file can also be edited using a special program for translation called 
+`Poedit <https://poedit.net/>`_.
+
+4. Once you are done with translation, next step is to compile the catalog with
+the ``compile_catalog`` command::
+    
+    python setup.py compile_catalog -l de
+
+This will create a binary ``.mo`` file named 
+``ckanext/orgdashboards/i18n/ckanext-orgdashboards.mo`` containing your 
+translations.
+
+Once you have added the translated strings, you will need to inform CKAN that 
+your extension is translated by implementing the ``ITranslation`` interface in
+your extension. Edit your ``plugin.py`` to contain the following::
+
+    from ckan.lib.plugins import DefaultTranslation
+
+
+    class YourPlugin(plugins.SingletonPlugin, DefaultTranslation):
+        plugins.implements(plugins.ITranslation)
+
+Restart the server and you should find that switching to the ``de`` locale in 
+the web interface should change the ``Groups`` string.
 
 More information on translating extensions can be found on the offical
 documentation on CKAN.
