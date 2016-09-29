@@ -67,8 +67,9 @@ To install ckanext-orgdashboards:
    config file (by default the config file is located at
    ``/etc/ckan/default/production.ini``).
 
-4. Add ``ckanext.orgdashboards.datasets_per_page`` as a setting in the config file:
-``ckanext.orgdashboards.datasets_per_page = 5``
+4. Add ``ckanext.orgdashboards.datasets_per_page`` as a setting in the config file::
+
+    ckanext.orgdashboards.datasets_per_page = 5
 
 5. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
 
