@@ -94,7 +94,7 @@
         var resourceview_select_id = elem.attr('id');
         var chart_nr = resourceview_select_id.substr(resourceview_select_id.lastIndexOf('_') + 1);
 
-        $('#montrose_chart_' + chart_nr).val(resourceview_id)
+        $('#orgdashboards_chart_' + chart_nr).val(resourceview_id)
 
         var base_url = ckan.sandbox().client.endpoint;
         var src = base_url + '/dataset/' + dataset_name + '/resource/' + resource_id + '/view/' + resourceview_id;

@@ -168,7 +168,7 @@
       <div class="hero-controls">
           <div class="hero-block hero-info-select hidden" id="map-info">
               <div class="hero-select" style="border: 5px solid {{ base_color }}">
-                  <select id="montrose_resource" class="form-control" style="color: {{ base_color }};">
+                  <select id="orgdashboards_resource" class="form-control" style="color: {{ base_color }};">
                   {% for orgdashboards_map in organizations_maps %}
                     <option
                         value="{{ orgdashboards_geoJsonUrlList[loop.index0] }}">{{ orgdashboards_resource_names[loop.index0] }}</option>

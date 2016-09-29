@@ -114,7 +114,7 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
           });
 
           var select_dataset = $('#dataset');
-          var select_resource = $('#montrose_resource');
+          var select_resource = $('#orgdashboards_resource');
           select_dataset.append('<option>Select Data Point</option>');
 
           for (var elem in layers) {
@@ -146,11 +146,11 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
         $('.leaflet-control-zoom-in').css({'color': color});
         $('.leaflet-control-zoom-out').css({'color': color});
 
-        var select_resource = $('#montrose_resource');
+        var select_resource = $('#orgdashboards_resource');
         var select_dataset = $('#dataset');
 
         select_resource.change(function click() {
-          var selectedIndex = $('#montrose_resource').prop('selectedIndex');
+          var selectedIndex = $('#orgdashboards_resource').prop('selectedIndex');
           select_dataset.children('option').remove();
           layers = [];
           map.removeLayer(geoL);
