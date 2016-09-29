@@ -62,6 +62,10 @@ def org_dashboard_replace_or_add_url_param(name, value):
     # params = set(params)
 
     for k, v in params:
+        # Reset the page to the first one
+        if k == 'page':
+            params.remove((k, v))
+            params.insert(0, ('page', '1'))
         if k != name:
             continue
         params.remove((k, v))
