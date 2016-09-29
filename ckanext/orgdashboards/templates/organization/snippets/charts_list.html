@@ -2,13 +2,13 @@
   <fieldset>
     <legend>{{ _('Chart') }} {{ n }}</legend>
 
-    {% set chart_number_key =  ['org_dashboard_chart_', n]|join('') %}
-    {% set chart_subheader_key =  ['org_dashboard_chart_', n, '_subheader']|join('') %}
+    {% set chart_number_key =  ['orgdashboards_chart_', n]|join('') %}
+    {% set chart_subheader_key =  ['orgdashboards_chart_', n, '_subheader']|join('') %}
     {% set chart_subheader = data[chart_subheader_key] %}
     {% set hidden_value = data[chart_number_key] %}
 
     {% if data[chart_number_key] %}
-      {% set chart = h.org_dashboard_get_chart_resources(data[chart_number_key]) %}
+      {% set chart = h.orgdashboards_get_chart_resources(data[chart_number_key]) %}
       
       {% if chart is not none %}
       

@@ -113,7 +113,7 @@
 
     function changeMainPropertyValues(element) {
       var map_main_property = $(element).parent().parent().parent()
-        .find($('select[name="org_dashboard_map_main_property"]'));
+        .find($('select[name="orgdashboards_map_main_property"]'));
 
       if ($(element).find('option').length > 0)
         map_main_property.empty();
@@ -131,21 +131,21 @@
         });
     }
 
-    var selects = $('select[name="org_dashboard_map"]');
+    var selects = $('select[name="orgdashboards_map"]');
     for (var i = 0; i < selects.length; i++) {
       changeMainPropertyValues(selects[i]);
     }
 
     $('.map-properties').on('change', 'select', function (event) {
-        if ($(event.target).attr('id') == 'org_dashboard_map') {
+        if ($(event.target).attr('id') == 'orgdashboards_map') {
           changeMainPropertyValues($(event.target));
         }
     });
 
     //Base color change event handler
-    var secondary_element = $('#org_dashboard_dashboard_secondary_color'),
+    var secondary_element = $('#orgdashboards_dashboard_secondary_color'),
         lighter_color;
-    $('#org_dashboard_base_color').change(function () {
+    $('#orgdashboards_base_color').change(function () {
       lighter_color = ColorLuminance('#' + this.value, 0.4);
       secondary_element.val(lighter_color.substr(1));
       secondary_element.css({'background-color': lighter_color});

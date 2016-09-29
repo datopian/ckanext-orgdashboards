@@ -30,7 +30,7 @@ def _get_ctx():
 def _get_action(action, context_dict, data_dict):
     return p.toolkit.get_action(action)(context_dict, data_dict)
 
-def org_dashboard_get_newly_released_data(limit=4):
+def orgdashboards_get_newly_released_data(limit=4):
     try:
         pkg_search_results = toolkit.get_action('package_search')(data_dict={
             'fq': ' organization:{}'.format(c.name),
@@ -52,12 +52,12 @@ def org_dashboard_get_newly_released_data(limit=4):
         return pkgs
 
 
-def org_dashboard_convert_time_format(package):
+def orgdashboards_convert_time_format(package):
     modified = datetime.strptime(package['metadata_modified'].split('T')[0], '%Y-%m-%d')
     return modified.strftime("%d %B %Y")
 
 
-def org_dashboard_replace_or_add_url_param(name, value):
+def orgdashboards_replace_or_add_url_param(name, value):
     params = request.params.items()
     # params = set(params)
 
@@ -119,7 +119,7 @@ def organization_list():
                        'include_extras': True, 
                        'include_followers': True})
 
-def org_dashboard_get_all_organizations():
+def orgdashboards_get_all_organizations():
     ''' Get all created organizations '''
 
     organizations = _get_action('organization_list', {}, {'all_fields': True})
@@ -139,7 +139,7 @@ def org_dashboard_get_all_organizations():
 
     return organizations
 
-def org_dashboard_available_languages():   
+def orgdashboards_available_languages():   
     ''' Read the languages listed in a json file '''
 
     languages = []
@@ -250,17 +250,17 @@ class OrgViews(object):
         
 org_views = OrgViews()
 
-def org_dashboard_get_resource_url(id):
+def orgdashboards_get_resource_url(id):
     if not resource_id_exists(id, _get_ctx()):
         return None
     
     data = _get_action('resource_show', {}, {'id': id})
     return data['url']
 
-def org_dashboard_get_geojson_properties(resource_id):
+def orgdashboards_get_geojson_properties(resource_id):
     import urllib
     
-    url = org_dashboard_get_resource_url(resource_id)
+    url = orgdashboards_get_resource_url(resource_id)
     print 'url:', url
     r = urllib.urlopen(url)
     
@@ -273,7 +273,7 @@ def org_dashboard_get_geojson_properties(resource_id):
 
     return result
            
-def org_dashboard_convert_to_list(resources):
+def orgdashboards_convert_to_list(resources):
     if not resources.startswith('{'):
         return [resources]
     resources = resources[1:len(resources) - 1].split(',')
@@ -284,7 +284,7 @@ def org_dashboard_convert_to_list(resources):
     return resources
 
 
-def org_dashboard_get_resource_names_from_ids(resource_ids):
+def orgdashboards_get_resource_names_from_ids(resource_ids):
     resource_names = []
     for resource_id in resource_ids:
         print resource_id
@@ -292,12 +292,12 @@ def org_dashboard_get_resource_names_from_ids(resource_ids):
     return resource_names
 
 
-def org_dashboard_smart_truncate(text, length=800):
+def orgdashboards_smart_truncate(text, length=800):
     if length > len(text):
         return text
     return text[:length].rsplit(' ', 1)[0]
 
-def org_dashboard_get_secondary_language(organization_name):
+def orgdashboards_get_secondary_language(organization_name):
     organizations = _get_action('organization_list', {}, {'all_fields': True})
 
     for organization in organizations:
@@ -307,9 +307,9 @@ def org_dashboard_get_secondary_language(organization_name):
 
     organization = _get_action('organization_show', {}, {'id': organization_id})
 
-    return organization['org_dashboard_secondary_language']
+    return organization['orgdashboards_secondary_language']
 
-def org_dashboard_get_current_url(page, exclude_param=''):
+def orgdashboards_get_current_url(page, exclude_param=''):
     params = request.params.items()
 
     url = h.url_for(controller=c.controller, action=c.action, name=c.name)

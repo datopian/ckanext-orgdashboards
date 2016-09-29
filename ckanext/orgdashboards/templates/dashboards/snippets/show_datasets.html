@@ -31,7 +31,7 @@ Example:
               {{ package.title }}
             </a>
           </h4>
-          <p>{{ h.org_dashboard_convert_time_format(package) }}</p>
+          <p>{{ h.orgdashboards_convert_time_format(package) }}</p>
         </div>
         <div class="col-sm-11 col-md-5">
           <p>{{ package.notes }}</p>
@@ -88,7 +88,7 @@ Example:
                 {% endif %}
               </div>
               <div class="col-md-2">
-              <a href="{{h.org_dashboard_get_resource_view_url(dataset=package.name, id=resource.id)}}" target="_blank"><i class="fa fa-desktop "></i> {{ _('View resource') }}</a>
+              <a href="{{h.orgdashboards_get_resource_view_url(dataset=package.name, id=resource.id)}}" target="_blank"><i class="fa fa-desktop "></i> {{ _('View resource') }}</a>
               </div>
             </div>
 

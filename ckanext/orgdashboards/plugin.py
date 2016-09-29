@@ -28,20 +28,20 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin, lib_plugins.DefaultOrganizati
         pass
         # organizations = toolkit.get_action('organization_list')(data_dict={})
         # data_dict = {
-        #     'org_dashboard_header': '',
-        #     'org_dashboard_footer': '',
-        #     'org_dashboard_copyright': '',
-        #     'org_dashboard_lang_is_active': '1',
-        #     'org_dashboard_base_color': '',
-        #     'org_dashboard_secondary_color': '',
-        #     'org_dashboard_is_active': '1',
-        #     'org_dashboard_datasets_per_page': '5',
-        #     'org_dashboard_charts': '',
-        #     'org_dashboard_map': '',
-        #     'org_dashboard_map_main_property': '',
-        #     'org_dashboard_main_color': '',
-        #     'org_dashboard_new_data_color': '',
-        #     'org_dashboard_all_data_color': ''
+        #     'orgdashboards_header': '',
+        #     'orgdashboards_footer': '',
+        #     'orgdashboards_copyright': '',
+        #     'orgdashboards_lang_is_active': '1',
+        #     'orgdashboards_base_color': '',
+        #     'orgdashboards_secondary_color': '',
+        #     'orgdashboards_is_active': '1',
+        #     'orgdashboards_datasets_per_page': '5',
+        #     'orgdashboards_charts': '',
+        #     'orgdashboards_map': '',
+        #     'orgdashboards_map_main_property': '',
+        #     'orgdashboards_main_color': '',
+        #     'orgdashboards_new_data_color': '',
+        #     'orgdashboards_all_data_color': ''
         # }
 
         # for organization in organizations:
@@ -110,32 +110,32 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin, lib_plugins.DefaultOrganizati
 
         default_validators = [_ignore_missing,_convert_to_extras]
         schema.update({
-            'org_dashboard_header': default_validators,
-            'org_dashboard_footer': default_validators,
-            'org_dashboard_description': default_validators,
-            'org_dashboard_copyright': default_validators,
-            'org_dashboard_lang_is_active': default_validators,
-            'org_dashboard_base_color': default_validators,
-            'org_dashboard_secondary_color': default_validators,
-            'org_dashboard_is_active': default_validators,
-            'org_dashboard_datasets_per_page': default_validators,
-            'org_dashboard_charts': default_validators,
-            'org_dashboard_map': default_validators,
-            'org_dashboard_map_main_property': default_validators,
-            'org_dashboard_main_color': default_validators,
-            'org_dashboard_new_data_color': default_validators,
-            'org_dashboard_all_data_color': default_validators,
-            'org_dashboard_secondary_dashboard': default_validators,
-            'org_dashboard_secondary_language': default_validators,
-            'org_dashboard_survey_enabled': default_validators,
-            'org_dashboard_survey_text': default_validators,
-            'org_dashboard_survey_link': default_validators
+            'orgdashboards_header': default_validators,
+            'orgdashboards_footer': default_validators,
+            'orgdashboards_description': default_validators,
+            'orgdashboards_copyright': default_validators,
+            'orgdashboards_lang_is_active': default_validators,
+            'orgdashboards_base_color': default_validators,
+            'orgdashboards_secondary_color': default_validators,
+            'orgdashboards_is_active': default_validators,
+            'orgdashboards_datasets_per_page': default_validators,
+            'orgdashboards_charts': default_validators,
+            'orgdashboards_map': default_validators,
+            'orgdashboards_map_main_property': default_validators,
+            'orgdashboards_main_color': default_validators,
+            'orgdashboards_new_data_color': default_validators,
+            'orgdashboards_all_data_color': default_validators,
+            'orgdashboards_secondary_dashboard': default_validators,
+            'orgdashboards_secondary_language': default_validators,
+            'orgdashboards_survey_enabled': default_validators,
+            'orgdashboards_survey_text': default_validators,
+            'orgdashboards_survey_link': default_validators
         })
         
         charts = {}
         for _ in range(1, 7):
-            charts.update({'org_dashboard_chart_{idx}'.format(idx=_): default_validators,
-                           'org_dashboard_chart_{idx}_subheader'.format(idx=_): default_validators})
+            charts.update({'orgdashboards_chart_{idx}'.format(idx=_): default_validators,
+                           'orgdashboards_chart_{idx}_subheader'.format(idx=_): default_validators})
             
         schema.update(charts)
         return schema
@@ -152,34 +152,34 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin, lib_plugins.DefaultOrganizati
 
         default_validators = [_convert_from_extras, _ignore_missing]
         schema.update({
-            'org_dashboard_header': default_validators,
-            'org_dashboard_footer': default_validators,
-            'org_dashboard_description': default_validators,
-            'org_dashboard_copyright': default_validators,
-            'org_dashboard_lang_is_active': default_validators,
-            'org_dashboard_base_color': default_validators,
-            'org_dashboard_secondary_color': default_validators,
-            'org_dashboard_is_active': default_validators,
-            'org_dashboard_datasets_per_page': default_validators,
-            'org_dashboard_charts': default_validators,
-            'org_dashboard_map': default_validators,
-            'org_dashboard_map_main_property': default_validators,
-            'org_dashboard_main_color': default_validators,
-            'org_dashboard_new_data_color': default_validators,
-            'org_dashboard_all_data_color': default_validators,
-            'org_dashboard_secondary_dashboard': default_validators,
-            'org_dashboard_secondary_language': default_validators,
-            'org_dashboard_survey_enabled': default_validators,
-            'org_dashboard_survey_text': default_validators,
-            'org_dashboard_survey_link': default_validators,
+            'orgdashboards_header': default_validators,
+            'orgdashboards_footer': default_validators,
+            'orgdashboards_description': default_validators,
+            'orgdashboards_copyright': default_validators,
+            'orgdashboards_lang_is_active': default_validators,
+            'orgdashboards_base_color': default_validators,
+            'orgdashboards_secondary_color': default_validators,
+            'orgdashboards_is_active': default_validators,
+            'orgdashboards_datasets_per_page': default_validators,
+            'orgdashboards_charts': default_validators,
+            'orgdashboards_map': default_validators,
+            'orgdashboards_map_main_property': default_validators,
+            'orgdashboards_main_color': default_validators,
+            'orgdashboards_new_data_color': default_validators,
+            'orgdashboards_all_data_color': default_validators,
+            'orgdashboards_secondary_dashboard': default_validators,
+            'orgdashboards_secondary_language': default_validators,
+            'orgdashboards_survey_enabled': default_validators,
+            'orgdashboards_survey_text': default_validators,
+            'orgdashboards_survey_link': default_validators,
             'num_followers': [_not_empty],
             'package_count': [_not_empty],
         })
         
         charts = {}
         for _ in range(1, 7):
-            charts.update({'org_dashboard_chart_{idx}'.format(idx=_): default_validators,
-                           'org_dashboard_chart_{idx}_subheader'.format(idx=_): default_validators})
+            charts.update({'orgdashboards_chart_{idx}'.format(idx=_): default_validators,
+                           'orgdashboards_chart_{idx}_subheader'.format(idx=_): default_validators})
             
         schema.update(charts)
         return schema
@@ -195,41 +195,41 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin, lib_plugins.DefaultOrganizati
 
     def get_helpers(self):
         return {
-            'org_dashboard_get_newly_released_data':
-                helpers.org_dashboard_get_newly_released_data,
-            'org_dashboard_convert_time_format':
-                helpers.org_dashboard_convert_time_format,
-            'org_dashboard_replace_or_add_url_param':
-                helpers.org_dashboard_replace_or_add_url_param,
+            'orgdashboards_get_newly_released_data':
+                helpers.orgdashboards_get_newly_released_data,
+            'orgdashboards_convert_time_format':
+                helpers.orgdashboards_convert_time_format,
+            'orgdashboards_replace_or_add_url_param':
+                helpers.orgdashboards_replace_or_add_url_param,
             'organization_list':
                 helpers.organization_list,
             'get_org_chart_views':
                 helpers.org_views.get_charts,
-            'org_dashboard_get_chart_resources':
+            'orgdashboards_get_chart_resources':
                 helpers.get_resourceview_resource_package,
             'get_org_map_views': 
                 helpers.org_views.get_maps,
-            'org_dashboard_get_resource_url':
-                helpers.org_dashboard_get_resource_url,
-            'org_dashboard_get_geojson_properties': 
-                helpers.org_dashboard_get_geojson_properties,
-            'org_dashboard_get_resource_view_url':
+            'orgdashboards_get_resource_url':
+                helpers.orgdashboards_get_resource_url,
+            'orgdashboards_get_geojson_properties': 
+                helpers.orgdashboards_get_geojson_properties,
+            'orgdashboards_get_resource_view_url':
                 lambda id, dataset: '/dataset/{0}/resource/{1}'\
                                     .format(dataset, id),
-            'org_dashboard_get_all_organizations':
-                helpers.org_dashboard_get_all_organizations,
-            'org_dashboard_available_languages':
-                helpers.org_dashboard_available_languages,
-            'org_dashboard_convert_to_list':
-                helpers.org_dashboard_convert_to_list,
-            'org_dashboard_get_resource_names_from_ids':
-                helpers.org_dashboard_get_resource_names_from_ids,
-            'org_dashboard_smart_truncate':
-                helpers.org_dashboard_smart_truncate,
-            'org_dashboard_get_secondary_language':
-                helpers.org_dashboard_get_secondary_language,
-            'org_dashboard_get_current_url':
-                helpers.org_dashboard_get_current_url
+            'orgdashboards_get_all_organizations':
+                helpers.orgdashboards_get_all_organizations,
+            'orgdashboards_available_languages':
+                helpers.orgdashboards_available_languages,
+            'orgdashboards_convert_to_list':
+                helpers.orgdashboards_convert_to_list,
+            'orgdashboards_get_resource_names_from_ids':
+                helpers.orgdashboards_get_resource_names_from_ids,
+            'orgdashboards_smart_truncate':
+                helpers.orgdashboards_smart_truncate,
+            'orgdashboards_get_secondary_language':
+                helpers.orgdashboards_get_secondary_language,
+            'orgdashboards_get_current_url':
+                helpers.orgdashboards_get_current_url
         }
         
     ## IConfigurer

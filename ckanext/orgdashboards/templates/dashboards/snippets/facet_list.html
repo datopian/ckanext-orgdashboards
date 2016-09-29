@@ -14,7 +14,7 @@ name
                     <option value="{{ h.remove_url_param(key=name.value, controller=c.controller, action=c.action, extras=extras) }}">{{ name.name }}</option>
                     {% if items %}
                         {% for item in items %}
-                            {% set href = h.org_dashboard_replace_or_add_url_param(name.value, item.name) %}
+                            {% set href = h.orgdashboards_replace_or_add_url_param(name.value, item.name) %}
                             {% set label = label_function(item) if label_function else item.display_name %}
                             {% set label_truncated = h.truncate(label, 22) if not label_function else label %}
                             {% if item.active %}

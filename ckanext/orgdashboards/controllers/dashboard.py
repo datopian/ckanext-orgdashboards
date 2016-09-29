@@ -62,7 +62,7 @@ class DashboardsController(PackageController):
         page = self._get_page_number(request.params)
 
         try:
-            limit = int(org['org_dashboard_datasets_per_page'])
+            limit = int(org['orgdashboards_datasets_per_page'])
         except KeyError, ValueError:
             limit = int(config.get('ckanext.orgdashboards.datasets_per_page'), 6)
 
