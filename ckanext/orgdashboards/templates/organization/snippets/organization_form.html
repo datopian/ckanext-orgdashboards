@@ -64,14 +64,19 @@
       {% set locale = 'en' %}
     {% endif %}
 
-    <legend><h2>{{ _('Dashboard settings') }}<a class="btn btn-info pull-right"
-                                                target="_blank"
-                                                href="{% url_for controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController',
-                                                                 action='organization_dashboard',
-                                                                 locale=locale,
-                                                                 name=data.name%}" >
-                                                    View Dashboard
-                                                    </a></h2></legend>
+    <legend>
+      <h2>{{ _('Dashboard settings') }}
+
+      {% if data.orgdashboards_is_active == '1' or data.orgdashboards_is_active is undefined %}
+        <a class="btn btn-info pull-right"
+          target="_blank"
+          href="{% url_for controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController',
+                                                                   action='organization_dashboard',
+                                                                   locale=locale,
+                                                                   name=data.name%}">View Dashboard</a>
+      {% endif %}
+      </h2>
+    </legend>
 
 
     {{ form.select('orgdashboards_is_active', 'orgdashboards_is_active', _('Is dashboard active?'), options=[{'value': '1', 'text': 'Yes'}, {'value': '0', 'text': 'No'}], selected=data.orgdashboards_is_active) }}
