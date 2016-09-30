@@ -11,7 +11,7 @@ from pylons import config
 log = logging.getLogger(__name__)
 
 class OrgDashboardsPlugin(plugins.SingletonPlugin, 
-    lib_plugins.DefaultOrganizationForm, lib_plugins.DefaultTranslation):
+    lib_plugins.DefaultOrganizationForm):
     
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.IActions)
@@ -20,7 +20,6 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IFacets, inherit=True)
     plugins.implements(plugins.IConfigurable)
-    plugins.implements(plugins.ITranslation)
 
     ## IConfigurable
 
