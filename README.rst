@@ -183,7 +183,7 @@ the web interface should change the ``Groups`` string.
 More information on translating extensions can be found on the offical
 documentation on CKAN.
 
-Additional countries flags can be taken from http://flag-icon-css.lip.is
+Additional flags for countries can be taken from http://flag-icon-css.lip.is
 
 -----------------
 Running the Tests
