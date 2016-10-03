@@ -119,7 +119,7 @@
       // Get resource id
       var resource_id = $('#org_dashboard_map option:selected').val();
       var params = {id: resource_id};
-      api.get('org_dashboard_resource_show_map_properties', params)
+      api.get('orgdashboards_resource_show_map_properties', params)
         .done(function (data) {
 
           var opts = $('#org_dashboard_map_main_property');

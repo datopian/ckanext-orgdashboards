@@ -204,7 +204,7 @@ def _get_resource_url(id):
 def _get_geojson_properties(resource_id):
     import urllib
     
-    url = montrose_get_resource_url(resource_id)
+    url = _get_resource_url(resource_id)
     r = urllib.urlopen(url)
     
     data = unicode(r.read(), errors='ignore')
