@@ -200,13 +200,11 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
                 helpers.orgdashboards_convert_time_format,
             'orgdashboards_replace_or_add_url_param':
                 helpers.orgdashboards_replace_or_add_url_param,
-            'organization_list':
-                helpers.organization_list,
-            'get_org_chart_views':
-                helpers.org_views.get_charts,
+            'orgdashboards_get_organization_list':
+                helpers.orgdashboards_get_organization_list,
             'orgdashboards_get_chart_resources':
                 helpers.get_resourceview_resource_package,
-            'get_org_map_views': 
+            'orgdashboards_get_org_map_views': 
                 helpers.org_views.get_maps,
             'orgdashboards_get_resource_url':
                 helpers.orgdashboards_get_resource_url,
@@ -217,8 +215,8 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
                                     .format(dataset, id),
             'orgdashboards_get_all_organizations':
                 helpers.orgdashboards_get_all_organizations,
-            'orgdashboards_available_languages':
-                helpers.orgdashboards_available_languages,
+            'orgdashboards_get_available_languages':
+                helpers.orgdashboards_get_available_languages,
             'orgdashboards_convert_to_list':
                 helpers.orgdashboards_convert_to_list,
             'orgdashboards_get_resource_names_from_ids':

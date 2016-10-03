@@ -268,7 +268,7 @@ class DashboardsController(PackageController):
             'rows': 10000000
         }
 
-        # Find all datasets for the current organization (country)
+        # Find all datasets for the current organization
         datasets_query = get_action('package_search')(context, 
                                                      all_packages_dict)
 

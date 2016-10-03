@@ -129,10 +129,10 @@ function _setFocusOnSelectFilters() {
   var baseColor = $('.data-block-header')[0].style.background;
   var rule = ['border-color: ' + baseColor + ';',
               'box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 3px ' + baseColor + ';'].join('');
-  var country = window.location.pathname.split('/').reverse()[1];
+  var organization = window.location.pathname.split('/').reverse()[1];
 
-  // Check whether there is already a rule set for the current country
-  if (!_ruleExists('.' + country + ':focus')) {
+  // Check whether there is already a rule set for the current organization
+  if (!_ruleExists('.' + organization + ':focus')) {
     _addCssRule('.form-control.orgdashboards-filters:focus', rule);
   }
 }

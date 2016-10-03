@@ -17,8 +17,6 @@ from ckan.logic.validators import resource_id_exists, package_id_exists
 
 log = logging.getLogger(__name__)
 
-get_languages_path = lambda: os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                                                          'language-codes.json')
 
 # TODO: Re-organize and re-factor helpers
 
@@ -113,7 +111,7 @@ def get_resourceview_resource_package(resource_view_id):
 
     return [resource_view, resource, package]
 
-def organization_list():
+def orgdashboards_get_organization_list():
     return _get_action('organization_list', {},
                       {'all_fields': True, 
                        'include_extras': True, 
@@ -139,7 +137,7 @@ def orgdashboards_get_all_organizations():
 
     return organizations
 
-def orgdashboards_available_languages():   
+def orgdashboards_get_available_languages():   
     ''' Read the languages listed in a json file '''
 
     languages = []

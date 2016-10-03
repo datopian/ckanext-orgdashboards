@@ -75,7 +75,7 @@
     <header>
         <div class="container">
             <div class="row">
-                <div class="col-sm-5 col-md-3 country-logo">
+                <div class="col-sm-5 col-md-3 organization-logo">
                     <a href="#"><img class="img-responsive" src="{{ organization.image_display_url }}" height="130"
                                      alt="USEDATA logo"></a>
                 </div>
@@ -175,7 +175,7 @@
               {% else %}
                 data-module-mapurl="[]"
               {% endif %}
-              data-module-countryname="{{ organization.display_name }}"
+              data-module-organizationName="{{ organization.display_name }}"
               data-module-color="{{ base_color }}"
               data-module-main_property="{{ orgdashboards_map_main_properties|join(',') }}"
               id="hero_map"
@@ -275,54 +275,9 @@
             </div>
         </div>
 
-        <div class="all-data" id="search-data">
-            {% set facets = {
-          'fields': c.fields_grouped,
-          'search': c.search_facets,
-          'titles': [{"value": "groups", "name": _('Themes')},
-                     {"value": "tags", "name": _('Tags')},
-                     {"value": "res_format", "name": _('Resource Format')},
-                     {"value": "license_id", "name": _('Licenses')},
-                     {"value": "author", "name": _('Authors')},],
-          'translated_fields': c.translated_fields,
-          'remove_field': c.remove_field } %}
-            {% set sorting = [
-          (_('Relevance'), 'score desc, metadata_modified desc'),
-          (_('Name Ascending'), 'title_string asc'),
-          (_('Name Descending'), 'title_string desc'),
-          (_('Last Modified'), 'metadata_modified desc'),
-          (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ] %}
-            {% snippet 'dashboards/snippets/search_form.html', form_id='dataset-search-form',
-                                                           type='dataset',
-                                                           query=c.q,
-                                                           sorting=sorting,
-                                                           sorting_selected=c.sort_by_selected,
-                                                           count=c.page.item_count,
-                                                           facets=facets,
-                                                           show_empty=request.params,
-                                                           error=c.query_error,
-                                                           fields=c.fields,
-                                                           font_base_color=font_base_color,
-                                                           base_color=base_color,
-                                                           secondary_color=secondary_color %}
-            <div class="data-block-header">
-                <div class="row">
-                    <div class="col-md-2">
-                        <h3 class="data-block-heading" style="color: {{ font_base_color }}">{{ _('Filter Data by') }}:</h3>
-                    </div>
-                    {% for facet in facets.titles %}
-                        {{ h.snippet('dashboards/snippets/facet_list.html', name=facet, organization_name=organization.name) }}
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="data-block">
-                {{ h.snippet('dashboards/snippets/show_datasets.html',
-                                                                      packages=c.page.items,
-                                                                      datasets_group_name='search',
-                                                                      color=font_all_data_color) }}
-            </div>
-        </div>
-          {{h.snippet('dashboards/snippets/pagination.html', current=c.page.page, per_page=c.page.items_per_page, total=c.page.item_count)}}
+        
+        {{ h.snippet('dashboards/snippets/search_container.html', font_base_color=font_base_color, base_color=base_color, secondary_color=secondary_color, organization_name=organization_name, font_all_data_color=font_all_data_color) }}
+        {{h.snippet('dashboards/snippets/pagination.html', current=c.page.page, per_page=c.page.items_per_page, total=c.page.item_count)}}
     </main>
     </div>
     <footer>

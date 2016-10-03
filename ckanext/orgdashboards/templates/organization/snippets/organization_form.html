@@ -9,25 +9,7 @@
   {% endblock %}
 
   {% block basic_fields %}
-    {% set attrs = {'data-module': 'slug-preview-target'} %}
-    {{ form.input('title', label=_('Name'), id='field-name', placeholder=_('My Organization'), value=data.title, error=errors.title, classes=['control-full'], attrs=attrs) }}
-
-    {# Perhaps these should be moved into the controller? #}
-    {% set prefix = h.url_for(controller='organization', action='read', id='') %}
-    {% set domain = h.url_for(controller='organization', action='read', id='', qualified=true) %}
-    {% set domain = domain|replace("http://", "")|replace("https://", "") %}
-    {% set domain = domain|replace("/organization/", "/country/") %}
-    {% set attrs = {'data-module': 'slug-preview-slug', 'data-module-prefix': domain, 'data-module-placeholder': '<country>'} %}
-
-    {{ form.prepend('name', label=_('URL'), prepend='country', id='field-url', placeholder=_('my-organization'), value=data.name, error=errors.name, attrs=attrs, is_required=true) }}
-
-    {{ form.markdown('description', label=_('Description'), id='field-description', placeholder=_('A little information about my organization...'), value=data.description, error=errors.description) }}
-
-    {% set is_upload = data.image_url and not data.image_url.startswith('http') %}
-    {% set is_url = data.image_url and data.image_url.startswith('http') %}
-
-    {{ form.image_upload(data, errors, is_upload_enabled=h.uploads_enabled(), is_url=is_url, is_upload=is_upload) }}
-
+    {{ h.snippet('organization/snippets/basic_fields.html', errors=errors, data=data) }}
   {% endblock %}
 
   {% block custom_fields %}
@@ -86,7 +68,7 @@
     {{ form.select('orgdashboards_secondary_dashboard', 'orgdashboards_secondary_dashboard', _('Choose secondary dashboard'), options=h.orgdashboards_get_all_organizations(), selected=data.orgdashboards_secondary_dashboard) }}
 
     {% if data.orgdashboards_secondary_dashboard and data.orgdashboards_secondary_dashboard != 'none' %}
-      {{ form.select('orgdashboards_secondary_language', 'orgdashboards_secondary_language', _('Choose secondary language'), options=h.orgdashboards_available_languages(), selected=data.orgdashboards_secondary_language) }}
+      {{ form.select('orgdashboards_secondary_language', 'orgdashboards_secondary_language', _('Choose secondary language'), options=h.orgdashboards_get_available_languages(), selected=data.orgdashboards_secondary_language) }}
     {% endif %}
 
     {{ form.select('orgdashboards_datasets_per_page', 'orgdashboards_datasets_per_page', _('Datasets per page'), options=[
@@ -94,7 +76,7 @@
     {'value': '15', 'text': '15'}, {'value': '20', 'text': '20'},
     {'value': '25', 'text': '25'}, {'value': '50', 'text': '50'}], selected=data.orgdashboards_datasets_per_page) }}
 
-    {{ form.markdown('orgdashboards_header', label=_('Dashboard header'), id='orgdashboards_header', placeholder=_('Set the dashboard header text'), value=data.orgdashboards_header, error=errors.orgdashboards_country_header) }}
+    {{ form.markdown('orgdashboards_header', label=_('Dashboard header'), id='orgdashboards_header', placeholder=_('Set the dashboard header text'), value=data.orgdashboards_header, error=errors.orgdashboards_header) }}
 
     {{ form.markdown('orgdashboards_footer', label=_('Dashboard footer'), id='orgdashboards_footer', placeholder=_('Set the dashboard footer'), value=data.orgdashboards_footer, error=errors.orgdashboards_footer) }}
 
@@ -120,7 +102,7 @@
       {% if organization_maps|length > 0 %}
         {% for orgdashboards_map in organization_maps %}
           <div id="map-field_{{ loop.index }}" class="map-fields">
-            {{ form.select('orgdashboards_map', 'orgdashboards_map', _('Resource'), options=h.get_org_map_views(data.id), selected=orgdashboards_map) }}
+            {{ form.select('orgdashboards_map', 'orgdashboards_map', _('Resource'), options=h.orgdashboards_get_org_map_views(data.id), selected=orgdashboards_map) }}
 
             <div class="control-group control-select orgdashboards_map_main_property">
               <label class="control-label" for="orgdashboards_map_main_property">Property</label>
@@ -135,7 +117,7 @@
         {% endfor %}
       {% else %}
           <div id="map-field_1" class="map-fields">
-            {{ form.select('orgdashboards_map', 'orgdashboards_map', _('Resource'), options=h.get_org_map_views(data.id)) }}
+            {{ form.select('orgdashboards_map', 'orgdashboards_map', _('Resource'), options=h.orgdashboards_get_org_map_views(data.id)) }}
 
             <div class="control-group control-select orgdashboards_map_main_property">
               <label class="control-label" for="orgdashboards_map_main_property">Property</label>

@@ -4,16 +4,16 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
 
 (function (self, $) {
 
-  self.init = function init(elementId, countryName, mapURL, color, mainProperty) {
-    renderMap(elementId, countryName, mapURL, color, mainProperty);
+  self.init = function init(elementId, organizationName, mapURL, color, mainProperty) {
+    renderMap(elementId, organizationName, mapURL, color, mainProperty);
   };
 
-  function renderMap(elementId, countryName, mapURL, color, mainProperty) {
+  function renderMap(elementId, organizationName, mapURL, color, mainProperty) {
     if (mapURL.length > 0) {
       var mapURLS = mapURL.split(',');
       var mainProperties = mainProperty.split(',');
     }
-    $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURI(countryName)).done(function (data) {
+    $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURI(organizationName)).done(function (data) {
       if (data['status'] == 'ZERO_RESULTS') {
         initLeaflet(elementId, 39, 40, 2);
       } else {
