@@ -19,33 +19,6 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IFacets, inherit=True)
-    plugins.implements(plugins.IConfigurable)
-
-    ## IConfigurable
-
-    def configure(self, config):
-        pass
-        # organizations = toolkit.get_action('organization_list')(data_dict={})
-        # data_dict = {
-        #     'orgdashboards_header': '',
-        #     'orgdashboards_footer': '',
-        #     'orgdashboards_copyright': '',
-        #     'orgdashboards_lang_is_active': '1',
-        #     'orgdashboards_base_color': '',
-        #     'orgdashboards_secondary_color': '',
-        #     'orgdashboards_is_active': '1',
-        #     'orgdashboards_datasets_per_page': '5',
-        #     'orgdashboards_charts': '',
-        #     'orgdashboards_map': '',
-        #     'orgdashboards_map_main_property': '',
-        #     'orgdashboards_main_color': '',
-        #     'orgdashboards_new_data_color': '',
-        #     'orgdashboards_all_data_color': ''
-        # }
-
-        # for organization in organizations:
-        #     data_dict.update({'id': organization})
-        #     toolkit.get_action('organization_patch')(data_dict=data_dict)
 
     ## IRoutes
 
