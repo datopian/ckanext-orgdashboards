@@ -256,6 +256,9 @@ def orgdashboards_get_geojson_properties(resource_id):
         result.append({'value':k, 'text': v})
 
     return result
+
+def orgdashboards_resource_show_map_properties(id):
+    return orgdashboards_get_geojson_properties(id)
            
 def orgdashboards_convert_to_list(resources):
     if not resources.startswith('{'):

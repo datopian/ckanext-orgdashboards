@@ -116,7 +116,7 @@
         .find($('select[name="orgdashboards_map_main_property"]'));
 
       if ($(element).find('option').length > 0)
-        map_main_property.empty();
+        // map_main_property.empty();
 
       // Get resource id
       var resource_id = $(element).find('option:selected').val();
@@ -125,7 +125,7 @@
         .done(function (data) {
           var opts = map_main_property;
           $.each(data.result, function (idx, elem) {
-            opts.append(new Option(elem.value, elem.value));
+            // opts.append(new Option(elem.value, elem.value));
           });
           map_main_property.removeClass('hidden');
         });

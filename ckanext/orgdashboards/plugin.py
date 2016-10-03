@@ -203,7 +203,9 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_get_country_short_name':
                 helpers.orgdashboards_get_country_short_name,
             'orgdashboards_get_secondary_dashboard':
-                helpers.orgdashboards_get_secondary_dashboard
+                helpers.orgdashboards_get_secondary_dashboard,
+            'orgdashboards_resource_show_map_properties':
+                helpers.orgdashboards_resource_show_map_properties
         }
         
     ## IConfigurer
