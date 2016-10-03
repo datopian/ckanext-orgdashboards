@@ -165,7 +165,13 @@ function _addCssRule(selector, rule) {
 };
 
 function _ruleExists(selector) {
-  var rules = document.styleSheets[5].rules || document.styleSheets[5].cssRules;
+  var rules = [];
+
+  $.each(document.styleSheets, function(value, key) {
+    if (key.href.indexOf('style.css') > -1) {
+      rules = key.rules;
+    }
+  });
 
   for (var i = 0; i < rules.length; i++) {
     if (rules[i].selectorText === selector) {
