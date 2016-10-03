@@ -228,7 +228,11 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_get_secondary_language':
                 helpers.orgdashboards_get_secondary_language,
             'orgdashboards_get_current_url':
-                helpers.orgdashboards_get_current_url
+                helpers.orgdashboards_get_current_url,
+            'orgdashboards_get_country_short_name':
+                helpers.orgdashboards_get_country_short_name,
+            'orgdashboards_get_secondary_dashboard':
+                helpers.orgdashboards_get_secondary_dashboard
         }
         
     ## IConfigurer

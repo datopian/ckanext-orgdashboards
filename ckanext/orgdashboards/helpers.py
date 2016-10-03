@@ -144,27 +144,13 @@ def orgdashboards_available_languages():
 
     languages = []
 
-    try:
-        with open(get_languages_path()) as f:
-            try:
-                languages = json.loads(f.read())
-                log.info('Successfully loaded {} languages'.format(len(languages)))
-                
-            except ValueError as e:
-                log.error(str(e))
-                
-    except IOError as e:
-        log.error(str(e))
+    for locale in h.get_available_locales():
+        languages.append({'value': locale, 'text': locale.english_name})
 
-    languages = map(lambda item: 
-                        {
-                            'value': item['code'], 
-                            'text': item['language']
-                        },
-                        languages
-                    )
+    languages.sort()
+
     languages.insert(0, {'value': 'none', 'text': 'None'})
-            
+
     return languages
 
 def get_organization_views(name, type='chart builder'):
@@ -298,16 +284,20 @@ def orgdashboards_smart_truncate(text, length=800):
     return text[:length].rsplit(' ', 1)[0]
 
 def orgdashboards_get_secondary_language(organization_name):
-    organizations = _get_action('organization_list', {}, {'all_fields': True})
+    organization = _get_action('organization_show', {}, {'id': organization_name})
 
-    for organization in organizations:
-        if organization['name'] == organization_name:
-            organization_id = organization['id']
-            break
+    if 'orgdashboards_secondary_language' in organization:
+        return organization['orgdashboards_secondary_language']
+    else:
+        return 'none'
 
-    organization = _get_action('organization_show', {}, {'id': organization_id})
+def orgdashboards_get_secondary_dashboard(organization_name):
+    organization = _get_action('organization_show', {}, {'id': organization_name})
 
-    return organization['orgdashboards_secondary_language']
+    if 'orgdashboards_secondary_dashboard' in organization:
+        return organization['orgdashboards_secondary_dashboard']
+    else:
+        return 'none'
 
 def orgdashboards_get_current_url(page, exclude_param=''):
     params = request.params.items()
@@ -327,3 +317,8 @@ def orgdashboards_get_current_url(page, exclude_param=''):
         url = url + u'?page=' + str(page)
 
     return url
+
+def orgdashboards_get_country_short_name(current_locale):
+    for locale in h.get_available_locales():
+        if current_locale == str(locale):
+            return locale.english_name[:3]

@@ -92,42 +92,28 @@
                 <div class="col-sm-2 col-md-2 language-selector">
                     <ul class="list-inline">
                         <li>
-                            <img class="language-flag" src="/img/uk-flag-23x17.png" height="17" alt="UK flag">
+                            <img class="language-flag" src="/images/flags/en.svg" width="20" alt="UK flag">
                             <a href="{{ h.url_for(controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController', action='organization_dashboard', name=organization_name, locale='en') }}" class="language-picker-link">
                                 <span class="language-name">En</span>
                             </a>
                         </li>
                         {% if organization.orgdashboards_secondary_dashboard and organization.orgdashboards_secondary_dashboard != 'none' and organization.orgdashboards_secondary_language and organization.orgdashboards_secondary_language != 'none' %}
-                          {% if organization.orgdashboards_secondary_language == 'my_MM' %}
-                            {% set flag_url = '/img/myanmar-flag-60x40.png' %}
-                            {% set country_short_name = 'Mya' %}
-                            {% set locale = 'my_MM' %}
-                            {% set organization_name = organization.orgdashboards_secondary_dashboard %}
-                          {% elif organization.orgdashboards_secondary_language == 'sw' %}
-                            {% set flag_url = '/img/tanzania_flag.jpg' %}
-                            {% set country_short_name = 'Sw' %}
-                            {% set locale = 'sw' %}
-                            {% set organization_name = organization.orgdashboards_secondary_dashboard %}
-                          {% else %}
-                            {% set locale = request.environ.get('CKAN_LANG') %}
+                          {% set current_locale = organization.orgdashboards_secondary_language %}
+                          {% set organization_name = organization.orgdashboards_secondary_dashboard %}
 
-                            {% if locale == 'my_MM' %}
-                              {% set flag_url = '/img/myanmar-flag-60x40.png' %}
-                              {% set country_short_name = 'Mya' %}
-                            {% elif locale == 'sw' %}
-                              {% set flag_url = '/img/tanzania_flag.jpg' %}
-                              {% set country_short_name = 'Sw' %}
-                            {% endif %}
-
-                            {% if organization.orgdashboards_secondary_language == 'en' %}
-                              {% set organization_name = c.name %}
-                            {% else  %}
-                              {% set organization_name = organization.orgdashboards_secondary_dashboard %}
-                            {% endif %}
+                          {% if current_locale == 'en' %}
+                            {% set secondary_language = h.orgdashboards_get_secondary_language(organization_name) %}
+                            {% set flag_url = '/images/flags/' + secondary_language + '.svg' %}
+                            {% set country_short_name = h.orgdashboards_get_country_short_name(secondary_language) %}
+                            {% set current_locale = secondary_language %}
+                            {% set organization_name = h.orgdashboards_get_secondary_dashboard(organization_name) %}
+                          {% else %}  
+                            {% set flag_url = '/images/flags/' + organization.orgdashboards_secondary_language + '.svg' %}
+                            {% set country_short_name = h.orgdashboards_get_country_short_name(current_locale) %}
                           {% endif %}
                           <li>
-                              <img class="language-flag" src="{{ flag_url }}" width="21" alt="{{ country_short_name | upper }} flag">
-                              <a href="{{ h.url_for(controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController', action='organization_dashboard', name=organization_name, locale=locale) }}" class="language-picker-link">
+                              <img class="language-flag" src="{{ flag_url }}" width="20" alt="{{ country_short_name | upper }} flag">
+                              <a href="{{ h.url_for(controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController', action='organization_dashboard', name=organization_name, locale=current_locale) }}" class="language-picker-link">
                                   <span class="language-name">{{ country_short_name }}</span>
                               </a>
                           </li>
