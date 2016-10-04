@@ -67,11 +67,34 @@ To install ckanext-orgdashboards:
    config file (by default the config file is located at
    ``/etc/ckan/default/production.ini``).
 
-4. Add ``ckanext.orgdashboards.datasets_per_page`` as a setting in the config file::
+4. Add ``ckanext.orgdashboards.datasets_per_page`` as a setting in the config 
+file::
 
     ckanext.orgdashboards.datasets_per_page = 5
 
-5. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
+5. Add ``ckanext.orgdashboards.organization_entity_name`` as a setting in the 
+config file::
+
+    ckanext.orgdashboards.organization_entity_name = organization
+
+This setting can either be set to ``country`` or ``organization``. If you set
+it to ``country`` it will use text references for "Country/Countries" instead of
+"Organization/Organizations" throughout the web interface. Though, this only 
+applies to certain parts of the UI. For some, you have to manually override/extend 
+the templates.
+
+6. Add ``ckanext.orgdashboards.group_entity_name`` as a setting in the 
+config file::
+
+    ckanext.orgdashboards.group_entity_name = group
+
+This setting can either be set to ``group`` or ``theme``. If you set
+it to ``theme`` it will use text references for "Theme/Themes" instead of 
+"Group/Groups" throughout the web interface. Though, this only applies to 
+certain parts of the UI. For some, you have to manually override/extend the 
+templates.
+
+7. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
 
      sudo service apache2 reload
 
