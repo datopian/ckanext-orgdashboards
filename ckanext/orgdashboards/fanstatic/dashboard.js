@@ -168,8 +168,9 @@ function _ruleExists(selector) {
   var rules = [];
 
   $.each(document.styleSheets, function(value, key) {
-    if (key.href.indexOf('style.css') > -1) {
+    if (key.href && key.href.indexOf('style.css') > -1) {
       rules = key.rules;
+      return false;
     }
   });
 
