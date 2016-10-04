@@ -44,4 +44,4 @@ docs/_build/
 idea/
 .idea/
 
-.geojson
+*.geojson
