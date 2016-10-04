@@ -51,3 +51,12 @@ def orgdashboards_get_resourceview_resource_package(context, data_dict):
 @p.toolkit.side_effect_free
 def orgdashboards_show_resource_url(context, data_dict):
     return _get_resource_url(data_dict.get('id'))
+
+@p.toolkit.side_effect_free
+def orgdashboards_get_map_main_property(context, data_dict):
+    dd = data_dict.copy()
+    dd.update({'include_datasets': True})
+    
+    data = _get_action('organization_show', context.copy(), dd)
+
+    return data['orgdashboards_map_main_property']

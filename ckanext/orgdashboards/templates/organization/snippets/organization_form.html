@@ -139,7 +139,12 @@
         {% for orgdashboards_map in organization_maps %}
           <div id="map-field_{{ loop.index }}" class="map-fields">
             {{ form.select('orgdashboards_map', 'orgdashboards_map', _('Resource'), options=h.orgdashboards_get_org_map_views(data.id), selected=orgdashboards_map) }}
-            {{ form.select('orgdashboards_map_main_property', 'orgdashboards_map_main_property', _('Property'), options=h.orgdashboards_resource_show_map_properties(orgdashboards_map), selected=data.orgdashboards_map_main_property) }}
+            <div class="control-group control-select orgdashboards_map_main_property">
+              <label class="control-label" for="orgdashboards_map_main_property">Property</label>
+              <div class="controls">
+                <select id="orgdashboards_map_main_property" name="orgdashboards_map_main_property"></select>
+              </div>
+            </div>
             <a id="remove_map_field" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Remove </a>
             <hr>
           </div>

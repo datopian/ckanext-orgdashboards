@@ -227,7 +227,7 @@ class OrgViews(object):
     
     def get_maps(self, name):
         allMaps = {}
-        result = []
+        result = [{'value': '', 'text': 'None'}]
         for item in get_organization_views(name, type='Maps'):
             result.append({'value': item['id'], 'text': 'UNNAMED' if item['name'] == '' else item['name']})
             allMaps.update({name: result})
@@ -247,7 +247,7 @@ def orgdashboards_get_geojson_properties(resource_id):
     import urllib
     
     url = orgdashboards_get_resource_url(resource_id)
-    print 'url:', url
+
     r = urllib.urlopen(url)
     
     data = unicode(r.read(), errors='ignore')
