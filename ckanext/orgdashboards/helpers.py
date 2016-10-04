@@ -1,7 +1,10 @@
 import logging
+import os
 
 from datetime import datetime
 from urllib import urlencode
+
+from pylons import config
 
 import ckan.plugins as p
 import ckan.lib.helpers as h
@@ -16,6 +19,7 @@ from ckan.logic.validators import resource_id_exists, package_id_exists
 
 log = logging.getLogger(__name__)
 
+
 # TODO: Re-organize and re-factor helpers
 
 def _get_ctx():
@@ -26,7 +30,7 @@ def _get_ctx():
 def _get_action(action, context_dict, data_dict):
     return p.toolkit.get_action(action)(context_dict, data_dict)
 
-def _get_newly_released_data(limit=4):
+def orgdashboards_get_newly_released_data(limit=4):
     try:
         pkg_search_results = toolkit.get_action('package_search')(data_dict={
             'fq': ' organization:{}'.format(c.name),
@@ -48,16 +52,20 @@ def _get_newly_released_data(limit=4):
         return pkgs
 
 
-def _convert_time_format(package):
+def orgdashboards_convert_time_format(package):
     modified = datetime.strptime(package['metadata_modified'].split('T')[0], '%Y-%m-%d')
     return modified.strftime("%d %B %Y")
 
 
-def _replace_or_add_url_param(name, value):
+def orgdashboards_replace_or_add_url_param(name, value):
     params = request.params.items()
     # params = set(params)
 
     for k, v in params:
+        # Reset the page to the first one
+        if k == 'page':
+            params.remove((k, v))
+            params.insert(0, ('page', '1'))
         if k != name:
             continue
         params.remove((k, v))
@@ -105,11 +113,45 @@ def get_resourceview_resource_package(resource_view_id):
 
     return [resource_view, resource, package]
 
-def organization_list():
+def orgdashboards_get_organization_list():
     return _get_action('organization_list', {},
                       {'all_fields': True, 
                        'include_extras': True, 
                        'include_followers': True})
+
+def orgdashboards_get_all_organizations():
+    ''' Get all created organizations '''
+
+    organizations = _get_action('organization_list', {}, {'all_fields': True})
+    
+    organizations = map(lambda item: 
+                        {
+                            'value': item['name'], 
+                            'text': item['display_name']
+                        }, 
+                        organizations
+                    )
+
+    # Filter out the current organization in the list
+    organizations = [x for x in organizations if x['value'] != c.id]
+
+    organizations.insert(0, {'value': 'none', 'text': 'None'})
+
+    return organizations
+
+def orgdashboards_get_available_languages():   
+    ''' Read the languages listed in a json file '''
+
+    languages = []
+
+    for locale in h.get_available_locales():
+        languages.append({'value': locale, 'text': locale.english_name})
+
+    languages.sort()
+
+    languages.insert(0, {'value': 'none', 'text': 'None'})
+
+    return languages
 
 def get_organization_views(name, type='chart builder'):
     data = _get_action('organization_show',{},
@@ -185,7 +227,7 @@ class OrgViews(object):
     
     def get_maps(self, name):
         allMaps = {}
-        result = []
+        result = [{'value': '', 'text': 'None'}]
         for item in get_organization_views(name, type='Maps'):
             result.append({'value': item['id'], 'text': 'UNNAMED' if item['name'] == '' else item['name']})
             allMaps.update({name: result})
@@ -194,17 +236,18 @@ class OrgViews(object):
         
 org_views = OrgViews()
 
-def _get_resource_url(id):
+def orgdashboards_get_resource_url(id):
     if not resource_id_exists(id, _get_ctx()):
         return None
     
     data = _get_action('resource_show', {}, {'id': id})
     return data['url']
 
-def _get_geojson_properties(resource_id):
+def orgdashboards_get_geojson_properties(resource_id):
     import urllib
     
-    url = _get_resource_url(resource_id)
+    url = orgdashboards_get_resource_url(resource_id)
+
     r = urllib.urlopen(url)
     
     data = unicode(r.read(), errors='ignore')
@@ -215,5 +258,78 @@ def _get_geojson_properties(resource_id):
         result.append({'value':k, 'text': v})
 
     return result
+
+def orgdashboards_resource_show_map_properties(id):
+    return orgdashboards_get_geojson_properties(id)
            
-        
+def orgdashboards_convert_to_list(resources):
+    if not resources.startswith('{'):
+        return [resources]
+    resources = resources[1:len(resources) - 1].split(',')
+    for i in range(len(resources)):
+        if resources[i].startswith('"'):
+            resources[i] = resources[i][1:len(resources[i]) - 1]
+
+    return resources
+
+
+def orgdashboards_get_resource_names_from_ids(resource_ids):
+    resource_names = []
+    for resource_id in resource_ids:
+        print resource_id
+        resource_names.append(_get_action('resource_show', {}, {'id': resource_id})['name'])
+    return resource_names
+
+
+def orgdashboards_smart_truncate(text, length=800):
+    if length > len(text):
+        return text
+    return text[:length].rsplit(' ', 1)[0]
+
+def orgdashboards_get_secondary_language(organization_name):
+    organization = _get_action('organization_show', {}, {'id': organization_name})
+
+    if 'orgdashboards_secondary_language' in organization:
+        return organization['orgdashboards_secondary_language']
+    else:
+        return 'none'
+
+def orgdashboards_get_secondary_dashboard(organization_name):
+    organization = _get_action('organization_show', {}, {'id': organization_name})
+
+    if 'orgdashboards_secondary_dashboard' in organization:
+        return organization['orgdashboards_secondary_dashboard']
+    else:
+        return 'none'
+
+def orgdashboards_get_current_url(page, exclude_param=''):
+    params = request.params.items()
+
+    url = h.url_for(controller=c.controller, action=c.action, name=c.name)
+
+    for k, v in params:
+        if k == exclude_param:
+            params.remove((k, v))
+
+    params = [(k, v.encode('utf-8') if isinstance(v, basestring) else str(v))
+              for k, v in params]
+
+    if (params):
+        url = url + u'?page=' + str(page) + '&' + urlencode(params)
+    else:
+        url = url + u'?page=' + str(page)
+
+    return url
+
+def orgdashboards_get_country_short_name(current_locale):
+    for locale in h.get_available_locales():
+        if current_locale == str(locale):
+            return locale.english_name[:3]
+
+def orgdashboards_get_organization_entity_name():
+    return config.get('ckanext.orgdashboards.organization_entity_name', 
+            'organization')
+
+def orgdashboards_get_group_entity_name():
+    return config.get('ckanext.orgdashboards.group_entity_name', 
+            'group')

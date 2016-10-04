@@ -1,0 +1,12 @@
+<fieldset>
+    <legend>{{ _('Dashboard Survey') }}</legend>
+
+    <div class="control-group control-full">
+        {{ form.select('orgdashboards_survey_enabled', 'orgdashboards_survey_enabled', _('Is survey enabled?'), options=[{'value': '1', 'text': 'Yes'}, {'value': '0', 'text': 'No'}], selected=data.orgdashboards_survey_enabled) }}
+
+        {{ form.markdown('orgdashboards_survey_text', label=_('Survey Text'), id='orgdashboards_survey_text', placeholder=('Set the survey text'), value=data.orgdashboards_survey_text, error=errors.orgdashboards_survey_text) }}
+
+        {{ form.markdown('orgdashboards_survey_link', label=_('Survey Link'), id='orgdashboards_survey_link', placeholder=('Set the survey link'), value=data.orgdashboards_survey_link, error=errors.orgdashboards_survey_link) }}
+    </div>
+
+</fieldset>

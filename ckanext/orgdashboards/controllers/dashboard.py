@@ -45,6 +45,9 @@ class DashboardsController(PackageController):
     def organization_dashboard(self, name):
         org = get_action('organization_show')({}, {'id': name, 'include_extras': True})
 
+        if 'orgdashboards_is_active' in org and org['orgdashboards_is_active'] == '0':
+            return plugins.toolkit.render('dashboards/snippets/not_active.html')
+
         from ckan.lib.search import SearchError
 
         package_type = 'dataset'
@@ -61,7 +64,10 @@ class DashboardsController(PackageController):
         c.query_error = False
         page = self._get_page_number(request.params)
 
-        limit = int(org['org_dashboard_datasets_per_page'])
+        try:
+            limit = int(org['orgdashboards_datasets_per_page'])
+        except KeyError, ValueError:
+            limit = int(config.get('ckanext.orgdashboards.datasets_per_page', '6'))
 
         # most search operations should reset the page counter:
         params_nopage = [(k, v) for k, v in request.params.items()
@@ -186,6 +192,10 @@ class DashboardsController(PackageController):
             }
 
             query = get_action('package_search')(context, data_dict)
+
+            # Override the "author" list, to include full name authors
+            query['search_facets']['author']['items'] = self._get_full_name_authors(context, name)
+
             c.sort_by_selected = query['sort']
 
             c.page = h.Page(
@@ -248,3 +258,31 @@ class DashboardsController(PackageController):
         package = toolkit.get_action('package_show')({}, data_dict)
 
         return [resource_view, resource, package]
+
+    def _get_full_name_authors(self, context, name):
+
+        # "rows" is set to a big number because by default Solr will
+        # return only 10 rows, and we need all datasets
+        all_packages_dict = {
+            'fq': '+dataset_type:dataset +organization:' + name,
+            'rows': 10000000
+        }
+
+        # Find all datasets for the current organization
+        datasets_query = get_action('package_search')(context, 
+                                                     all_packages_dict)
+
+        full_name_authors = set()
+        authors_list = []
+
+        for dataset in datasets_query['results']:
+            full_name_authors.add(dataset['author'])
+
+        for author in full_name_authors:
+            authors_list.append({
+                'name': author, 
+                'display_name': author, 
+                'count': 1
+            })
+
+        return authors_list

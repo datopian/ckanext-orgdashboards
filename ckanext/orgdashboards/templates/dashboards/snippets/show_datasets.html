@@ -31,14 +31,14 @@ Example:
               {{ package.title }}
             </a>
           </h4>
-          <p>{{ h._convert_time_format(package) }}</p>
+          <p>{{ h.orgdashboards_convert_time_format(package) }}</p>
         </div>
         <div class="col-sm-11 col-md-5">
           <p>{{ package.notes }}</p>
 
         </div>
         <div class="col-md-2">
-        <a href="/dataset/{{package.name}}" target="_blank"><i class="fa fa-desktop "></i> View dataset</a>
+        <a href="/dataset/{{package.name}}" target="_blank"><i class="fa fa-desktop "></i> {{ _('View dataset') }}</a>
         </div>
         <div class="col-sm-1 col-md-1">
           <a class="btn-animated btn-download"
@@ -57,12 +57,12 @@ Example:
               <div class="col-md-4 resources-dropdown-name">
                 {% if resource.name %}
                   <h5 class="resources-title">
-                    <i class="fa fa-caret-right fa-2" aria-hidden="true"></i>
+                    <i class="fa fa-caret-right fa-lg text-danger" aria-hidden="true"></i>
                     <a href="{{ resource.url }}">{{ resource.name }}</a></h5>
                 {% else %}
                   <h5 class="resources-title">
-                    <i class="fa fa-caret-right fa-2" aria-hidden="true"></i>
-                    <a href="{{ resource.url }}">Unnamed resource</a></h5>
+                    <i class="fa fa-caret-right fa-lg text-danger" aria-hidden="true"></i>
+                    <a href="{{ resource.url }}">{{ _('Unnamed resource') }}</a></h5>
                 {% endif %}
               </div>
               <div class="col-md-2">
@@ -84,11 +84,11 @@ Example:
                 {% if resource.description %}
                   <p>{{ resource.description }}</p>
                 {% else %}
-                  <p class="resources-dropdown-description">This resource does not contain any description.</p>
+                  <p class="resources-dropdown-description">{{ _('This resource does not contain any description.') }}</p>
                 {% endif %}
               </div>
               <div class="col-md-2">
-              <a href="{{h._get_resource_view_url(dataset=package.name, id=resource.id)}}" target="_blank"><i class="fa fa-desktop "></i> View resource</a>
+              <a href="{{h.orgdashboards_get_resource_view_url(dataset=package.name, id=resource.id)}}" target="_blank"><i class="fa fa-desktop "></i> {{ _('View resource') }}</a>
               </div>
             </div>
 
@@ -96,46 +96,88 @@ Example:
         {% else %}
           <div class="row">
             <div class="col-md-12">
-              This dataset does not contain any resources yet.
+              {{ _('This dataset does not contain any resources yet.') }}
             </div>
           </div>
         {% endif %}
         <div class="data-block-header">
           <div class="row">
             <div class="col-md-12">
-              <h5>Additional information</h5>
+              <h5>{{ _('Additional information') }}</h5>
             </div>
           </div>
+
           {% if package.author %}
             <div class="row">
               <div class="col-md-1">
-                <strong>Author:</strong>
+                <strong>{{ _('Author') }}:</strong>
               </div>
               <div class="col-md-8 additional-information">
-                {{ package.author }}
+                <a href="mailto:{{package.author_email}}">{{ package.author }}</a>
               </div>
             </div>
           {% endif %}
+
+          {% if package.maintainer %}
+            <div class="row">
+              <div class="col-md-1">
+                <strong>{{ _('Maintainer') }}:</strong>
+              </div>
+              <div class="col-md-8 additional-information">
+                <a href="mailto:{{package.maintainer_email}}">{{ package.maintainer }}</a>
+              </div>
+            </div>
+          {% endif %}
+
           {% if package.url %}
             <div class="row">
               <div class="col-md-1">
-                <strong>Source:</strong>
+                <strong>{{ _('Source') }}:</strong>
               </div>
               <div class="col-md-8 additional-information">
                 <a href="{{ package.url }}">{{ package.url }}</a>
               </div>
             </div>
           {% endif %}
+
           {% if package.license_title %}
             <div class="row">
               <div class="col-md-1">
-                <strong>License:</strong>
+                <strong>{{ _('License') }}:</strong>
               </div>
               <div class="col-md-8 additional-information">
                 <a href="{{ package.license_url }}">{{ package.license_title }}</a>
               </div>
             </div>
           {% endif %}
+
+          {% if package.extras %}
+
+            {% for extra in package.extras %}
+            <div class="row">
+              <div class="col-md-1">
+                <strong>{{_(extra.key)}}:</strong>
+              </div>
+              <div class="col-md-8 additional-information">
+                {{ extra.value }}
+              </div>
+            </div>
+            {% endfor%}
+
+          {% endif %}
+
+          {% if package.metadata_modified %}
+            <div class="row">
+              <div class="col-md-1">
+                <strong>{{ _('Last updated') }}:</strong>
+              </div>
+              <div class="col-md-8 additional-information">
+                {% snippet 'snippets/local_friendly_datetime.html', datetime_obj=package.metadata_modified %}
+              </div>
+            </div>
+          {% endif %}
+
+          
 
 
         </div>

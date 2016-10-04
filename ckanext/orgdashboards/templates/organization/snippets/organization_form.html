@@ -9,25 +9,44 @@
   {% endblock %}
 
   {% block basic_fields %}
+    {% set organization_entity_name = h.orgdashboards_get_organization_entity_name() %}
     {% set attrs = {'data-module': 'slug-preview-target'} %}
-    {{ form.input('title', label=_('Name'), id='field-name', placeholder=_('My Organization'), value=data.title, error=errors.title, classes=['control-full'], attrs=attrs) }}
+    {% if organization_entity_name == 'country' %}
+      {% set name_placeholder = _('My Country') %}
+      {% set domain = domain|replace("/organization/", "/country/") %}
+      {% set url_placeholder = _('my-country') %}
+      {% set description_placeholder = _('A little information about my country...') %}
+      {% set data_module_placeholder = '<country>' %}
+      {% set url_prepend = 'country' %}
+    {% elif organization_entity_name == 'organization' %}
+      {% set name_placeholder = _('My Organization') %}
+      {% set url_placeholder = _('my-organization') %}
+      {% set description_placeholder = _('A little information about my organization...') %}
+      {% set data_module_placeholder = '<organization>' %}
+      {% set url_prepend = 'organization' %}
+    {% endif %}
+
+    {{ form.input('title', label=_('Name'), id='field-name', placeholder=name_placeholder, value=data.title, error=errors.title, classes=['control-full'], attrs=attrs) }}
 
     {# Perhaps these should be moved into the controller? #}
     {% set prefix = h.url_for(controller='organization', action='read', id='') %}
     {% set domain = h.url_for(controller='organization', action='read', id='', qualified=true) %}
     {% set domain = domain|replace("http://", "")|replace("https://", "") %}
 
-    {% set attrs = {'data-module': 'slug-preview-slug', 'data-module-prefix': domain, 'data-module-placeholder': '<organization>'} %}
+    {% if organization_entity_name == 'country' %}
+      {% set domain = domain|replace("/organization/", "/country/") %}
+    {% endif %}
 
-    {{ form.prepend('name', label=_('URL'), prepend='organization', id='field-url', placeholder=_('my-organization'), value=data.name, error=errors.name, attrs=attrs, is_required=true) }}
+    {% set attrs = {'data-module': 'slug-preview-slug', 'data-module-prefix': domain, 'data-module-placeholder': data_module_placeholder} %}
 
-    {{ form.markdown('description', label=_('Description'), id='field-description', placeholder=_('A little information about my organization...'), value=data.description, error=errors.description) }}
+    {{ form.prepend('name', label=_('URL'), prepend=url_prepend, id='field-url', placeholder=url_placeholder, value=data.name, error=errors.name, attrs=attrs, is_required=true) }}
+
+    {{ form.markdown('description', label=_('Description'), id='field-description', placeholder=description_placeholder, value=data.description, error=errors.description) }}
 
     {% set is_upload = data.image_url and not data.image_url.startswith('http') %}
     {% set is_url = data.image_url and data.image_url.startswith('http') %}
 
     {{ form.image_upload(data, errors, is_upload_enabled=h.uploads_enabled(), is_url=is_url, is_upload=is_upload) }}
-
   {% endblock %}
 
   {% block custom_fields %}
@@ -57,46 +76,98 @@
   {% endblock %}
 
   <fieldset>
-    <legend><h2>{{ _('Dashboard settings') }}<a class="btn btn-info pull-right"
-                                                target="_blank"
-                                                href="{% url_for controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController',
-                                                                 action='organization_dashboard',
-                                                                 name=data.name%}" >
-                                                    View Dashboard
-                                                    </a></h2></legend>
 
-    {{ form.select('org_dashboard_is_active', 'org_dashboard_is_active', _('Is dashboard active?'), options=[{'value': '1', 'text': 'Yes'}, {'value': '0', 'text': 'No'}], selected=data.org_dashboard_is_active) }}
+    {% if data.orgdashboards_secondary_language and data.orgdashboards_secondary_language == 'en' %}
+      {% set locale = h.orgdashboards_get_secondary_language(data.orgdashboards_secondary_dashboard) %}
+    {% else %}
+      {% set locale = 'en' %}
+    {% endif %}
 
-    {{ form.select('org_dashboard_lang_is_active', 'org_dashboard_lang_is_active', _('Show language selector'), options=[{'value': '1', 'text': 'Yes'}, {'value': '0', 'text': 'No'}], selected=data.org_dashboard_lang_is_active) }}
+    <legend>
+      <h2>{{ _('Dashboard settings') }}
 
-    {{ form.select('org_dashboard_datasets_per_page', 'org_dashboard_datasets_per_page', _('Datasets per page'), options=[
+      {% if data.orgdashboards_is_active == '1' or data.orgdashboards_is_active is undefined %}
+        <a class="btn btn-info pull-right"
+          target="_blank"
+          href="{% url_for controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController',
+                                                                   action='organization_dashboard',
+                                                                   locale=locale,
+                                                                   name=data.name%}">View Dashboard</a>
+      {% endif %}
+      </h2>
+    </legend>
+
+
+    {{ form.select('orgdashboards_is_active', 'orgdashboards_is_active', _('Is dashboard active?'), options=[{'value': '1', 'text': 'Yes'}, {'value': '0', 'text': 'No'}], selected=data.orgdashboards_is_active) }}
+
+    {{ form.select('orgdashboards_lang_is_active', 'orgdashboards_lang_is_active', _('Show language selector'), options=[{'value': '1', 'text': 'Yes'}, {'value': '0', 'text': 'No'}], selected=data.orgdashboards_lang_is_active) }}
+
+    {{ form.select('orgdashboards_secondary_dashboard', 'orgdashboards_secondary_dashboard', _('Choose secondary dashboard'), options=h.orgdashboards_get_all_organizations(), selected=data.orgdashboards_secondary_dashboard) }}
+
+    {% if data.orgdashboards_secondary_dashboard and data.orgdashboards_secondary_dashboard != 'none' %}
+      {{ form.select('orgdashboards_secondary_language', 'orgdashboards_secondary_language', _('Choose secondary language'), options=h.orgdashboards_get_available_languages(), selected=data.orgdashboards_secondary_language) }}
+    {% endif %}
+
+    {{ form.select('orgdashboards_datasets_per_page', 'orgdashboards_datasets_per_page', _('Datasets per page'), options=[
     {'value': '5', 'text': '5'}, {'value': '10', 'text': '10'},
     {'value': '15', 'text': '15'}, {'value': '20', 'text': '20'},
-    {'value': '25', 'text': '25'}, {'value': '50', 'text': '50'}], selected=data.org_dashboard_datasets_per_page) }}
+    {'value': '25', 'text': '25'}, {'value': '50', 'text': '50'}], selected=data.orgdashboards_datasets_per_page) }}
 
-    {{ form.markdown('org_dashboard_header', label=_('Dashboard header'), id='org_dashboard_header', placeholder=_('Set the dashboard header text'), value=data.org_dashboard_header, error=errors.org_dashboard_header) }}
+    {{ form.markdown('orgdashboards_header', label=_('Dashboard header'), id='orgdashboards_header', placeholder=_('Set the dashboard header text'), value=data.orgdashboards_header, error=errors.orgdashboards_header) }}
 
-    {{ form.markdown('org_dashboard_footer', label=_('Dashboard footer'), id='org_dashboard_footer', placeholder=_('Set the dashboard footer'), value=data.org_dashboard_footer, error=errors.org_dashboard_footer) }}
+    {{ form.markdown('orgdashboards_footer', label=_('Dashboard footer'), id='orgdashboards_footer', placeholder=_('Set the dashboard footer'), value=data.orgdashboards_footer, error=errors.orgdashboards_footer) }}
 
-    {{ form.markdown('org_dashboard_copyright', label=_('Dashboard copyright'), id='org_dashboard_copyright', placeholder=_('Set the dashboard copyright'), value=data.org_dashboard_copyright, error=errors.org_dashboard_copyright) }}
+    {{ form.markdown('orgdashboards_description', label=_('Dashboard description'), id='orgdashboards_description', placeholder=('Set the dashboard description'), value=data.orgdashboards_description, error=errors.orgdashboards_description) }}
+
+    {{ form.markdown('orgdashboards_copyright', label=_('Dashboard copyright'), id='orgdashboards_copyright', placeholder=_('Set the dashboard copyright'), value=data.orgdashboards_copyright, error=errors.orgdashboards_copyright) }}
 
     {% if data.id %}
 
     {% snippet 'organization/snippets/colors.html', data=data %}
 
-    <fieldset>
-    <legend>{{_('Map options')}} </legend>
+    {% snippet 'organization/snippets/survey.html', data=data, form=form, errors=errors %}
 
-      {{ form.select('org_dashboard_map', 'org_dashboard_map', _('Choose dashboard map view'), options=h.get_org_map_views(data.id), selected=data.org_dashboard_map) }}
+      <fieldset class="map-properties">
+        <legend>{{ _('Map options') }}</legend>
 
-      <div class="control-group control-select montrose_map_main_property">
-          <label class="control-label" for="org_dashboard_map_main_property">Select map main property</label>
-          <div class="controls ">
-            <select id="org_dashboard_map_main_property" name="montrose_map_main_property"></select>
+        {% if data.orgdashboards_map %}
+            {% set organization_maps = h.orgdashboards_convert_to_list(data.orgdashboards_map) %}
+        {% else %}
+            {% set organization_maps = [] %}
+        {% endif %}
+      {% if organization_maps|length > 0 %}
+        {% for orgdashboards_map in organization_maps %}
+          <div id="map-field_{{ loop.index }}" class="map-fields">
+            {{ form.select('orgdashboards_map', 'orgdashboards_map', _('Resource'), options=h.orgdashboards_get_org_map_views(data.id), selected=orgdashboards_map) }}
+            <div class="control-group control-select orgdashboards_map_main_property">
+              <label class="control-label" for="orgdashboards_map_main_property">Property</label>
+              <div class="controls">
+                <select id="orgdashboards_map_main_property" name="orgdashboards_map_main_property"></select>
+              </div>
+            </div>
+            <a id="remove_map_field" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Remove </a>
+            <hr>
           </div>
-      </div>
 
-    </fieldset>
+        {% endfor %}
+      {% else %}
+          <div id="map-field_1" class="map-fields">
+            {{ form.select('orgdashboards_map', 'orgdashboards_map', _('Resource'), options=h.orgdashboards_get_org_map_views(data.id)) }}
+
+            <div class="control-group control-select orgdashboards_map_main_property">
+              <label class="control-label" for="orgdashboards_map_main_property">Property</label>
+              <div class="controls">
+                <select id="orgdashboards_map_main_property" name="orgdashboards_map_main_property"></select>
+              </div>
+            </div>
+            <hr>
+            <a id="remove_map_field" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Remove </a>
+          </div>
+      {% endif %}
+
+      </fieldset>
+
+      <a id="new-field-btn" class="new-field-btn btn btn-default">Add field</a>
 
 
       {% snippet 'organization/snippets/charts_list.html', data=data %}

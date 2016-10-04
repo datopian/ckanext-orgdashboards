@@ -1,13 +1,14 @@
 
-{% set chart = h._get_chart_resources(resource_view_id) %}
+{% set chart = h.orgdashboards_get_chart_resources(resource_view_id) %}
 
 {% if chart is not none %}
-	<div class="col-md-4 graph-container">
-	  <h3 class="graph-title"><a target="_blank" href="{{h._get_resource_view_url(dataset=chart[1].package_id, id=chart[1].id)}}">{{ chart[1].name }}</a></h3>
-	  <h4 class="graph-subtitle">{{ subheader }}</h4>
-	  {% snippet 'dashboards/snippets/resource_view.html',
-	                         resource_view=chart[0],
-	                         resource=chart[1],
-	                         package=chart[2] %}
-	</div>
+    <div class="col-md-4 graph-container">
+      <h3 class="graph-title"><a target="_blank" href="{{h.orgdashboards_get_resource_view_url(dataset=chart[1].package_id, id=chart[1].id)}}">{{ chart[1].name }}</a></h3>
+      <h4 class="graph-subtitle">{{ subheader }}</h4>
+      {% snippet 'dashboards/snippets/resource_view.html',
+                             resource_view=chart[0],
+                             resource=chart[1],
+                             package=chart[2] %}
+      <p class="graph-description">{{ chart[0].description }}</p>
+    </div>
 {% endif %}

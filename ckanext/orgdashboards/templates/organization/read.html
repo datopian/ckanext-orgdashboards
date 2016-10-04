@@ -1,0 +1,45 @@
+{% extends "organization/read_base.html" %}
+
+{% block primary_content_inner %}
+    {% block groups_search_form %}
+      {% set facets = {
+        'fields': c.fields_grouped,
+        'search': c.search_facets,
+        'titles': c.facet_titles,
+        'translated_fields': c.translated_fields,
+        'remove_field': c.remove_field }
+      %}
+      {% set sorting = [
+        (_('Relevance'), 'score desc, metadata_modified desc'),
+        (_('Name Ascending'), 'title_string asc'),
+        (_('Name Descending'), 'title_string desc'),
+        (_('Last Modified'), 'metadata_modified desc'),
+        (_('Popular'), 'views_recent desc') if g.tracking_enabled else (false, false) ]
+      %}
+      {% snippet 'snippets/search_form.html', form_id='organization-datasets-search-form', type='dataset', query=c.q, sorting=sorting, sorting_selected=c.sort_by_selected, count=c.page.item_count, facets=facets, placeholder=_('Search datasets...'), show_empty=request.params, fields=c.fields %}
+    {% endblock %}
+  {% block packages_list %}
+    {% if c.page.items %}
+      {{ h.snippet('snippets/package_list.html', packages=c.page.items) }}
+    {% endif %}
+  {% endblock %}
+  {% block page_pagination %}
+    {% set total = c.page.item_count %}
+    {% set current = c.page.page %}
+    {% set per_page = c.page.items_per_page %}
+    {% if total % per_page == 0 %}
+      {% set end = (total / per_page)|int %}
+    {% else %}
+      {% set end = ((total / per_page) + 1)|int %}
+    {% endif %}
+      <div class="pagination pagination-centered">
+        <ul>
+            {% if current != 1 %}<li><a href="?page={{ current - 1 }}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>{% endif %}
+            {% for index in range(1, end+1) %}
+              <li{% if index == current %} class="active"{% endif %}><a href="?page={{ index }}">{{ index }}</a></li>
+            {% endfor %}
+            {% if current < end %}<li><a href="?page={{ current + 1 }}" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>{% endif %}
+        </ul>
+      </div>
+  {% endblock %}
+{% endblock %}

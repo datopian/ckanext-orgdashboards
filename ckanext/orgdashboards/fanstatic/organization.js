@@ -94,7 +94,7 @@
         var resourceview_select_id = elem.attr('id');
         var chart_nr = resourceview_select_id.substr(resourceview_select_id.lastIndexOf('_') + 1);
 
-        $('#org_dashboard_chart_' + chart_nr).val(resourceview_id)
+        $('#orgdashboards_chart_' + chart_nr).val(resourceview_id)
 
         var base_url = ckan.sandbox().client.endpoint;
         var src = base_url + '/dataset/' + dataset_name + '/resource/' + resource_id + '/view/' + resourceview_id;
@@ -111,41 +111,72 @@
 
     // Map select event handler
 
-    function changeMainPropertyValues() {
+    function changeMainPropertyValues(element) {
+      var map_main_property = $(element).parent().parent().parent()
+        .find($('select[name="orgdashboards_map_main_property"]'));
 
-      if ($('#org_dashboard_map_main_property option').length > 0)
-        $('#org_dashboard_map_main_property').empty();
+      if ($(element).find('option').length > 0)
+        map_main_property.empty();
 
       // Get resource id
-      var resource_id = $('#org_dashboard_map option:selected').val();
+      var resource_id = $(element).find('option:selected').val();
       var params = {id: resource_id};
       api.get('orgdashboards_resource_show_map_properties', params)
         .done(function (data) {
-
-          var opts = $('#org_dashboard_map_main_property');
+          var opts = map_main_property;
+          opts.append(new Option('None', ''));
           $.each(data.result, function (idx, elem) {
             opts.append(new Option(elem.value, elem.value));
           });
-          $('.org_dashboard_map_main_property').removeClass('hidden');
+          map_main_property.removeClass('hidden');
 
+          var organization_name = $('#field-name').val();
+          params = {id: organization_name};
+
+          // Select the map main property
+          api.get('orgdashboards_get_map_main_property', params)
+            .done(function (data) {
+              $.each(map_main_property.children(), function(key, el) {
+                if (el.textContent === data.result) {
+                  el.setAttribute('selected', '');
+                }
+              });
+            });
         });
     }
 
-    if ($('#org_dashboard_map').val()) {
-      changeMainPropertyValues();
+    var selects = $('select[name="orgdashboards_map"]');
+    for (var i = 0; i < selects.length; i++) {
+      changeMainPropertyValues(selects[i]);
     }
 
-    $('#org_dashboard_map').on('change', function () {
-      changeMainPropertyValues();
+    $('.map-properties').on('change', 'select', function (event) {
+        if ($(event.target).attr('id') == 'orgdashboards_map') {
+          changeMainPropertyValues($(event.target));
+        }
     });
 
     //Base color change event handler
-    var secondary_element = $('#org_dashboard_secondary_color'),
+    var secondary_element = $('#orgdashboards_dashboard_secondary_color'),
         lighter_color;
-    $('#org_dashboard_base_color').change(function () {
+    $('#orgdashboards_base_color').change(function () {
       lighter_color = ColorLuminance('#' + this.value, 0.4);
       secondary_element.val(lighter_color.substr(1));
       secondary_element.css({'background-color': lighter_color});
+    });
+
+    var numResources = $('.map-fields').length;
+
+    $('#new-field-btn').on('click', function () {
+      var resourceField = $('#map-field_1').clone();
+      numResources++;
+      resourceField.attr('id', 'map-field_' + numResources);
+      resourceField.appendTo($('.map-properties'));
+      changeMainPropertyValues(resourceField);
+    });
+
+    $('.map-properties').on('click', 'a', function (e) {
+      $(e.target).parent().remove();
     });
 
     function ColorLuminance(hex, lum) {
