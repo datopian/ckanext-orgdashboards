@@ -67,7 +67,7 @@ class DashboardsController(PackageController):
         try:
             limit = int(org['orgdashboards_datasets_per_page'])
         except KeyError, ValueError:
-            limit = int(config.get('ckanext.orgdashboards.datasets_per_page'), '6')
+            limit = int(config.get('ckanext.orgdashboards.datasets_per_page', '6'))
 
         # most search operations should reset the page counter:
         params_nopage = [(k, v) for k, v in request.params.items()
