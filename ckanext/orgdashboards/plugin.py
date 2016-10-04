@@ -205,7 +205,11 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_get_secondary_dashboard':
                 helpers.orgdashboards_get_secondary_dashboard,
             'orgdashboards_resource_show_map_properties':
-                helpers.orgdashboards_resource_show_map_properties
+                helpers.orgdashboards_resource_show_map_properties,
+            'orgdashboards_get_organization_entity_name':
+                helpers.orgdashboards_get_organization_entity_name,
+            'orgdashboards_get_group_entity_name':
+                helpers.orgdashboards_get_group_entity_name
         }
         
     ## IConfigurer

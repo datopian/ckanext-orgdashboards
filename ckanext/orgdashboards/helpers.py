@@ -4,6 +4,8 @@ import os
 from datetime import datetime
 from urllib import urlencode
 
+from pylons import config
+
 import ckan.plugins as p
 import ckan.lib.helpers as h
 import ckan.plugins.toolkit as toolkit
@@ -323,3 +325,11 @@ def orgdashboards_get_country_short_name(current_locale):
     for locale in h.get_available_locales():
         if current_locale == str(locale):
             return locale.english_name[:3]
+
+def orgdashboards_get_organization_entity_name():
+    return config.get('ckanext.orgdashboards.organization_entity_name', 
+            'organization')
+
+def orgdashboards_get_group_entity_name():
+    return config.get('ckanext.orgdashboards.group_entity_name', 
+            'group')
