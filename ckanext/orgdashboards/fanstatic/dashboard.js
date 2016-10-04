@@ -120,13 +120,15 @@ function _setActiveLanguage() {
     } else {
       languageElement = languageSelector.find('li')[1];
     }
-
-    languageElement.className = 'active';
+  } else {
+    languageElement = languageSelector.find('li')[0];
   }
+
+  languageElement.className = 'active';
 }
 
 function _setFocusOnSelectFilters() {
-  var baseColor = $('.data-block-header')[0].style.background;
+  var baseColor = $('.all-data > .data-block-header')[0].style.background;
   var rule = ['border-color: ' + baseColor + ';',
               'box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 3px ' + baseColor + ';'].join('');
   var organization = window.location.pathname.split('/').reverse()[1];
