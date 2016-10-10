@@ -90,11 +90,14 @@ class TestCustomActions():
         toolkit.get_action('resource_view_create')(
             self.context, data_dict)
 
-        data_dict = {'id': self.resource_name}
+        data_dict = {
+            'id': resource_id,
+            'view_type': 'image_view'
+        }
 
         resource_views = toolkit.\
             get_action('orgdashboards_resource_show_resource_views')(
                 self.context, data_dict)
 
-        assert len(resource_views) == 0
-        # assert resource_views[0]['title'] == resource_view_title
+        assert len(resource_views) == 1
+        assert resource_views[0]['title'] == resource_view_title
