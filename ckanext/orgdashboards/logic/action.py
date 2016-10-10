@@ -10,7 +10,6 @@ import ckan.lib.helpers as h
 from ckanext.orgdashboards.helpers import (_get_action, 
                                            orgdashboards_get_geojson_properties,
                                            orgdashboards_get_resource_url,
-                                           get_resource_resource_views,
                                            get_resourceview_resource_package)
 
 log = logging.getLogger(__name__)
@@ -39,10 +38,6 @@ def orgdashboards_resource_show_resource_views(context, data_dict):
 @p.toolkit.side_effect_free
 def orgdashboards_resource_show_map_properties(context, data_dict):
     return orgdashboards_get_geojson_properties(data_dict.get('id'))
-
-@p.toolkit.side_effect_free
-def orgdashboards_resource_show_resource_views(context, data_dict):
-    return get_resource_resource_views(data_dict.get('id'))
 
 @p.toolkit.side_effect_free
 def orgdashboards_get_resourceview_resource_package(context, data_dict):

@@ -181,12 +181,6 @@ def get_organization_views(name, type='chart builder'):
             
     return result
 
-def get_resource_resource_views(resource_id, type='chart builder'):
-    result = filter(lambda rv: rv['view_type'].lower() == type, 
-                    _get_action('resource_view_list', {}, 
-                                {'id': resource_id}))
-    return result
-
 def get_resource_views(package):
     result = []
     resource_views = map(lambda p: _get_action('resource_view_list', {}, 
