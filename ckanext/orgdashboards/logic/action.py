@@ -31,7 +31,7 @@ def orgdashboards_dataset_show_resources(context, data_dict):
 @p.toolkit.side_effect_free
 def orgdashboards_resource_show_resource_views(context, data_dict):
     data = _get_action('resource_view_list', context.copy(), data_dict)
-    data = filter(lambda i: i['view_type'] == 'Chart builder', data)
+    data = filter(lambda i: i['view_type'] == data_dict['view_type'], data)
     
     return data
 

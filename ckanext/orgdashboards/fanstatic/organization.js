@@ -70,7 +70,7 @@
 
         $('#' + resourceview_select_id + '_preview').html();
 
-        api.get('orgdashboards_resource_show_resource_views', {id: resource_id}).done(
+        api.get('orgdashboards_resource_show_resource_views', {id: resource_id, view_type: 'Chart builder'}).done(
           function (data) {
 
             var opts = $('#' + resourceview_select_id);
