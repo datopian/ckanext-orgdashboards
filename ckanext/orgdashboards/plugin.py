@@ -26,9 +26,13 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
 
     def before_map(self, map):
         # Define dashboard controller routes
+
+        organization_entity_name = config.get(
+            'ckanext.orgdashboards.organization_entity_name', 
+            'organization')
         
         ctrl = 'ckanext.orgdashboards.controllers.dashboard:DashboardsController'
-        map.connect('/organization/{name}/dashboard', controller=ctrl, 
+        map.connect('/' + organization_entity_name + '/{name}/dashboard', controller=ctrl, 
                     action='organization_dashboard')
             
         return map
