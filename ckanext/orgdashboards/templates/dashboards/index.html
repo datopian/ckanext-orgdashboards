@@ -62,6 +62,8 @@
 {% set orgdashboards_resource_names = h.orgdashboards_get_resource_names_from_ids(organizations_maps) %}
 {% endif %}
 
+{% set organization_entity_name = h.orgdashboards_get_organization_entity_name() %}
+
 
 {#  set base_color = "#" + organization.orgdashboards_base_color #}
 {# set secondary_color = "#" + organization.orgdashboards_secondary_color #}
@@ -76,8 +78,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-5 col-md-3 organization-logo">
+                    {% if organization_entity_name == 'country' %}
+                      {% set logo_prefix = 'USEDATA' %}
+                    {% elif organization_entity_name == 'organization' %}
+                      {% set logo_prefix = 'Organization' %}
+                    {% endif %}
                     <a href="#"><img class="img-responsive" src="{{ organization.image_display_url }}" height="130"
-                                     alt="USEDATA logo"></a>
+                                     alt="{{ logo_prefix }} logo"></a>
                 </div>
                 <div class="col-sm-5 col-md-3">
                   <h1 class="">{{ organization.orgdashboards_header }}</h1>
@@ -125,10 +132,17 @@
     <nav class="top-navigation pull-right" style="background-color: {{ base_color }}">
         <div class="">
             <ul class="list-inline">
-                <li><a href="http://www.usedata.info/about-2/">{{ _('About') }}</a></li>
-                <li><a href="http://www.usedata.info/help/">{{ _('Help') }}</a></li>
-                <li><a href="http://www.usedata.info/resources/">{{ _('Resources') }}</a></li>
-                <li><a href="http://www.usedata.info/contact/">{{ _('Contact') }}</a></li>
+                {% if organization_entity_name == 'country' %}
+                  <li><a href="http://www.usedata.info/about-2/">{{ _('About') }}</a></li>
+                  <li><a href="http://www.usedata.info/help/">{{ _('Help') }}</a></li>
+                  <li><a href="http://www.usedata.info/resources/">{{ _('Resources') }}</a></li>
+                  <li><a href="http://www.usedata.info/contact/">{{ _('Contact') }}</a></li>
+                {% elif organization_entity_name == 'organization' %}
+                  <li><a href="#">{{ _('About') }}</a></li>
+                  <li><a href="#">{{ _('Help') }}</a></li>
+                  <li><a href="#">{{ _('Resources') }}</a></li>
+                  <li><a href="#">{{ _('Contact') }}</a></li>
+                {% endif %}
             </ul>
         </div>
     </nav>
@@ -339,12 +353,21 @@
             <div class="row">
                 <div class="col-md-2 col-lg-4">
                     <ul class="list-unstyled list-footer-nav">
-                        <li><a href="http://www.usedata.info/about-2/">{{ _('About') }}</a></li>
-                        <li><a href="http://www.usedata.info/help/">{{ _('Help') }}</a></li>
-                        <li><a href="http://www.usedata.info/resources/">{{ _('Resources') }}</a></li>
-                        <li><a href="http://www.usedata.info/">{{ _('About USEDATA') }}</a></li>
-                        <li><a href="http://www.usedata.info/contact/">{{ _('Contact') }}</a></li>
-                        <li><a href="http://www.usedata.info/terms-of-use-2/">{{ _('Terms of use') }}</a></li>
+                        {% if organization_entity_name == 'country' %}
+                          <li><a href="http://www.usedata.info/about-2/">{{ _('About') }}</a></li>
+                          <li><a href="http://www.usedata.info/help/">{{ _('Help') }}</a></li>
+                          <li><a href="http://www.usedata.info/resources/">{{ _('Resources') }}</a></li>
+                          <li><a href="http://www.usedata.info/">{{ _('About USEDATA') }}</a></li>
+                          <li><a href="http://www.usedata.info/contact/">{{ _('Contact') }}</a></li>
+                          <li><a href="http://www.usedata.info/terms-of-use-2/">{{ _('Terms of use') }}</a></li>
+                        {% elif organization_entity_name == 'organization' %}
+                          {% set logo_prefix = 'Organization' %}
+                          <li><a href="#">{{ _('About') }}</a></li>
+                          <li><a href="#">{{ _('Help') }}</a></li>
+                          <li><a href="#">{{ _('Resources') }}</a></li>
+                          <li><a href="#">{{ _('Contact') }}</a></li>
+                          <li><a href="#">{{ _('Terms of use') }}</a></li>
+                        {% endif %}
                     </ul>
                 </div>
                 <div class="col-md-2 col-lg-3">
@@ -366,13 +389,15 @@
                         -->
                     </ul>
                 </div>
-                <div class="col-md-8 col-lg-5">
-                    <ul class="list-inline list-footer-logos">
-                        <li><a href="#"><img src="/img/ukaid-logo-246x260.png" height="130" alt="UKAID logo"></a></li>
-                        <li><a href="#"><img src="/img/montrose-logo-720x240.png" height="100" alt="Montrose logo"></a>
-                        </li>
-                    </ul>
-                </div>
+                {% if organization_entity_name == 'country' %}
+                  <div class="col-md-8 col-lg-5">
+                      <ul class="list-inline list-footer-logos">
+                          <li><a href="#"><img src="/img/ukaid-logo-246x260.png" height="130" alt="UKAID logo"></a></li>
+                          <li><a href="#"><img src="/img/montrose-logo-720x240.png" height="100" alt="Montrose logo"></a>
+                          </li>
+                      </ul>
+                  </div>
+                {% endif %}
             </div>
             <div class="copyright">© {{ organization.orgdashboards_copyright }}</div>
         </div>
