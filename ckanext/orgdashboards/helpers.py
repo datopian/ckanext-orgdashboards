@@ -30,10 +30,10 @@ def _get_ctx():
 def _get_action(action, context_dict, data_dict):
     return p.toolkit.get_action(action)(context_dict, data_dict)
 
-def orgdashboards_get_newly_released_data(limit=4):
+def orgdashboards_get_newly_released_data(organization_name, limit=4):
     try:
         pkg_search_results = toolkit.get_action('package_search')(data_dict={
-            'fq': ' organization:{}'.format(c.name),
+            'fq': ' organization:{}'.format(organization_name),
             'sort': 'metadata_modified desc',
             'rows': limit
         })['results']
