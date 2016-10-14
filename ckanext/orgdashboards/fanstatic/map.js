@@ -9,9 +9,11 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
   };
 
   function renderMap(elementId, organizationName, mapURL, color, mainProperty) {
-    if (mapURL.length > 0) {
+    var mainProperties = [];
+
+    if (mapURL.length > 0 && typeof mainProperty === 'string') {
       var mapURLS = mapURL.split(',');
-      var mainProperties = mainProperty.split(',');
+      mainProperties = mainProperty.split(',');
     }
     $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURI(organizationName)).done(function (data) {
       if (data['status'] == 'ZERO_RESULTS') {
@@ -40,7 +42,7 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
 
       map.addLayer(osm);
 
-      if (mapURLS && mainProperties) {
+      if (mapURLS && mainProperties.length > 0) {
 
         // Initialize markers
         initDatasetMarkers(mapURLS[0], mainProperties[0]);
