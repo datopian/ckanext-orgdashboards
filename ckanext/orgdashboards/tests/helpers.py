@@ -1,3 +1,8 @@
+''' Helper methods for tests '''
+
+import string
+import random
+
 from ckan.tests import factories
 
 
@@ -25,3 +30,8 @@ def create_mock_data(**kwargs):
     }
 
     return mock_data
+
+def id_generator(size=6, chars=string.ascii_lowercase + string.digits):
+    ''' Create random id which is a combination of letters and numbers '''
+
+    return ''.join(random.choice(chars) for _ in range(size))
