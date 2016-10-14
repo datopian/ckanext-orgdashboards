@@ -198,9 +198,13 @@
             <div class="media-left">
                 <img id="map-info-img" class="language-flag" src="/images/usedata-info-icon.svg" width="41" alt="icon">
             </div>
-            <div class="media-body hidden">{{ _('All efforts have been made to make this map accurate. However, USEDATA and its
-                Service Providers accept no liability for any errors, omissions, or inaccuracies in the information
-                provided on this map.') }} © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> {{ _('contributors') }}
+            {% if organization_entity_name == 'country' %}
+              {% set disclaimer_prefix = 'USEDATA and its ' %}
+            {% elif organization_entity_name == 'organization' %}
+              {% set disclaimer_prefix = '' %}
+            {% endif %}
+            {% set disclaimer_text = 'All efforts have been made to make this map accurate. However, {disclaimer_prefix}Service Providers accept no liability for any errors, omissions, or inaccuracies in the information provided on this map.'.format(disclaimer_prefix=disclaimer_prefix) %}
+            <div class="media-body hidden">{{ _(disclaimer_text) }} © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> {{ _('contributors') }}
             </div>
         </div>
       </div>
