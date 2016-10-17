@@ -10,7 +10,7 @@ from ckanext.orgdashboards.tests.helpers import create_mock_data
 
 
 class TestCustomActions():
-    
+
     @classmethod
     def setup_class(self, **kwargs):
         # Every time the test is run, the database is resetted
@@ -64,7 +64,7 @@ class TestCustomActions():
         assert len(resource_views) == 1
         assert resource_views[0]['title'] == self.mock_data['resource_view_title']
 
-    def test_orgdashboards_resource_show_map_properties(self):
+    def test_resource_show_map_properties(self):
         sysadmin = factories.Sysadmin()
         resource = factories.Resource()
         file_path = os.path.join(os.path.dirname(
@@ -105,7 +105,7 @@ class TestCustomActions():
             assert map_properties[i]['value'] == item[0]
             assert map_properties[i]['text'] == item[1]
 
-    def test_orgdashboards_get_map_main_property(self):
+    def test_get_map_main_property(self):
         data_dict = {
             'id': self.mock_data['organization_name'],
             'orgdashboards_map_main_property': 'test'
