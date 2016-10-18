@@ -6,7 +6,7 @@ from ckan import plugins
 from ckan.tests import factories
 from ckan.plugins import toolkit
 
-from ckanext.orgdashboards.tests.helpers import create_mock_data
+from ckanext.orgdashboards.tests.helpers import create_mock_data, id_generator
 
 
 class TestCustomActions():
@@ -22,7 +22,16 @@ class TestCustomActions():
         if not plugins.plugin_loaded('orgdashboards'):
             plugins.load('orgdashboards')
 
-        self.mock_data = create_mock_data()
+        organization_name = id_generator()
+        dataset_name = id_generator()
+        resource_name = id_generator()
+        resource_view_title = id_generator()
+
+        self.mock_data = create_mock_data(
+            organization_name=organization_name,
+            dataset_name=dataset_name,
+            resource_name=resource_name,
+            resource_view_title=resource_view_title)
 
     @classmethod
     def teardown_class(self):
@@ -62,7 +71,8 @@ class TestCustomActions():
                 self.mock_data['context'], data_dict)
 
         assert len(resource_views) == 1
-        assert resource_views[0]['title'] == self.mock_data['resource_view_title']
+        assert resource_views[0]['title'] ==\
+            self.mock_data['resource_view_title']
 
     def test_resource_show_map_properties(self):
         sysadmin = factories.Sysadmin()
