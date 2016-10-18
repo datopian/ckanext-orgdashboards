@@ -57,10 +57,8 @@ def orgdashboards_convert_time_format(package):
     return modified.strftime("%d %B %Y")
 
 
-def orgdashboards_replace_or_add_url_param(name, value):
-    params = request.params.items()
-    # params = set(params)
-
+def orgdashboards_replace_or_add_url_param(name, value, params, controller, 
+    action, context_name):
     for k, v in params:
         # Reset the page to the first one
         if k == 'page':
@@ -72,10 +70,7 @@ def orgdashboards_replace_or_add_url_param(name, value):
 
     params.append((name, value))
 
-    controller = c.controller
-    action = c.action
-
-    url = h.url_for(controller=controller, action=c.action, name=c.name)
+    url = h.url_for(controller=controller, action=action, name=context_name)
 
     params = [(k, v.encode('utf-8') if isinstance(v, basestring) else str(v))
                   for k, v in params]
