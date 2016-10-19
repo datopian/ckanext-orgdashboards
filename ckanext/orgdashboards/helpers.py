@@ -114,7 +114,7 @@ def orgdashboards_get_organization_list():
                        'include_extras': True, 
                        'include_followers': True})
 
-def orgdashboards_get_all_organizations():
+def orgdashboards_get_all_organizations(current_org_name):
     ''' Get all created organizations '''
 
     organizations = _get_action('organization_list', {}, {'all_fields': True})
@@ -128,7 +128,7 @@ def orgdashboards_get_all_organizations():
                     )
 
     # Filter out the current organization in the list
-    organizations = [x for x in organizations if x['value'] != c.id]
+    organizations = [x for x in organizations if x['value'] != current_org_name]
 
     organizations.insert(0, {'value': 'none', 'text': 'None'})
 
