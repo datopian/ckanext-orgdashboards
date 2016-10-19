@@ -2,8 +2,18 @@
 
 import string
 import random
+import requests
+import os
 
 from ckan.tests import factories
+
+mock_map_properties = {
+    'Block Operators ': 'Berlanga Holding ',
+    'Areas of operation': 'Mottama',
+    'Myanmar Block': 'M-8',
+    'Address':
+    '8 Temasek Boulevard, #08-01 Suntec Tower Three, Singapore 038988 '
+}
 
 
 def create_mock_data(organization_name, dataset_name, resource_name,
@@ -30,6 +40,7 @@ def create_mock_data(organization_name, dataset_name, resource_name,
         resource_id=mock_data['resource_id'],
         title=resource_view_title)
     mock_data['resource_view_title'] = resource_view_title
+    mock_data['resource_view_id'] = mock_data['resource_view']['id']
 
     mock_data['context'] = {
         'user': factories._get_action_user_name(kwargs)
@@ -42,3 +53,26 @@ def id_generator(size=6, chars=string.ascii_lowercase + string.digits):
     ''' Create random id which is a combination of letters and numbers '''
 
     return ''.join(random.choice(chars) for _ in range(size))
+
+
+def upload_json_resource(dataset_name, resource_name):
+    sysadmin = factories.Sysadmin()
+    resource = factories.Resource(name=resource_name)
+    file_path = os.path.join(os.path.dirname(
+        os.path.realpath(__file__)), 'data.geojson')
+
+    data_dict = {
+        'package_id': dataset_name,
+        'name': resource['name'],
+        'url': 'test_url',
+        'format': 'geojson'
+    }
+
+    # Upload resource
+    response = requests.post(
+        'http://localhost:5000/api/action/resource_create',
+        data=data_dict,
+        headers={'X-CKAN-API-Key': sysadmin['apikey']},
+        files=[('upload', file(file_path))])
+
+    return response.json()['result']
