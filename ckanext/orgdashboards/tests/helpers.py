@@ -5,6 +5,8 @@ import random
 import requests
 import os
 
+from pylons import config
+
 from ckan.tests import factories
 
 mock_map_properties = {
@@ -60,6 +62,7 @@ def upload_json_resource(dataset_name, resource_name):
     resource = factories.Resource(name=resource_name)
     file_path = os.path.join(os.path.dirname(
         os.path.realpath(__file__)), 'data.geojson')
+    site_base_url = get_site_base_url()
 
     data_dict = {
         'package_id': dataset_name,
@@ -70,9 +73,13 @@ def upload_json_resource(dataset_name, resource_name):
 
     # Upload resource
     response = requests.post(
-        'http://localhost:5000/api/action/resource_create',
+        '{0}/api/action/resource_create'.format(site_base_url),
         data=data_dict,
         headers={'X-CKAN-API-Key': sysadmin['apikey']},
         files=[('upload', file(file_path))])
 
     return response.json()['result']
+
+
+def get_site_base_url():
+    return config.get('ckan.site_url', 'http://localhost:5000')
