@@ -291,10 +291,8 @@ def orgdashboards_get_secondary_dashboard(organization_name):
     else:
         return 'none'
 
-def orgdashboards_get_current_url(page, exclude_param=''):
-    params = request.params.items()
-
-    url = h.url_for(controller=c.controller, action=c.action, name=c.name)
+def orgdashboards_get_current_url(page, params, controller, action, name, exclude_param=''):
+    url = h.url_for(controller=controller, action=action, name=name)
 
     for k, v in params:
         if k == exclude_param:
