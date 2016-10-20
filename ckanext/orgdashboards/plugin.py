@@ -215,7 +215,9 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_get_organization_entity_name':
                 helpers.orgdashboards_get_organization_entity_name,
             'orgdashboards_get_group_entity_name':
-                helpers.orgdashboards_get_group_entity_name
+                helpers.orgdashboards_get_group_entity_name,
+            'orgdashboards_get_facet_items_dict':
+                helpers.orgdashboards_get_facet_items_dict
         }
         
     ## IConfigurer

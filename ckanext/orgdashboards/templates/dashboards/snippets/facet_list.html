@@ -5,7 +5,8 @@ name
   The field name identifying the facet field, eg. "tags"
 
 #}
-{% with items = h.get_facet_items_dict(name.value) %}
+{% set items = h.orgdashboards_get_facet_items_dict(name.value) %}
+{% if items %}
     <div class="col-md-2">
         <select class="form-control orgdashboards-filters {{ organization_name|lower }}">
             {% block facet_list_items %}
@@ -28,5 +29,5 @@ name
             {% endblock %}
         </select>
     </div>
-{% endwith %}
+{% endif %}
 

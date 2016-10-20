@@ -320,3 +320,9 @@ def orgdashboards_get_organization_entity_name():
 def orgdashboards_get_group_entity_name():
     return config.get('ckanext.orgdashboards.group_entity_name', 
             'group')
+
+def orgdashboards_get_facet_items_dict(value):
+    try:
+        return h.get_facet_items_dict(value)
+    except:
+        return None
