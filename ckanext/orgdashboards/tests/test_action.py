@@ -1,10 +1,12 @@
-import requests
-import os
-
 from ckan.tests.helpers import reset_db
 from ckan import plugins
 from ckan.tests import factories
 from ckan.plugins import toolkit
+
+from ckanext.orgdashboards.tests.helpers import (id_generator,
+                                                 create_mock_data,
+                                                 upload_json_resource,
+                                                 mock_map_properties)
 
 
 class TestCustomActions():
@@ -20,26 +22,16 @@ class TestCustomActions():
         if not plugins.plugin_loaded('orgdashboards'):
             plugins.load('orgdashboards')
 
-        # Create mock data
-        self.organization = factories.Organization()
-        self.organization_name = self.organization['name']
-        self.organization_id = self.organization['id']
+        organization_name = id_generator()
+        dataset_name = id_generator()
+        resource_name = id_generator()
+        resource_view_title = id_generator()
 
-        self.dataset = factories.Dataset(owner_org=self.organization_id)
-        self.dataset_name = self.dataset['name']
-        self.package_id = self.dataset['id']
-
-        self.resource = factories.Resource(package_id=self.package_id)
-        self.resource_name = self.resource['name']
-        self.resource_id = self.resource['id']
-
-        self.resource_view = factories.ResourceView(
-            resource_id=self.resource_id)
-        self.resource_view_title = self.resource_view['title']
-
-        self.context = {
-            'user': factories._get_action_user_name(kwargs)
-        }
+        self.mock_data = create_mock_data(
+            organization_name=organization_name,
+            dataset_name=dataset_name,
+            resource_name=resource_name,
+            resource_view_title=resource_view_title)
 
     @classmethod
     def teardown_class(self):
@@ -47,10 +39,10 @@ class TestCustomActions():
         plugins.unload('orgdashboards')
 
     def test_show_datasets(self):
-        data_dict = {'id': self.organization_name}
+        data_dict = {'id': self.mock_data['organization_name']}
 
         datasets = toolkit.get_action('orgdashboards_show_datasets')(
-            self.context, data_dict)
+            self.mock_data['context'], data_dict)
 
         # Create 5 datasets
         for id in range(0, 5):
@@ -60,61 +52,50 @@ class TestCustomActions():
             assert datasets[id]['name'] == 'test_dataset_{id}'.format(id=id)
 
     def test_dataset_show_resources(self):
-        data_dict = {'id': self.dataset_name}
+        data_dict = {'id': self.mock_data['dataset_name']}
+        resource_found = False
 
         resources = toolkit.get_action('orgdashboards_dataset_show_resources')(
-            self.context, data_dict)
+            self.mock_data['context'], data_dict)
 
-        assert len(resources) == 1
-        assert resources[0]['name'] == self.resource_name
+        assert len(resources) > 0
+
+        for item in resources:
+            if item['name'] == self.mock_data['resource_name']:
+                resource_found = True
+
+        assert resource_found is True
 
     def test_resource_show_resource_views(self):
         data_dict = {
-            'id': self.resource_id,
+            'id': self.mock_data['resource_id'],
             'view_type': 'image_view'
         }
+        resource_view_found = False
 
         resource_views = toolkit.\
             get_action('orgdashboards_resource_show_resource_views')(
-                self.context, data_dict)
+                self.mock_data['context'], data_dict)
 
-        assert len(resource_views) == 1
-        assert resource_views[0]['title'] == self.resource_view_title
+        assert len(resource_views) > 0
 
-    def test_orgdashboards_resource_show_map_properties(self):
-        sysadmin = factories.Sysadmin()
-        resource = factories.Resource()
-        file_path = os.path.join(os.path.dirname(
-            os.path.realpath(__file__)), 'data.geojson')
+        for item in resource_views:
+            if item['title'] == self.mock_data['resource_view_title']:
+                resource_view_found = True
 
-        data_dict = {
-            'package_id': self.dataset_name,
-            'name': resource['name'],
-            'url': 'test_url'
-        }
+        assert resource_view_found is True
 
-        # Upload resource
-        response = requests.post(
-            'http://localhost:5000/api/action/resource_create',
-            data=data_dict,
-            headers={"X-CKAN-API-Key": sysadmin['apikey']},
-            files=[('upload', file(file_path))])
-
-        resource_id = response.json()['result']['id']
+    def test_resource_show_map_properties(self):
+        resource = upload_json_resource(
+            self.mock_data['dataset_name'],
+            resource_name=id_generator())
+        resource_id = resource['id']
 
         data_dict = {'id': resource_id}
 
         map_properties = toolkit.get_action(
             'orgdashboards_resource_show_map_properties')(
-            self.context, data_dict)
-
-        mock_map_properties = {
-            'Block Operators ': 'Berlanga Holding ',
-            'Areas of operation': 'Mottama',
-            'Myanmar Block': 'M-8',
-            'Address':
-            '8 Temasek Boulevard, #08-01 Suntec Tower Three, Singapore 038988 '
-        }
+            self.mock_data['context'], data_dict)
 
         assert len(map_properties) == 4
 
@@ -122,19 +103,19 @@ class TestCustomActions():
             assert map_properties[i]['value'] == item[0]
             assert map_properties[i]['text'] == item[1]
 
-    def test_orgdashboards_get_map_main_property(self):
+    def test_get_map_main_property(self):
         data_dict = {
-            'id': self.organization_name,
+            'id': self.mock_data['organization_name'],
             'orgdashboards_map_main_property': 'test'
         }
 
         toolkit.get_action('organization_patch')(
-            self.context, data_dict)
+            self.mock_data['context'], data_dict)
 
-        data_dict = {'id': self.organization_name}
+        data_dict = {'id': self.mock_data['organization_name']}
 
         map_main_property = toolkit.get_action(
             'orgdashboards_get_map_main_property')(
-            self.context, data_dict)
+            self.mock_data['context'], data_dict)
 
         assert map_main_property == 'test'

@@ -30,10 +30,10 @@ def _get_ctx():
 def _get_action(action, context_dict, data_dict):
     return p.toolkit.get_action(action)(context_dict, data_dict)
 
-def orgdashboards_get_newly_released_data(limit=4):
+def orgdashboards_get_newly_released_data(organization_name, limit=4):
     try:
         pkg_search_results = toolkit.get_action('package_search')(data_dict={
-            'fq': ' organization:{}'.format(c.name),
+            'fq': ' organization:{}'.format(organization_name),
             'sort': 'metadata_modified desc',
             'rows': limit
         })['results']
@@ -57,10 +57,8 @@ def orgdashboards_convert_time_format(package):
     return modified.strftime("%d %B %Y")
 
 
-def orgdashboards_replace_or_add_url_param(name, value):
-    params = request.params.items()
-    # params = set(params)
-
+def orgdashboards_replace_or_add_url_param(name, value, params, controller, 
+    action, context_name):
     for k, v in params:
         # Reset the page to the first one
         if k == 'page':
@@ -72,10 +70,7 @@ def orgdashboards_replace_or_add_url_param(name, value):
 
     params.append((name, value))
 
-    controller = c.controller
-    action = c.action
-
-    url = h.url_for(controller=controller, action=c.action, name=c.name)
+    url = h.url_for(controller=controller, action=action, name=context_name)
 
     params = [(k, v.encode('utf-8') if isinstance(v, basestring) else str(v))
                   for k, v in params]
@@ -119,7 +114,7 @@ def orgdashboards_get_organization_list():
                        'include_extras': True, 
                        'include_followers': True})
 
-def orgdashboards_get_all_organizations():
+def orgdashboards_get_all_organizations(current_org_name):
     ''' Get all created organizations '''
 
     organizations = _get_action('organization_list', {}, {'all_fields': True})
@@ -133,7 +128,7 @@ def orgdashboards_get_all_organizations():
                     )
 
     # Filter out the current organization in the list
-    organizations = [x for x in organizations if x['value'] != c.id]
+    organizations = [x for x in organizations if x['value'] != current_org_name]
 
     organizations.insert(0, {'value': 'none', 'text': 'None'})
 

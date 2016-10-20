@@ -102,7 +102,7 @@
 
     {{ form.select('orgdashboards_lang_is_active', 'orgdashboards_lang_is_active', _('Show language selector'), options=[{'value': '1', 'text': 'Yes'}, {'value': '0', 'text': 'No'}], selected=data.orgdashboards_lang_is_active) }}
 
-    {{ form.select('orgdashboards_secondary_dashboard', 'orgdashboards_secondary_dashboard', _('Choose secondary dashboard'), options=h.orgdashboards_get_all_organizations(), selected=data.orgdashboards_secondary_dashboard) }}
+    {{ form.select('orgdashboards_secondary_dashboard', 'orgdashboards_secondary_dashboard', _('Choose secondary dashboard'), options=h.orgdashboards_get_all_organizations(data.name), selected=data.orgdashboards_secondary_dashboard) }}
 
     {% if data.orgdashboards_secondary_dashboard and data.orgdashboards_secondary_dashboard != 'none' %}
       {{ form.select('orgdashboards_secondary_language', 'orgdashboards_secondary_language', _('Choose secondary language'), options=h.orgdashboards_get_available_languages(), selected=data.orgdashboards_secondary_language) }}
