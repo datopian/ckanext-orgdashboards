@@ -7,5 +7,5 @@ matrix:
   exclude:
     - python: "2.7"
       env: PGVERSION=8.4
-install: ./bin/travis-build
+install: ./bin/travis-install-dependencies
 script: ./bin/travis-run-tests
