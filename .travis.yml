@@ -1,0 +1,11 @@
+language: python
+python:
+  - "2.7"
+env:
+  - PGVERSION=8.4
+matrix:
+  exclude:
+    - python: "2.7"
+      env: PGVERSION=8.4
+install: ./bin/travis-build
+script: ./bin/travis-run-tests
