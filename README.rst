@@ -8,26 +8,6 @@
 .. image:: https://coveralls.io/repos/keitaroinc/ckanext-orgdashboards/badge.svg
   :target: https://coveralls.io/r/keitaroinc/ckanext-orgdashboards
 
-.. image:: https://pypip.in/download/ckanext-orgdashboards/badge.svg
-    :target: https://pypi.python.org/pypi//ckanext-orgdashboards/
-    :alt: Downloads
-
-.. image:: https://pypip.in/version/ckanext-orgdashboards/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-orgdashboards/
-    :alt: Latest Version
-
-.. image:: https://pypip.in/py_versions/ckanext-orgdashboards/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-orgdashboards/
-    :alt: Supported Python versions
-
-.. image:: https://pypip.in/status/ckanext-orgdashboards/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-orgdashboards/
-    :alt: Development Status
-
-.. image:: https://pypip.in/license/ckanext-orgdashboards/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-orgdashboards/
-    :alt: License
-
 =============
 ckanext-orgdashboards
 =============
