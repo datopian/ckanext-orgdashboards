@@ -28,8 +28,6 @@ paster db init -c test-core.ini
 cd -
 
 echo "Installing ckanext-orgdashboards and its requirements..."
-git clone https://github.com/keitaroinc/ckanext-orgdashboards
-cd ckanext-orgdashboards
 python setup.py develop
 pip install -r dev-requirements.txt
 
