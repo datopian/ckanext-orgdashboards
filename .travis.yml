@@ -3,5 +3,6 @@ python:
   - "2.7"
 env:
   - PGVERSION=8.4
+sudo: required
 install: ./bin/travis-install-dependencies
 script: ./bin/travis-run-tests
