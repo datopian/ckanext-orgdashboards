@@ -10,7 +10,7 @@ mkdir uploads_storage
 paster serve test-core.ini "ckan.storage_path = ckan/uploads_storage" &
 cd -
 
-nosetests --nologcapture --with-pylons=test.ini
+nosetests --ckan --nologcapture --with-pylons=test.ini
 
 # Did an error occur?
 NOSE_ERROR=$?
