@@ -2877,12 +2877,12 @@ output {
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
 }
 
-.form-control:focus {
+/*.form-control:focus {
     border-color: #B80000;
     outline: 0;
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(184, 0, 0, .6);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(184, 0, 0, .6)
-}
+}*/
 
 .uganda:focus {
     border-color: #B80000;
