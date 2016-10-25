@@ -135,7 +135,7 @@ function _setFocusOnSelectFilters() {
 
   // Check whether there is already a rule set for the current organization
   if (!_ruleExists('.' + organization + ':focus')) {
-    _addCssRule('.form-control.orgdashboards-filters:focus', rule);
+    _addCssRule('select.form-control:focus', rule);
   }
 }
 
