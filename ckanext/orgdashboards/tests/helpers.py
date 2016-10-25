@@ -60,8 +60,8 @@ def id_generator(size=6, chars=string.ascii_lowercase + string.digits):
 def upload_json_resource(dataset_name, resource_name):
     sysadmin = factories.Sysadmin()
     resource = factories.Resource(name=resource_name)
-    file_path = os.path.join(os.path.dirname(
-        os.path.realpath(__file__)), 'data.geojson')
+    file_path = os.path.join(os.path.realpath(
+        os.path.join(os.getcwd(), os.path.dirname(__file__))), 'data.geojson')
     site_base_url = get_site_base_url()
 
     data_dict = {
