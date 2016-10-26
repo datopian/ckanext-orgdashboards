@@ -13,25 +13,16 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
 
     if (mapURL.length > 0 && typeof mainProperty === 'string') {
       var mapURLS = mapURL.split(',');
+
       mainProperties = mainProperty.split(',');
+      initLeaflet(elementId);
     }
-    $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURI(organizationName)).done(function (data) {
-      if (data['status'] == 'ZERO_RESULTS') {
-        initLeaflet(elementId, 39, 40, 2);
-      } else {
-        var lat = data['results'][0]['geometry']['location']['lat'],
-          lng = data['results'][0]['geometry']['location']['lng'];
-        initLeaflet(elementId, lat, lng, 5);
-      }
-    }).fail(function (data) {
-      console.log(data);
-    })
 
     // geo layer
     var geoL;
 
-    function initLeaflet(elementId, lat, lng, zoom) {
-      var map = new L.Map(elementId, {scrollWheelZoom: false, inertiaMaxSpeed: 200}).setView([lat, lng], zoom);
+    function initLeaflet(elementId) {
+      var map = new L.Map(elementId, {scrollWheelZoom: false, inertiaMaxSpeed: 200});
       var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
       var osmAttrib = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
       var osm = new L.TileLayer(osmUrl, {
@@ -46,8 +37,6 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
 
         // Initialize markers
         initDatasetMarkers(mapURLS[0], mainProperties[0]);
-
-
       }
 
       function initDatasetMarkers(mapURL, mainField) {
