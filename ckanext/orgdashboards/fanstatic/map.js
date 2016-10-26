@@ -46,6 +46,8 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
 
         // Initialize markers
         initDatasetMarkers(mapURLS[0], mainProperties[0]);
+
+
       }
 
       function initDatasetMarkers(mapURL, mainField) {
@@ -137,6 +139,8 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
 
           $('#map-info').removeClass('hidden');
 
+          // Properly zoom the map to fit all markers/polygons
+          map.fitBounds(geoL.getBounds().pad(0.5));
         }).fail(function (data) {
           console.log("GeoJSON could not be loaded " + mapURL);
         });
