@@ -100,7 +100,7 @@
 
     {{ form.select('orgdashboards_is_active', 'orgdashboards_is_active', _('Is dashboard active?'), options=[{'value': '1', 'text': 'Yes'}, {'value': '0', 'text': 'No'}], selected=data.orgdashboards_is_active) }}
 
-    {{ form.select('orgdashboards_lang_is_active', 'orgdashboards_lang_is_active', _('Show language selector'), options=[{'value': '1', 'text': 'Yes'}, {'value': '0', 'text': 'No'}], selected=data.orgdashboards_lang_is_active) }}
+    {{ form.select('orgdashboards_lang_is_active', 'orgdashboards_lang_is_active', _('Show language selector'), options=[{'value': '0', 'text': 'No'}, {'value': '1', 'text': 'Yes'}], selected=data.orgdashboards_lang_is_active) }}
 
     {{ form.select('orgdashboards_secondary_dashboard', 'orgdashboards_secondary_dashboard', _('Choose secondary dashboard'), options=h.orgdashboards_get_all_organizations(data.name), selected=data.orgdashboards_secondary_dashboard) }}
 
