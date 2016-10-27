@@ -244,7 +244,7 @@ def orgdashboards_get_geojson_properties(resource_id):
         
     result = []
     for k, v in geojson.get('features')[0].get('properties').iteritems():
-        result.append({'value':k, 'text': v})
+        result.append({'value':k, 'text': k})
 
     return result
 
