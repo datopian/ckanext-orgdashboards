@@ -85,8 +85,9 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
         # Import core converters and validators
         _convert_to_extras = toolkit.get_converter('convert_to_extras')
         _ignore_missing = toolkit.get_validator('ignore_missing')
-
+        
         default_validators = [_ignore_missing,_convert_to_extras]
+
         schema.update({
             'orgdashboards_header': default_validators,
             'orgdashboards_footer': default_validators,

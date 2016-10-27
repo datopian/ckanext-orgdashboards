@@ -135,16 +135,17 @@
         {% else %}
             {% set organization_maps = [] %}
         {% endif %}
+
+        {% if data.orgdashboards_map_main_property %}
+            {% set map_properties = h.orgdashboards_convert_to_list(data.orgdashboards_map_main_property) %}
+        {% else %}
+            {% set map_properties = [] %}
+        {% endif %}
       {% if organization_maps|length > 0 %}
         {% for orgdashboards_map in organization_maps %}
           <div id="map-field_{{ loop.index }}" class="map-fields">
             {{ form.select('orgdashboards_map', 'orgdashboards_map', _('Resource'), options=h.orgdashboards_get_org_map_views(data.id), selected=orgdashboards_map) }}
-            <div class="control-group control-select orgdashboards_map_main_property">
-              <label class="control-label" for="orgdashboards_map_main_property">Property</label>
-              <div class="controls">
-                <select id="orgdashboards_map_main_property" name="orgdashboards_map_main_property"></select>
-              </div>
-            </div>
+            {{ form.select('orgdashboards_map_main_property', 'orgdashboards_map_main_property', _('Property'), options=h.orgdashboards_resource_show_map_properties(orgdashboards_map), selected=map_properties[loop.index - 1]) }}
             <a id="remove_map_field" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Remove </a>
             <hr>
           </div>
@@ -153,13 +154,7 @@
       {% else %}
           <div id="map-field_1" class="map-fields">
             {{ form.select('orgdashboards_map', 'orgdashboards_map', _('Resource'), options=h.orgdashboards_get_org_map_views(data.id)) }}
-
-            <div class="control-group control-select orgdashboards_map_main_property">
-              <label class="control-label" for="orgdashboards_map_main_property">Property</label>
-              <div class="controls">
-                <select id="orgdashboards_map_main_property" name="orgdashboards_map_main_property"></select>
-              </div>
-            </div>
+            {{ form.select('orgdashboards_map_main_property', 'orgdashboards_map_main_property', _('Property')) }}
             <hr>
             <a id="remove_map_field" class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> Remove </a>
           </div>
