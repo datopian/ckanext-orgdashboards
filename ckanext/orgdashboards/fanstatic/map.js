@@ -43,7 +43,7 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
        });
     } else {
       fitBounds = true;
-      initLeaflet(elementId);
+      initLeaflet(elementId, 39, 40, 2);
     }
 
 
@@ -54,7 +54,11 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
       var map;
 
       if (fitBounds) {
-        map = new L.Map(elementId, {scrollWheelZoom: false, inertiaMaxSpeed: 200});
+        if (!mapURLS && mainProperties.length === 0) {
+          map = new L.Map(elementId, {scrollWheelZoom: false, inertiaMaxSpeed: 200}).setView([lat, lng], zoom);
+        } else {
+          map = new L.Map(elementId, {scrollWheelZoom: false, inertiaMaxSpeed: 200});
+        }
       } else {
         map = new L.Map(elementId, {scrollWheelZoom: false, inertiaMaxSpeed: 200}).setView([lat, lng], zoom);
       }
