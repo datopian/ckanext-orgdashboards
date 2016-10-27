@@ -8,6 +8,7 @@ sudo service jetty restart
 cd ckan
 mkdir uploads_storage
 paster serve test-core.ini "ckan.storage_path = ckan/uploads_storage" &
+sleep 5
 cd -
 
 nosetests --ckan --nologcapture --with-pylons=test.ini
