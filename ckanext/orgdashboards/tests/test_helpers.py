@@ -190,7 +190,7 @@ class TestHelpers():
 
         for i, item in enumerate(mock_map_properties.iteritems()):
             assert map_properties[i]['value'] == item[0]
-            assert map_properties[i]['text'] == item[1]
+            assert map_properties[i]['text'] == item[0]
 
     def test_resource_show_map_properties(self):
         resource_name = id_generator()
@@ -204,7 +204,7 @@ class TestHelpers():
 
         for i, item in enumerate(mock_map_properties.iteritems()):
             assert map_properties[i]['value'] == item[0]
-            assert map_properties[i]['text'] == item[1]
+            assert map_properties[i]['text'] == item[0]
 
     def test_convert_to_list(self):
         resource_id = self.mock_data['resource_id']

@@ -101,7 +101,7 @@ class TestCustomActions():
 
         for i, item in enumerate(mock_map_properties.iteritems()):
             assert map_properties[i]['value'] == item[0]
-            assert map_properties[i]['text'] == item[1]
+            assert map_properties[i]['text'] == item[0]
 
     def test_get_map_main_property(self):
         data_dict = {
