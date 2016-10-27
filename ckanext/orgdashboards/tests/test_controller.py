@@ -50,6 +50,10 @@ class TestController():
 
         print 'site_base_url: ', site_base_url
         print 'route: ', route
+        print 'url: ', response.url
+        print 'text: ', response.text
+        print 'status_code: ', response.status_code
+        print 'reason: ', response.reason
 
         assert response.ok is True
         assert response.status_code == 200
