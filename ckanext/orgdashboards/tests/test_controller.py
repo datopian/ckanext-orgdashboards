@@ -48,5 +48,7 @@ class TestController():
 
         response = requests.get(site_base_url + route)
 
+        print 'response: ', response
+
         assert response.ok is True
         assert response.status_code == 200
