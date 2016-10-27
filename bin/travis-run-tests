@@ -11,7 +11,7 @@ paster serve test-core.ini "ckan.storage_path = ckan/uploads_storage" &
 sleep 5
 cd -
 
-nosetests --ckan --nologcapture --with-pylons=test.ini
+nosetests --ckan --nologcapture --with-pylons=test.travis.ini
 
 # Did an error occur?
 NOSE_ERROR=$?
