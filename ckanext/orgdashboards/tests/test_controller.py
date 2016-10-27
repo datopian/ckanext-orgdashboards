@@ -4,6 +4,7 @@ from routes import url_for
 
 from ckan.tests.helpers import reset_db
 from ckan import plugins
+from ckan.plugins import toolkit
 
 from ckanext.orgdashboards.tests.helpers import (id_generator,
                                                  create_mock_data,
@@ -48,12 +49,10 @@ class TestController():
 
         response = requests.get(site_base_url + route)
 
-        print 'site_base_url: ', site_base_url
-        print 'route: ', route
+        organizations = toolkit.get_action('organization_list')({}, {})
+
         print 'url: ', response.url
-        print 'text: ', response.text
-        print 'status_code: ', response.status_code
-        print 'reason: ', response.reason
+        print 'organizations: ', organizations
 
         assert response.ok is True
         assert response.status_code == 200
