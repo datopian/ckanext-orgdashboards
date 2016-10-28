@@ -155,22 +155,22 @@ class TestHelpers():
 
         assert {'text': 'English', 'value': 'en'} in languages
 
-    def test_get_maps(self):
-        resource_name = id_generator()
-        resource = upload_json_resource(
-            self.mock_data['dataset_name'],
-            resource_name)
-        maps = helpers.org_views.get_maps(self.mock_data['organization_name'])
-        resource_found = False
+    # def test_get_maps(self):
+    #     resource_name = id_generator()
+    #     resource = upload_json_resource(
+    #         self.mock_data['dataset_name'],
+    #         resource_name)
+    #     maps = helpers.org_views.get_maps(self.mock_data['organization_name'])
+    #     resource_found = False
 
-        assert len(maps) > 0
+    #     assert len(maps) > 0
 
-        for item in maps:
-            if item['text'] == resource_name and\
-               item['value'] == resource['id']:
-                resource_found = True
+    #     for item in maps:
+    #         if item['text'] == resource_name and\
+    #            item['value'] == resource['id']:
+    #             resource_found = True
 
-        assert resource_found is True
+    #     assert resource_found is True
 
     def test_get_resource_url(self):
         url = helpers.orgdashboards_get_resource_url(
@@ -178,33 +178,33 @@ class TestHelpers():
 
         assert url == self.mock_data['resource']['url']
 
-    def test_get_geojson_properties(self):
-        resource_name = id_generator()
-        resource = upload_json_resource(
-            self.mock_data['dataset_name'],
-            resource_name)
-        map_properties = helpers.orgdashboards_get_geojson_properties(
-            resource['id'])
+    # def test_get_geojson_properties(self):
+    #     resource_name = id_generator()
+    #     resource = upload_json_resource(
+    #         self.mock_data['dataset_name'],
+    #         resource_name)
+    #     map_properties = helpers.orgdashboards_get_geojson_properties(
+    #         resource['id'])
 
-        assert len(map_properties) == 4
+    #     assert len(map_properties) == 4
 
-        for i, item in enumerate(mock_map_properties.iteritems()):
-            assert map_properties[i]['value'] == item[0]
-            assert map_properties[i]['text'] == item[0]
+    #     for i, item in enumerate(mock_map_properties.iteritems()):
+    #         assert map_properties[i]['value'] == item[0]
+    #         assert map_properties[i]['text'] == item[0]
 
-    def test_resource_show_map_properties(self):
-        resource_name = id_generator()
-        resource = upload_json_resource(
-            self.mock_data['dataset_name'],
-            resource_name)
-        map_properties = helpers.orgdashboards_resource_show_map_properties(
-            resource['id'])
+    # def test_resource_show_map_properties(self):
+    #     resource_name = id_generator()
+    #     resource = upload_json_resource(
+    #         self.mock_data['dataset_name'],
+    #         resource_name)
+    #     map_properties = helpers.orgdashboards_resource_show_map_properties(
+    #         resource['id'])
 
-        assert len(map_properties) == 4
+    #     assert len(map_properties) == 4
 
-        for i, item in enumerate(mock_map_properties.iteritems()):
-            assert map_properties[i]['value'] == item[0]
-            assert map_properties[i]['text'] == item[0]
+    #     for i, item in enumerate(mock_map_properties.iteritems()):
+    #         assert map_properties[i]['value'] == item[0]
+    #         assert map_properties[i]['text'] == item[0]
 
     def test_convert_to_list(self):
         resource_id = self.mock_data['resource_id']

@@ -35,24 +35,24 @@ class TestController():
             resource_name=resource_name,
             resource_view_title=resource_view_title)
 
-    def test_dashboard(self):
-        controller =\
-            'ckanext.orgdashboards.controllers.dashboard:DashboardsController'
-        action = 'organization_dashboard'
-        name = self.mock_data['organization_name']
-        site_base_url = get_site_base_url()
+    # def test_dashboard(self):
+    #     controller =\
+    #         'ckanext.orgdashboards.controllers.dashboard:DashboardsController'
+    #     action = 'organization_dashboard'
+    #     name = self.mock_data['organization_name']
+    #     site_base_url = get_site_base_url()
 
-        route = url_for(
-            controller=controller,
-            action=action,
-            name=name)
+    #     route = url_for(
+    #         controller=controller,
+    #         action=action,
+    #         name=name)
 
-        response = requests.get(site_base_url + route)
+    #     response = requests.get(site_base_url + route)
 
-        organizations = toolkit.get_action('organization_list')({}, {})
+    #     organizations = toolkit.get_action('organization_list')({}, {})
 
-        print 'url: ', response.url
-        print 'organizations: ', organizations
+    #     print 'url: ', response.url
+    #     print 'organizations: ', organizations
 
-        assert response.ok is True
-        assert response.status_code == 200
+    #     assert response.ok is True
+    #     assert response.status_code == 200
