@@ -85,23 +85,23 @@ class TestCustomActions():
 
         assert resource_view_found is True
 
-    def test_resource_show_map_properties(self):
-        resource = upload_json_resource(
-            self.mock_data['dataset_name'],
-            resource_name=id_generator())
-        resource_id = resource['id']
+    # def test_resource_show_map_properties(self):
+    #     resource = upload_json_resource(
+    #         self.mock_data['dataset_name'],
+    #         resource_name=id_generator())
+    #     resource_id = resource['id']
 
-        data_dict = {'id': resource_id}
+    #     data_dict = {'id': resource_id}
 
-        map_properties = toolkit.get_action(
-            'orgdashboards_resource_show_map_properties')(
-            self.mock_data['context'], data_dict)
+    #     map_properties = toolkit.get_action(
+    #         'orgdashboards_resource_show_map_properties')(
+    #         self.mock_data['context'], data_dict)
 
-        assert len(map_properties) == 4
+    #     assert len(map_properties) == 4
 
-        for i, item in enumerate(mock_map_properties.iteritems()):
-            assert map_properties[i]['value'] == item[0]
-            assert map_properties[i]['text'] == item[1]
+    #     for i, item in enumerate(mock_map_properties.iteritems()):
+    #         assert map_properties[i]['value'] == item[0]
+    #         assert map_properties[i]['text'] == item[0]
 
     def test_get_map_main_property(self):
         data_dict = {
