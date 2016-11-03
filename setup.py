@@ -5,9 +5,20 @@ from os import path
 
 here = path.abspath(path.dirname(__file__))
 
+# Recurse into package files
+def package_files(directory):
+    paths = []
+    for (path, directories, filenames) in os.walk(directory):
+        for filename in filenames:
+            paths.append(os.path.join('..', path, filename))
+    return paths
+
 # Get the long description from the relevant file
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
+
+fanstatic_files = package_files('ckanext/orgdashboards/fanstatic')
+i18n_files = package_files('ckanext/orgdashboards/i18n')
 
 setup(
     name='''ckanext-orgdashboards''',
@@ -66,6 +77,8 @@ setup(
     # have to be included in MANIFEST.in as well.
     include_package_data=True,
     package_data={
+        '': fanstatic_files,
+        '': i18n_files
     },
 
     # Although 'package_data' is the preferred approach, in some case you may
