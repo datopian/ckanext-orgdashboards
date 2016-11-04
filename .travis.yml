@@ -4,5 +4,6 @@ python:
 env:
   - PGVERSION=9.1
 sudo: required
+cache: pip
 install: ./bin/travis-install-dependencies
 script: ./bin/travis-run-tests
