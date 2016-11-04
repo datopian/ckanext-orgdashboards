@@ -3,7 +3,7 @@
 # Exit immediately if any command fails
 set -e
 
-echo "This is travis-install-dependencies..."
+echo "This is travis-install-dependencies... "
 
 
 echo "Installing the packages that CKAN requires..."
