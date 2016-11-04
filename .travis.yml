@@ -2,7 +2,7 @@ language: python
 python:
   - "2.7"
 env:
-  - PGVERSION=9.5
+  - PGVERSION=9.4
 sudo: required
 cache: pip
 install: ./bin/travis-install-dependencies
