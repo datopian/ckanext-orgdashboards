@@ -2,22 +2,12 @@
 
 echo "NO_START=0\nJETTY_HOST=127.0.0.1\nJETTY_PORT=8983\nJAVA_HOME=$JAVA_HOME" | sudo tee /etc/default/jetty
 sudo cp ckan/ckan/config/solr/schema.xml /etc/solr/conf/schema.xml
-sudo service jetty restart &
-sleep 10
+sudo service jetty restart
 
 # We need ckan to be running for some tests
 cd ckan
-mkdir uploads_storage
-paster serve test-core.ini "ckan.storage_path = ckan/uploads_storage" &
+paster serve test-core.ini &
 sleep 5
 cd -
 
 nosetests --ckan --nologcapture --with-pylons=test.travis.ini
-
-# Did an error occur?
-NOSE_ERROR=$?
-
-[ "0" -ne "$NOSE_ERROR" ] && echo NOSE tests have failed
-
-# If an error occurred in our tests make sure travis knows
-exit `expr $MOCHA_ERROR + $NOSE_ERROR`
