@@ -114,9 +114,17 @@
                             {% set country_short_name = h.orgdashboards_get_country_short_name(secondary_language) %}
                             {% set current_locale = secondary_language %}
                             {% set organization_name = h.orgdashboards_get_secondary_dashboard(organization_name) %}
+
+                            {% if country_short_name == 'Bur' %}
+                              {% set country_short_name = 'Mya' %}
+                            {% endif %}
                           {% else %}  
                             {% set flag_url = '/images/flags/' + organization.orgdashboards_secondary_language + '.svg' %}
                             {% set country_short_name = h.orgdashboards_get_country_short_name(current_locale) %}
+
+                            {% if country_short_name == 'Bur' %}
+                              {% set country_short_name = 'Mya' %}
+                            {% endif %}
                           {% endif %}
                           <li>
                               <img class="language-flag" src="{{ flag_url }}" width="20" alt="{{ country_short_name | upper }} flag">
