@@ -114,9 +114,17 @@
                             {% set country_short_name = h.orgdashboards_get_country_short_name(secondary_language) %}
                             {% set current_locale = secondary_language %}
                             {% set organization_name = h.orgdashboards_get_secondary_dashboard(organization_name) %}
+
+                            {% if country_short_name == 'Bur' %}
+                              {% set country_short_name = 'Mya' %}
+                            {% endif %}
                           {% else %}  
                             {% set flag_url = '/images/flags/' + organization.orgdashboards_secondary_language + '.svg' %}
                             {% set country_short_name = h.orgdashboards_get_country_short_name(current_locale) %}
+
+                            {% if country_short_name == 'Bur' %}
+                              {% set country_short_name = 'Mya' %}
+                            {% endif %}
                           {% endif %}
                           <li>
                               <img class="language-flag" src="{{ flag_url }}" width="20" alt="{{ country_short_name | upper }} flag">
@@ -224,11 +232,11 @@
     </div>
     {% if organization.orgdashboards_survey_enabled == '1' %}
         <div id="survey_popup" class="hidden">
-            <h4>Feedback Survey</h4>
+            <h4>{{ _('Feedback Survey') }}</h4>
             <hr>
             <p class="survey_text">{{ organization.orgdashboards_survey_text }}</p>
-            <button id="survey_popup_close" class="btn btn-default">No, thanks</button>
-            <a href="{{ organization.orgdashboards_survey_link }}" id="survey_link_button" class="survey_link btn btn-success" target="_blank">Yes, I'll give feedback</a>
+            <button id="survey_popup_close" class="btn btn-default">{{ _('No, thanks') }}</button>
+            <a href="{{ organization.orgdashboards_survey_link }}" id="survey_link_button" class="survey_link btn btn-success" target="_blank">{{ _("Yes, I'll give feedback") }}</a>
         </div>
     {% endif %}
 
