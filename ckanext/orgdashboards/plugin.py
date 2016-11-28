@@ -5,6 +5,8 @@ import ckan.plugins.toolkit as toolkit
 import ckan.lib.plugins as lib_plugins
 import ckanext.orgdashboards.helpers as helpers
 from ckan.lib.plugins import DefaultTranslation
+from ckan import model as m
+from sqlalchemy import and_
 
 from routes.mapper import SubMapper
 from pylons import config
@@ -32,8 +34,10 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'organization')
         
         ctrl = 'ckanext.orgdashboards.controllers.dashboard:DashboardsController'
-        map.connect('/' + organization_entity_name + '/{name}/dashboard', controller=ctrl, 
-                    action='organization_dashboard')
+        map.connect('/' + organization_entity_name + '/dashboard', controller=ctrl,
+                    action='show_dashboard_by_domain')
+        map.connect('/' + organization_entity_name + '/{name}/dashboard', controller=ctrl,
+                    action='preview_dashboard')
             
         return map
 
@@ -93,6 +97,7 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_footer': default_validators,
             'orgdashboards_description': default_validators,
             'orgdashboards_copyright': default_validators,
+            'orgdashboards_dashboard_url': [_ignore_missing,_convert_to_extras,_domain_validator],
             'orgdashboards_lang_is_active': default_validators,
             'orgdashboards_base_color': default_validators,
             'orgdashboards_secondary_color': default_validators,
@@ -136,6 +141,7 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_description': default_validators,
             'orgdashboards_copyright': default_validators,
             'orgdashboards_lang_is_active': default_validators,
+            'orgdashboards_dashboard_url': [_convert_from_extras, _ignore_missing,_domain_validator],
             'orgdashboards_base_color': default_validators,
             'orgdashboards_secondary_color': default_validators,
             'orgdashboards_is_active': default_validators,
@@ -240,3 +246,22 @@ def _get_logic_functions(module_root, logic_functions = {}):
             
     return logic_functions
         
+def _domain_validator(key, data, errors, context):
+
+    session = context['session']
+    group_name = data[('name',)]
+
+    if not data[key]:
+        return
+
+    query = session.query(m.Group) \
+        .join((m.GroupExtra, m.Group.id == m.GroupExtra.group_id)) \
+        .filter(and_(m.GroupExtra.key == key,
+                     m.GroupExtra.value == data[key],
+                     m.Group.name != group_name))
+
+    result = query.first()
+
+    if result:
+        errors[key].append(
+            toolkit._('Domain name already exists in database'))

@@ -43,6 +43,7 @@ logger = getLogger(__name__)
 
 class DashboardsController(PackageController):
     def organization_dashboard(self, name):
+
         org = get_action('organization_show')({}, {'id': name, 'include_extras': True})
 
         if 'orgdashboards_is_active' in org and org['orgdashboards_is_active'] == '0':
@@ -178,6 +179,7 @@ class DashboardsController(PackageController):
                 facets = plugin.dataset_facets(facets, package_type)
 
             c.facet_titles = facets
+            c.name = name
 
             fq += ' +organization:"{}"'.format(name)
 
@@ -231,7 +233,6 @@ class DashboardsController(PackageController):
 
         self._setup_template_variables(context, {},
                                        package_type=package_type)
-        
 
         return plugins.toolkit.render('dashboards/index.html', extra_vars={'organization': org,
                                                                            'dataset_type': package_type})
@@ -286,3 +287,27 @@ class DashboardsController(PackageController):
             })
 
         return authors_list
+
+    def show_dashboard_by_domain(self):
+
+        name = None
+        url = toolkit.request.url
+
+        org_list = get_action('organization_list')({}, {'all_fields': True, 'include_extras': True})
+
+        for org in org_list:
+            if 'orgdashboards_dashboard_url' in org and org.get('orgdashboards_dashboard_url') == url:
+                name = org.get('name')
+                print name
+
+        if name is None:
+            return plugins.toolkit.render('dashboards/snippets/not_active.html')
+        else:
+            return self.organization_dashboard(name)
+
+    def preview_dashboard(self, name):
+        return self.organization_dashboard(name)
+
+
+
+
