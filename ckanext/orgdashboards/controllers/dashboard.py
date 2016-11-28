@@ -291,17 +291,17 @@ class DashboardsController(PackageController):
     def show_dashboard_by_domain(self):
 
         name = None
-        host = toolkit.request.host
+        url = toolkit.request.url
 
         org_list = get_action('organization_list')({}, {'all_fields': True, 'include_extras': True})
 
         for org in org_list:
-            if 'orgdashboards_dashboard_url' in org and org['orgdashboards_dashboard_url'] == host:
+            if 'orgdashboards_dashboard_url' in org and org['orgdashboards_dashboard_url'] == url:
                 name = org['name']
 
         if name is None:
             c.org_list = org_list
-            c.host = host
+            c.url = url
             return plugins.toolkit.render('dashboards/snippets/domain_not_registered.html')
         else:
             return self.organization_dashboard(name)
