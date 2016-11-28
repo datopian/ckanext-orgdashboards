@@ -100,7 +100,7 @@
                     <ul class="list-inline">
                         <li>
                             <img class="language-flag" src="/images/flags/en.svg" width="20" alt="UK flag">
-                            <a href="{{ h.url_for(controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController', action='organization_dashboard', name=organization_name, locale='en') }}" class="language-picker-link">
+                            <a href="{{ h.url_for(controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController', action='show_dashboard_by_domain', locale='en') }}" class="language-picker-link">
                                 <span class="language-name">En</span>
                             </a>
                         </li>
@@ -128,7 +128,7 @@
                           {% endif %}
                           <li>
                               <img class="language-flag" src="{{ flag_url }}" width="20" alt="{{ country_short_name | upper }} flag">
-                              <a href="{{ h.url_for(controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController', action='organization_dashboard', name=organization_name, locale=current_locale) }}" class="language-picker-link">
+                              <a href="{{ h.url_for(controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController', action='show_dashboard_by_domain', locale=current_locale) }}" class="language-picker-link">
                                   <span class="language-name">{{ country_short_name }}</span>
                               </a>
                           </li>
