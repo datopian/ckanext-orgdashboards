@@ -34,8 +34,8 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'organization')
         
         ctrl = 'ckanext.orgdashboards.controllers.dashboard:DashboardsController'
-        map.connect('/' + organization_entity_name + '/dashboard', controller=ctrl,
-                    action='show_dashboard_by_domain')
+        map.connect('', controller=ctrl, action='show_dashboard_by_domain')
+
         map.connect('/' + organization_entity_name + '/{name}/dashboard', controller=ctrl,
                     action='preview_dashboard')
             
@@ -250,7 +250,7 @@ def _domain_validator(key, data, errors, context):
 
     session = context['session']
     group_name = data[('name',)]
-    
+
     if not data[key]:
         return
 

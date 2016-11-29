@@ -293,6 +293,10 @@ class DashboardsController(PackageController):
         name = None
         url = toolkit.request.url
 
+        if url == config.get('ckan.site_url'):
+            plugins.toolkit.redirect_to(controller='home', action='index')
+
+
         org_list = get_action('organization_list')({}, {'all_fields': True, 'include_extras': True})
 
         for org in org_list:
