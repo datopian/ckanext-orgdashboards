@@ -250,13 +250,13 @@ def _domain_validator(key, data, errors, context):
 
     session = context['session']
     group_name = data[('name',)]
-
+    
     if not data[key]:
         return
 
     query = session.query(m.Group) \
         .join((m.GroupExtra, m.Group.id == m.GroupExtra.group_id)) \
-        .filter(and_(m.GroupExtra.key == key,
+        .filter(and_(m.GroupExtra.key == 'orgdashboards_dashboard_url',
                      m.GroupExtra.value == data[key],
                      m.Group.name != group_name))
 
