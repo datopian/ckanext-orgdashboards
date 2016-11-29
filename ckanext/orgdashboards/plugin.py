@@ -34,7 +34,7 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'organization')
         
         ctrl = 'ckanext.orgdashboards.controllers.dashboard:DashboardsController'
-        map.connect('', controller=ctrl, action='show_dashboard_by_domain')
+        map.connect('/', controller=ctrl, action='show_dashboard_by_domain')
 
         map.connect('/' + organization_entity_name + '/{name}/dashboard', controller=ctrl,
                     action='preview_dashboard')

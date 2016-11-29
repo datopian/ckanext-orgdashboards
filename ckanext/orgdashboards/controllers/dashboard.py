@@ -291,23 +291,27 @@ class DashboardsController(PackageController):
     def show_dashboard_by_domain(self):
 
         name = None
-        url = toolkit.request.url
-
-        if url == config.get('ckan.site_url'):
-            plugins.toolkit.redirect_to(controller='home', action='index')
+        request_url = toolkit.request.url
+        ckan_base_url = config.get('ckan.site_url') + '/'
 
 
-        org_list = get_action('organization_list')({}, {'all_fields': True, 'include_extras': True})
+        if request_url != ckan_base_url:
 
-        for org in org_list:
-            if 'orgdashboards_dashboard_url' in org and org['orgdashboards_dashboard_url'] == url:
-                name = org['name']
+            org_list = get_action('organization_list')({}, {'all_fields': True, 'include_extras': True})
 
-        if name is None:
-            c.url = url
-            return plugins.toolkit.render('dashboards/snippets/domain_not_registered.html')
+            for org in org_list:
+                if 'orgdashboards_dashboard_url' in org and org['orgdashboards_dashboard_url'] == request_url:
+                    name = org['name']
+
+            if name is None:
+                c.url = request_url
+                return plugins.toolkit.render('dashboards/snippets/domain_not_registered.html')
+            else:
+                return self.organization_dashboard(name)
+
         else:
-            return self.organization_dashboard(name)
+            return plugins.toolkit.render('home/index.html')
+
 
     def preview_dashboard(self, name):
         return self.organization_dashboard(name)
