@@ -1,6 +1,7 @@
 import logging
 from logging import getLogger
 from urllib import urlencode
+from urlparse import urlparse
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
@@ -291,17 +292,18 @@ class DashboardsController(PackageController):
     def show_dashboard_by_domain(self):
 
         name = None
-        request_url = toolkit.request.url
-        ckan_base_url = config.get('ckan.site_url') + '/'
-
-
-        if request_url != ckan_base_url:
+        request_url = urlparse(toolkit.request.url)
+        ckan_base_url = urlparse(config.get('ckan.site_url'))
+        
+        if request_url.netloc != ckan_base_url.netloc:
 
             org_list = get_action('organization_list')({}, {'all_fields': True, 'include_extras': True})
 
             for org in org_list:
-                if 'orgdashboards_dashboard_url' in org and org['orgdashboards_dashboard_url'] == request_url:
-                    name = org['name']
+                if 'orgdashboards_dashboard_url' in org:
+                    org_url = urlparse(org['orgdashboards_dashboard_url'])
+                    if org_url.netloc == request_url.netloc:
+                        name = org['name']
 
             if name is None:
                 c.url = request_url
