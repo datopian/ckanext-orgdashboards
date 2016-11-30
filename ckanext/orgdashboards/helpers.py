@@ -336,7 +336,7 @@ def orgdashboards_get_dashboard_url(org_name):
 
     org = _get_action('organization_show', {}, {'id': org_name})
 
-    if 'orgdashboards_dashboard_url' in org:
+    if 'orgdashboards_dashboard_url' in org and org['orgdashboards_dashboard_url'] != '':
 
         url = urlparse(org['orgdashboards_dashboard_url'])
         url = url.scheme + '://' + url.netloc
