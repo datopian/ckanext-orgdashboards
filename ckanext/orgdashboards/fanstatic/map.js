@@ -4,8 +4,8 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
 
 (function (self, $) {
 
-  self.init = function init(elementId, organizationName, mapURL, color, mainProperty) {
-    renderMap(elementId, organizationName, mapURL, color, mainProperty);
+  self.init = function init(elementId, organizationName, mapURL, color, mainProperty, _) {
+    renderMap(elementId, organizationName, mapURL, color, mainProperty, _);
   };
 
   var pathName = window.location.pathname;
@@ -18,7 +18,7 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
     organization_entity_name = 'organization';
   }
 
-  function renderMap(elementId, organizationName, mapURL, color, mainProperty) {
+  function renderMap(elementId, organizationName, mapURL, color, mainProperty, _) {
     var mainProperties = [];
     var fitBounds = false;
 
@@ -148,7 +148,8 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
 
           var select_dataset = $('#dataset');
           var select_resource = $('#orgdashboards_resource');
-          select_dataset.append("<option>{{ _('Select Data Point') }}</option>");
+          var select_placeholder = _('Select Data Point');
+          select_dataset.append('<option>' + select_placeholder + '</option>');
 
           for (var elem in layers) {
             select_dataset.append('<option>' + layers[elem].name + '</option>');
