@@ -4,8 +4,8 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
 
 (function (self, $) {
 
-  self.init = function init(elementId, organizationName, mapURL, color, mainProperty, _) {
-    renderMap(elementId, organizationName, mapURL, color, mainProperty, _);
+  self.init = function init(elementId, organizationName, mapURL, color, mainProperty) {
+    renderMap(elementId, organizationName, mapURL, color, mainProperty);
   };
 
   var pathName = window.location.pathname;
@@ -18,7 +18,7 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
     organization_entity_name = 'organization';
   }
 
-  function renderMap(elementId, organizationName, mapURL, color, mainProperty, _) {
+  function renderMap(elementId, organizationName, mapURL, color, mainProperty) {
     var mainProperties = [];
     var fitBounds = false;
 

@@ -107,10 +107,6 @@ msgstr "ဤေျမပံုအား တိတိက်က်ျဖစ္ေ�
 msgid "contributors"
 msgstr "ပါဝင္ကူညီသူမ်ား"
 
-#: ckanext/orgdashboards/templates/dashboards/index.html:202
-#msgid "Select Data Point"
-#msgstr ""
-
 #: ckanext/orgdashboards/templates/dashboards/index.html:217
 msgid "Newly Released Data"
 msgstr "အသစ္ထုတ္ျပန္ထားေသာ အခ်က္အလက္မ်ား"
