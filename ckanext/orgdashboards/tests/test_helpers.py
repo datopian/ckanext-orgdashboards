@@ -297,7 +297,7 @@ class TestHelpers():
     def test_get_current_url(self):
         controller =\
             'ckanext.orgdashboards.controllers.dashboard:DashboardsController'
-        action = 'organization_dashboard'
+        action = 'preview_dashboard'
         name = self.mock_data['organization_name']
         page = 5
 

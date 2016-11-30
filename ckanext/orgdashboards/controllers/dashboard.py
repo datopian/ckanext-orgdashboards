@@ -294,7 +294,7 @@ class DashboardsController(PackageController):
         name = None
         request_url = urlparse(toolkit.request.url)
         ckan_base_url = urlparse(config.get('ckan.site_url'))
-        
+
         if request_url.netloc != ckan_base_url.netloc:
 
             org_list = get_action('organization_list')({}, {'all_fields': True, 'include_extras': True})
