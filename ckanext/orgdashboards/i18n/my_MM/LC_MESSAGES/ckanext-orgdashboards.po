@@ -108,8 +108,8 @@ msgid "contributors"
 msgstr "ပါဝင္ကူညီသူမ်ား"
 
 #: ckanext/orgdashboards/templates/dashboards/index.html:202
-msgid "Select Data Point"
-msgstr "ေဒတာအခ်က္ကို ေရြးခ်ယ္ပါ။"
+#msgid "Select Data Point"
+#msgstr ""
 
 #: ckanext/orgdashboards/templates/dashboards/index.html:217
 msgid "Newly Released Data"

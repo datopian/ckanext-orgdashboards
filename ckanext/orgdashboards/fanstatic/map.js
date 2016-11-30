@@ -148,8 +148,7 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
 
           var select_dataset = $('#dataset');
           var select_resource = $('#orgdashboards_resource');
-          var select_placeholder = _('Select Data Point');
-          select_dataset.append('<option>' + select_placeholder + '</option>');
+          select_dataset.append('<option>Select Data Point</option>');
 
           for (var elem in layers) {
             select_dataset.append('<option>' + layers[elem].name + '</option>');
