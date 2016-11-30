@@ -330,3 +330,8 @@ def orgdashboards_get_facet_items_dict(value):
         return h.get_facet_items_dict(value)
     except:
         return None
+
+def orgdashboards_get_dashboard_url(org_name):
+    org = _get_action('organization_show', {}, {'id': org_name})
+
+    return org['orgdashboards_dashboard_url']

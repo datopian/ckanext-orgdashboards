@@ -135,10 +135,11 @@
                               {% set country_short_name = 'Mya' %}
                             {% endif %}
                           {% endif %}
+                     
                           <li>
                               <img class="language-flag" src="{{ flag_url }}" width="20" alt="{{ country_short_name | upper }} flag">
                               {% if action == 'show_dashboard_by_domain' %}
-                                <a href="{{ h.url_for(controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController', action='show_dashboard_by_domain', locale=current_locale) }}" class="language-picker-link">
+                                <a href="{{ h.orgdashboards_get_dashboard_url(c.name) }}" class="language-picker-link">
                                     <span class="language-name">{{ country_short_name }}</span>
                                 </a>
                               {% else %}
