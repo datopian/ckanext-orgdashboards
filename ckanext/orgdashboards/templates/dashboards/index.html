@@ -209,6 +209,7 @@
               data-module="orgdashboards_map"
               data-module-id="hero_map"
               data-module-map_selector_name="{{ _('Select Data Point') }}"
+              data-module-organization_entity_name="{{ organization_entity_name }}"
               {% if orgdashboards_geoJsonUrlList|length > 0 %}
                 data-module-mapurl="{{ orgdashboards_geoJsonUrlList|join(',') }}"
               {% else %}
