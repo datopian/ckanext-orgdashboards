@@ -105,7 +105,7 @@ function toggleResources(resourceId) {
  */
 function _setActiveLanguage() {
   var languageSelector = $('.language-selector');
-  var currentLanguage = $('html').attr('lang');
+  var currentLanguage = $('#current_locale').attr('locale') || 'en';
   var languageElement;
   
   if (currentLanguage === 'en') {

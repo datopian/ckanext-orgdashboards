@@ -13,6 +13,7 @@ from ckan.controllers.package import (PackageController,
                                       _encode_params)
 
 from pylons import config
+from pylons.i18n.translation import set_lang
 from paste.deploy.converters import asbool
 
 import ckan.logic as logic
@@ -22,6 +23,8 @@ import ckan.lib.helpers as h
 import ckan.model as model
 import ckan.plugins as p
 import ckan.lib.render
+
+from ckanext.orgdashboards import helpers
 
 log = logging.getLogger(__name__)
 
@@ -304,6 +307,12 @@ class DashboardsController(PackageController):
                     org_url = urlparse(org['orgdashboards_dashboard_url'])
                     if org_url.netloc == request_url.netloc:
                         name = org['name']
+
+                        if 'orgdashboards_secondary_dashboard' in org and org['orgdashboards_secondary_dashboard'] != 'none':
+                            locale = helpers.orgdashboards_get_secondary_language(org['orgdashboards_secondary_dashboard'])
+                            if locale != 'none' and locale != 'en':
+                                set_lang(locale)
+
 
             if name is None:
                 c.url = toolkit.request.url
