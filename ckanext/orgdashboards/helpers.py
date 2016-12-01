@@ -3,6 +3,7 @@ import os
 
 from datetime import datetime
 from urllib import urlencode
+from urlparse import urlparse
 
 from pylons import config
 
@@ -332,6 +333,14 @@ def orgdashboards_get_facet_items_dict(value):
         return None
 
 def orgdashboards_get_dashboard_url(org_name):
+
     org = _get_action('organization_show', {}, {'id': org_name})
 
-    return org['orgdashboards_dashboard_url']
+    if 'orgdashboards_dashboard_url' in org and org['orgdashboards_dashboard_url'] != '':
+
+        url = urlparse(org['orgdashboards_dashboard_url'])
+        url = url.scheme + '://' + url.netloc
+
+        return url
+    else:
+        return ''

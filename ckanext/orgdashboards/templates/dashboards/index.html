@@ -101,13 +101,16 @@
                 <div class="col-sm-2 col-md-2 language-selector">
                     <ul class="list-inline">
                         <li>
-                            <img class="language-flag" src="/images/flags/en.svg" width="20" alt="UK flag">
                             {% if action == 'show_dashboard_by_domain' %}
-                              <a href="{{ h.url_for(controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController', action='show_dashboard_by_domain', locale='en') }}" class="language-picker-link">
-                                  <span class="language-name">En</span>
-                              </a>
+                              {% if h.orgdashboards_get_dashboard_url(organization_name) != ''%}
+                                <img class="language-flag" src="/images/flags/en.svg" width="20" alt="UK flag">
+                                <a href="{{  h.orgdashboards_get_dashboard_url(organization_name) }}/en" class="language-picker-link">
+                                    <span class="language-name">En</span>
+                                </a>
+                              {% endif %}
                             {% else %}
-                              <a href="{{ h.url_for(controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController', action='preview_dashboard', name=c.name, locale='en') }}" class="language-picker-link">
+                              <img class="language-flag" src="/images/flags/en.svg" width="20" alt="UK flag">
+                              <a href="{{ h.url_for(controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController', action='preview_dashboard', name=organization_name, locale='en') }}" class="language-picker-link">
                                   <span class="language-name">En</span>
                               </a>
                             {% endif %}
@@ -137,13 +140,16 @@
                           {% endif %}
                      
                           <li>
-                              <img class="language-flag" src="{{ flag_url }}" width="20" alt="{{ country_short_name | upper }} flag">
                               {% if action == 'show_dashboard_by_domain' %}
-                                <a href="{{ h.orgdashboards_get_dashboard_url(c.name) }}" class="language-picker-link">
-                                    <span class="language-name">{{ country_short_name }}</span>
-                                </a>
+                                {% if h.orgdashboards_get_dashboard_url(organization_name) != ''%}
+                                  <img class="language-flag" src="{{ flag_url }}" width="20" alt="{{ country_short_name | upper }} flag">
+                                  <a href="{{ h.orgdashboards_get_dashboard_url(organization_name) }}/{{ current_locale }}" class="language-picker-link">
+                                      <span class="language-name">{{ country_short_name }}</span>
+                                  </a>
+                                {% endif %}
                               {% else %}
-                                <a href="{{ h.url_for(controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController', action='preview_dashboard', name=c.name, locale=current_locale) }}" class="language-picker-link">
+                                <img class="language-flag" src="{{ flag_url }}" width="20" alt="{{ country_short_name | upper }} flag">
+                                <a href="{{ h.url_for(controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController', action='preview_dashboard', name=organization_name, locale=current_locale) }}" class="language-picker-link">
                                     <span class="language-name">{{ country_short_name }}</span>
                                 </a>
                               {% endif %}

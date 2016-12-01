@@ -306,7 +306,7 @@ class DashboardsController(PackageController):
                         name = org['name']
 
             if name is None:
-                c.url = request_url
+                c.url = toolkit.request.url
                 return plugins.toolkit.render('dashboards/snippets/domain_not_registered.html')
             else:
                 return self.organization_dashboard(name)
