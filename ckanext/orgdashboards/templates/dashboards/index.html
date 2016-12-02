@@ -93,13 +93,6 @@
                 </div>
 
               {% if organization.orgdashboards_lang_is_active == '1'%}
-
-                {% if organization.orgdashboards_secondary_dashboard and organization.orgdashboards_secondary_dashboard != 'none' and organization.orgdashboards_secondary_language and organization.orgdashboards_secondary_language != 'none' %}
-                  {% set organization_name = organization.orgdashboards_secondary_dashboard %}
-                  <meta id="current_locale" locale="{{h.orgdashboards_get_secondary_language(organization_name)}}">
-                {% endif %}
-
-
                 {% if organization.orgdashboards_secondary_language == 'en' %}
                   {% set organization_name = organization.orgdashboards_secondary_dashboard %}
                 {% else  %}
