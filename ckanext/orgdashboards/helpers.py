@@ -71,7 +71,10 @@ def orgdashboards_replace_or_add_url_param(name, value, params, controller,
 
     params.append((name, value))
 
-    url = h.url_for(controller=controller, action=action, name=context_name)
+    if action == 'show_dashboard_by_domain':
+        url = h.url_for(controller=controller, action=action)
+    else:
+        url = h.url_for(controller=controller, action=action, name=context_name)
 
     params = [(k, v.encode('utf-8') if isinstance(v, basestring) else str(v))
                   for k, v in params]
