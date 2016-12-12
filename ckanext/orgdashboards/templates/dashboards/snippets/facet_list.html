@@ -11,7 +11,11 @@ name
         <select class="form-control orgdashboards-filters {{ organization_name|lower }}">
             {% block facet_list_items %}
                 {% with items = h.get_facet_items_dict(name.value) %}
-                    {% set extras={'name': c.name} %}
+                    {% if c.action == 'show_dashboard_by_domain' %}
+                        {% set extras={} %}
+                    {% elif %}
+                        {% set extras={'name': c.name} %}
+                    {% endif %}
                     <option value="{{ h.remove_url_param(key=name.value, controller=c.controller, action=c.action, extras=extras) }}">{{ name.name }}</option>
                     {% if items %}
                         {% for item in items %}
