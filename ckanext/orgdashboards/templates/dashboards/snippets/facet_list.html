@@ -13,7 +13,7 @@ name
                 {% with items = h.get_facet_items_dict(name.value) %}
                     {% if c.action == 'show_dashboard_by_domain' %}
                         {% set extras={} %}
-                    {% elif %}
+                    {% else %}
                         {% set extras={'name': c.name} %}
                     {% endif %}
                     <option value="{{ h.remove_url_param(key=name.value, controller=c.controller, action=c.action, extras=extras) }}">{{ name.name }}</option>
