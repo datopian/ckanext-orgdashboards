@@ -45,3 +45,5 @@ idea/
 .idea/
 
 *.geojson
+*.mo
+!ckanext/orgdashboards/tests/data.geojson

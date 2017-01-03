@@ -5,9 +5,9 @@
     {% resource 'orgdashboards/map' %}
     {% resource 'orgdashboards/vendor/jquery-1_12_3.js' %}
     {% resource 'orgdashboards/vendor/js.cookie.js' %}
+    {% resource 'orgdashboards/vendor/jquery.popupoverlay.js' %}
     {% resource 'orgdashboards/dashboard.js' %}
     {% resource 'orgdashboards/font-awesome.css' %}
-    {% resource 'orgdashboards/vendor/jquery.popupoverlay.js' %}
 {% endblock %}
 
 {% if organization.orgdashboards_base_color %}
@@ -62,6 +62,8 @@
 {% set orgdashboards_resource_names = h.orgdashboards_get_resource_names_from_ids(organizations_maps) %}
 {% endif %}
 
+{% set organization_entity_name = h.orgdashboards_get_organization_entity_name() %}
+
 
 {#  set base_color = "#" + organization.orgdashboards_base_color #}
 {# set secondary_color = "#" + organization.orgdashboards_secondary_color #}
@@ -76,8 +78,13 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-5 col-md-3 organization-logo">
+                    {% if organization_entity_name == 'country' %}
+                      {% set logo_prefix = 'USEDATA' %}
+                    {% elif organization_entity_name == 'organization' %}
+                      {% set logo_prefix = 'Organization' %}
+                    {% endif %}
                     <a href="#"><img class="img-responsive" src="{{ organization.image_display_url }}" height="130"
-                                     alt="USEDATA logo"></a>
+                                     alt="{{ logo_prefix }} logo"></a>
                 </div>
                 <div class="col-sm-5 col-md-3">
                   <h1 class="">{{ organization.orgdashboards_header }}</h1>
@@ -107,9 +114,17 @@
                             {% set country_short_name = h.orgdashboards_get_country_short_name(secondary_language) %}
                             {% set current_locale = secondary_language %}
                             {% set organization_name = h.orgdashboards_get_secondary_dashboard(organization_name) %}
+
+                            {% if country_short_name == 'Bur' %}
+                              {% set country_short_name = 'Mya' %}
+                            {% endif %}
                           {% else %}  
                             {% set flag_url = '/images/flags/' + organization.orgdashboards_secondary_language + '.svg' %}
                             {% set country_short_name = h.orgdashboards_get_country_short_name(current_locale) %}
+
+                            {% if country_short_name == 'Bur' %}
+                              {% set country_short_name = 'Mya' %}
+                            {% endif %}
                           {% endif %}
                           <li>
                               <img class="language-flag" src="{{ flag_url }}" width="20" alt="{{ country_short_name | upper }} flag">
@@ -125,10 +140,17 @@
     <nav class="top-navigation pull-right" style="background-color: {{ base_color }}">
         <div class="">
             <ul class="list-inline">
-                <li><a href="http://www.usedata.info/about-2/">{{ _('About') }}</a></li>
-                <li><a href="http://www.usedata.info/help/">{{ _('Help') }}</a></li>
-                <li><a href="http://www.usedata.info/resources/">{{ _('Resources') }}</a></li>
-                <li><a href="http://www.usedata.info/contact/">{{ _('Contact') }}</a></li>
+                {% if organization_entity_name == 'country' %}
+                  <li><a href="http://www.usedata.info/about-2/">{{ _('About') }}</a></li>
+                  <li><a href="http://www.usedata.info/help/">{{ _('Help') }}</a></li>
+                  <li><a href="http://www.usedata.info/resources/">{{ _('Resources') }}</a></li>
+                  <li><a href="http://www.usedata.info/contact/">{{ _('Contact') }}</a></li>
+                {% elif organization_entity_name == 'organization' %}
+                  <li><a href="#">{{ _('About') }}</a></li>
+                  <li><a href="#">{{ _('Help') }}</a></li>
+                  <li><a href="#">{{ _('Resources') }}</a></li>
+                  <li><a href="#">{{ _('Contact') }}</a></li>
+                {% endif %}
             </ul>
         </div>
     </nav>
@@ -184,9 +206,13 @@
             <div class="media-left">
                 <img id="map-info-img" class="language-flag" src="/images/usedata-info-icon.svg" width="41" alt="icon">
             </div>
-            <div class="media-body hidden">{{ _('All efforts have been made to make this map accurate. However, USEDATA and its
-                Service Providers accept no liability for any errors, omissions, or inaccuracies in the information
-                provided on this map.') }} © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> {{ _('contributors') }}
+            {% if organization_entity_name == 'country' %}
+              {% set disclaimer_prefix = 'USEDATA and its ' %}
+            {% elif organization_entity_name == 'organization' %}
+              {% set disclaimer_prefix = '' %}
+            {% endif %}
+            {% set disclaimer_text = 'All efforts have been made to make this map accurate. However, {disclaimer_prefix}Service Providers accept no liability for any errors, omissions, or inaccuracies in the information provided on this map.'.format(disclaimer_prefix=disclaimer_prefix) %}
+            <div class="media-body hidden">{{ _(disclaimer_text) }} © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> {{ _('contributors') }}
             </div>
         </div>
       </div>
@@ -204,13 +230,13 @@
                 <a href="#" class="more-link">Read less</a></p>
         </div>
     </div>
-    {% if organization.orgdashboards_survey_link == '1' %}
+    {% if organization.orgdashboards_survey_enabled == '1' %}
         <div id="survey_popup" class="hidden">
-            <h4>Feedback Survey</h4>
+            <h4>{{ _('Feedback Survey') }}</h4>
             <hr>
             <p class="survey_text">{{ organization.orgdashboards_survey_text }}</p>
-            <button id="survey_popup_close" class="btn btn-default">No, thanks</button>
-            <a href="{{ organization.orgdashboards_survey_link }}" id="survey_link_button" class="survey_link btn btn-success" target="_blank">Yes, I'll give feedback</a>
+            <button id="survey_popup_close" class="btn btn-default">{{ _('No, thanks') }}</button>
+            <a href="{{ organization.orgdashboards_survey_link }}" id="survey_link_button" class="survey_link btn btn-success" target="_blank">{{ _("Yes, I'll give feedback") }}</a>
         </div>
     {% endif %}
 
@@ -263,13 +289,14 @@
               <i class="fa fa-expand pull-right"></i>
             </a>
             </h2>
+            {% set organization_name = c.name %}
             <div
                 id="newly-released-data"
                 class="hidden"
                 style="border-top: 3px solid {{ base_color }};
                        border-bottom: 3px solid {{ base_color }}">
                 {{ h.snippet('dashboards/snippets/show_datasets.html',
-                              packages=h.orgdashboards_get_newly_released_data(),
+                              packages=h.orgdashboards_get_newly_released_data(organization_name),
                               datasets_group_name='newdata',
                               color=font_new_data_color) }}
             </div>
@@ -339,12 +366,21 @@
             <div class="row">
                 <div class="col-md-2 col-lg-4">
                     <ul class="list-unstyled list-footer-nav">
-                        <li><a href="http://www.usedata.info/about-2/">{{ _('About') }}</a></li>
-                        <li><a href="http://www.usedata.info/help/">{{ _('Help') }}</a></li>
-                        <li><a href="http://www.usedata.info/resources/">{{ _('Resources') }}</a></li>
-                        <li><a href="http://www.usedata.info/">{{ _('About USEDATA') }}</a></li>
-                        <li><a href="http://www.usedata.info/contact/">{{ _('Contact') }}</a></li>
-                        <li><a href="http://www.usedata.info/terms-of-use-2/">{{ _('Terms of use') }}</a></li>
+                        {% if organization_entity_name == 'country' %}
+                          <li><a href="http://www.usedata.info/about-2/">{{ _('About') }}</a></li>
+                          <li><a href="http://www.usedata.info/help/">{{ _('Help') }}</a></li>
+                          <li><a href="http://www.usedata.info/resources/">{{ _('Resources') }}</a></li>
+                          <li><a href="http://www.usedata.info/">{{ _('About USEDATA') }}</a></li>
+                          <li><a href="http://www.usedata.info/contact/">{{ _('Contact') }}</a></li>
+                          <li><a href="http://www.usedata.info/terms-of-use-2/">{{ _('Terms of use') }}</a></li>
+                        {% elif organization_entity_name == 'organization' %}
+                          {% set logo_prefix = 'Organization' %}
+                          <li><a href="#">{{ _('About') }}</a></li>
+                          <li><a href="#">{{ _('Help') }}</a></li>
+                          <li><a href="#">{{ _('Resources') }}</a></li>
+                          <li><a href="#">{{ _('Contact') }}</a></li>
+                          <li><a href="#">{{ _('Terms of use') }}</a></li>
+                        {% endif %}
                     </ul>
                 </div>
                 <div class="col-md-2 col-lg-3">
@@ -366,13 +402,15 @@
                         -->
                     </ul>
                 </div>
-                <div class="col-md-8 col-lg-5">
-                    <ul class="list-inline list-footer-logos">
-                        <li><a href="#"><img src="/img/ukaid-logo-246x260.png" height="130" alt="UKAID logo"></a></li>
-                        <li><a href="#"><img src="/img/montrose-logo-720x240.png" height="100" alt="Montrose logo"></a>
-                        </li>
-                    </ul>
-                </div>
+                {% if organization_entity_name == 'country' %}
+                  <div class="col-md-8 col-lg-5">
+                      <ul class="list-inline list-footer-logos">
+                          <li><a href="#"><img src="/img/ukaid-logo-246x260.png" height="130" alt="UKAID logo"></a></li>
+                          <li><a href="#"><img src="/img/montrose-logo-720x240.png" height="100" alt="Montrose logo"></a>
+                          </li>
+                      </ul>
+                  </div>
+                {% endif %}
             </div>
             <div class="copyright">© {{ organization.orgdashboards_copyright }}</div>
         </div>

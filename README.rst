@@ -8,26 +8,6 @@
 .. image:: https://coveralls.io/repos/keitaroinc/ckanext-orgdashboards/badge.svg
   :target: https://coveralls.io/r/keitaroinc/ckanext-orgdashboards
 
-.. image:: https://pypip.in/download/ckanext-orgdashboards/badge.svg
-    :target: https://pypi.python.org/pypi//ckanext-orgdashboards/
-    :alt: Downloads
-
-.. image:: https://pypip.in/version/ckanext-orgdashboards/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-orgdashboards/
-    :alt: Latest Version
-
-.. image:: https://pypip.in/py_versions/ckanext-orgdashboards/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-orgdashboards/
-    :alt: Supported Python versions
-
-.. image:: https://pypip.in/status/ckanext-orgdashboards/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-orgdashboards/
-    :alt: Development Status
-
-.. image:: https://pypip.in/license/ckanext-orgdashboards/badge.svg
-    :target: https://pypi.python.org/pypi/ckanext-orgdashboards/
-    :alt: License
-
 =============
 ckanext-orgdashboards
 =============
@@ -212,9 +192,21 @@ Additional flags for countries can be taken from http://flag-icon-css.lip.is
 Running the Tests
 -----------------
 
-To run the tests, do::
+Some of the tests require that you run a CKAN server, the one where the
+orgdashboards extension is installed. 
 
-    nosetests --nologcapture --with-pylons=test.ini
+First create a new database called ``ckan_test`` if you haven't already, and 
+in the config file for the server change the ``sqlalchemy.url`` to point to the
+database ``ckan_test``. This database will be used by the tests.
+
+And second, set a storage path in the config file where uploaded resources will
+be stored.
+
+ckan.storage_path = /path/to/storage
+
+To run the tests, change the current working directory to the extension and do::
+
+    nosetests --ckan --with-pylons=test.ini
 
 To run the tests and produce a coverage report, first make sure you have
 coverage installed in your virtualenv (``pip install coverage``) then run::

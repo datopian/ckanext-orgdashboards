@@ -30,10 +30,10 @@ def _get_ctx():
 def _get_action(action, context_dict, data_dict):
     return p.toolkit.get_action(action)(context_dict, data_dict)
 
-def orgdashboards_get_newly_released_data(limit=4):
+def orgdashboards_get_newly_released_data(organization_name, limit=4):
     try:
         pkg_search_results = toolkit.get_action('package_search')(data_dict={
-            'fq': ' organization:{}'.format(c.name),
+            'fq': ' organization:{}'.format(organization_name),
             'sort': 'metadata_modified desc',
             'rows': limit
         })['results']
@@ -57,10 +57,8 @@ def orgdashboards_convert_time_format(package):
     return modified.strftime("%d %B %Y")
 
 
-def orgdashboards_replace_or_add_url_param(name, value):
-    params = request.params.items()
-    # params = set(params)
-
+def orgdashboards_replace_or_add_url_param(name, value, params, controller, 
+    action, context_name):
     for k, v in params:
         # Reset the page to the first one
         if k == 'page':
@@ -72,10 +70,7 @@ def orgdashboards_replace_or_add_url_param(name, value):
 
     params.append((name, value))
 
-    controller = c.controller
-    action = c.action
-
-    url = h.url_for(controller=controller, action=c.action, name=c.name)
+    url = h.url_for(controller=controller, action=action, name=context_name)
 
     params = [(k, v.encode('utf-8') if isinstance(v, basestring) else str(v))
                   for k, v in params]
@@ -119,7 +114,7 @@ def orgdashboards_get_organization_list():
                        'include_extras': True, 
                        'include_followers': True})
 
-def orgdashboards_get_all_organizations():
+def orgdashboards_get_all_organizations(current_org_name):
     ''' Get all created organizations '''
 
     organizations = _get_action('organization_list', {}, {'all_fields': True})
@@ -133,7 +128,7 @@ def orgdashboards_get_all_organizations():
                     )
 
     # Filter out the current organization in the list
-    organizations = [x for x in organizations if x['value'] != c.id]
+    organizations = [x for x in organizations if x['value'] != current_org_name]
 
     organizations.insert(0, {'value': 'none', 'text': 'None'})
 
@@ -249,7 +244,7 @@ def orgdashboards_get_geojson_properties(resource_id):
         
     result = []
     for k, v in geojson.get('features')[0].get('properties').iteritems():
-        result.append({'value':k, 'text': v})
+        result.append({'value':k, 'text': k})
 
     return result
 
@@ -296,10 +291,8 @@ def orgdashboards_get_secondary_dashboard(organization_name):
     else:
         return 'none'
 
-def orgdashboards_get_current_url(page, exclude_param=''):
-    params = request.params.items()
-
-    url = h.url_for(controller=c.controller, action=c.action, name=c.name)
+def orgdashboards_get_current_url(page, params, controller, action, name, exclude_param=''):
+    url = h.url_for(controller=controller, action=action, name=name)
 
     for k, v in params:
         if k == exclude_param:
@@ -327,3 +320,9 @@ def orgdashboards_get_organization_entity_name():
 def orgdashboards_get_group_entity_name():
     return config.get('ckanext.orgdashboards.group_entity_name', 
             'group')
+
+def orgdashboards_get_facet_items_dict(value):
+    try:
+        return h.get_facet_items_dict(value)
+    except:
+        return None

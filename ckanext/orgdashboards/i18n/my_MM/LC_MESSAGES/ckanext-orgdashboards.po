@@ -1,0 +1,570 @@
+# Burmese (Myanmar) translations for ckanext-orgdashboards.
+# Copyright (C) 2016 ORGANIZATION
+# This file is distributed under the same license as the ckanext-orgdashboards
+# project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: ckanext-orgdashboards 0.0.1\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2016-09-09 15:03+0200\n"
+"PO-Revision-Date: 2016-09-09 15:27+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: my_MM <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: ckanext/orgdashboards/controllers/dashboard.py:58
+msgid "Not authorized to see this page"
+msgstr ""
+
+#: ckanext/orgdashboards/controllers/dashboard.py:158
+msgid "Organizations"
+msgstr ""
+
+#: ckanext/orgdashboards/controllers/dashboard.py:159
+msgid "Groups"
+msgstr ""
+
+#: ckanext/orgdashboards/controllers/dashboard.py:160
+#: ckanext/orgdashboards/templates/dashboards/index.html:239
+msgid "Tags"
+msgstr "လိုင္စင္"
+
+#: ckanext/orgdashboards/controllers/dashboard.py:161
+msgid "Formats"
+msgstr ""
+
+#: ckanext/orgdashboards/controllers/dashboard.py:162
+#: ckanext/orgdashboards/templates/dashboards/index.html:241
+msgid "Licenses"
+msgstr "လုိင္စင္မ်ား"
+
+#: ckanext/orgdashboards/controllers/dashboard.py:172
+#: ckanext/orgdashboards/templates/dashboards/index.html:242
+msgid "Authors"
+msgstr "စာတမ္းျပဳစုသူမ်ား"
+
+#: ckanext/orgdashboards/controllers/dashboard.py:221
+msgid "Parameter \"{parameter_name}\" is not an integer"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/header.html:10
+#: ckanext/orgdashboards/templates/snippets/organization.html:59
+msgid "Datasets"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/header.html:11
+#: ckanext/orgdashboards/templates/organization/edit_base.html:4
+#: ckanext/orgdashboards/templates/organization/index.html:3
+#: ckanext/orgdashboards/templates/organization/index.html:6
+#: ckanext/orgdashboards/templates/organization/index.html:15
+#: ckanext/orgdashboards/templates/organization/read_base.html:4
+msgid "Countries"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/header.html:12
+#: ckanext/orgdashboards/templates/dashboards/index.html:238
+#: ckanext/orgdashboards/templates/group/base_form_page.html:6
+#: ckanext/orgdashboards/templates/group/edit_base.html:3
+#: ckanext/orgdashboards/templates/group/edit_base.html:8
+#: ckanext/orgdashboards/templates/group/index.html:3
+#: ckanext/orgdashboards/templates/group/index.html:6
+#: ckanext/orgdashboards/templates/group/index.html:18
+msgid "Themes"
+msgstr "ေခါင္းစီးအေၾကာင္းအရာမ်ား"
+
+#: ckanext/orgdashboards/templates/header.html:13
+#: ckanext/orgdashboards/templates/dashboards/index.html:116
+#: ckanext/orgdashboards/templates/dashboards/index.html:288
+msgid "About"
+msgstr "ဒက္ရွ္ဘုတ္အေၾကာင္း"
+
+#: ckanext/orgdashboards/templates/dashboards/index.html:117
+#: ckanext/orgdashboards/templates/dashboards/index.html:289
+msgid "Help"
+msgstr "အကူအညီရယူရန္"
+
+#: ckanext/orgdashboards/templates/dashboards/index.html:118
+#: ckanext/orgdashboards/templates/dashboards/index.html:290
+msgid "Resources"
+msgstr "အရင္းအျမစ္မ်ား"
+
+#: ckanext/orgdashboards/templates/dashboards/index.html:119
+#: ckanext/orgdashboards/templates/dashboards/index.html:292
+msgid "Contact"
+msgstr "ဆက္သြယ္ရန္"
+
+#: ckanext/orgdashboards/templates/dashboards/index.html:165
+msgid "All efforts have been made to make this map accurate. However, USEDATA and its Service Providers accept no liability for any errors, omissions, or inaccuracies in the information provided on this map."
+msgstr "ဤေျမပံုအား တိတိက်က်ျဖစ္ေစရန္ အစြမ္းကုန္ႀကိဳးစားထားပါသည္။ သို႔ရာတြင္ ဤေျမပံုပါသတင္းအခ်က္အလက္မ်ားတြင္ မွားယြင္းမႈမ်ား၊ ခ်န္လွပ္ထားခဲ့သည့္အရာမ်ားႏွင့္ မတိက်သည့္အခ်က္အလက္မ်ား ပါရွိပါက USEDATA ႏွင့္ ဝန္ေဆာင္မႈေပးသည့္အဖြဲ႔အစည္းမ်ားအေနျဖင့္ တာဝန္မယူပါ။ "
+
+#: ckanext/orgdashboards/templates/dashboards/index.html:167
+msgid "contributors"
+msgstr "ပါဝင္ကူညီသူမ်ား"
+
+#: ckanext/orgdashboards/templates/dashboards/index.html:217
+msgid "Newly Released Data"
+msgstr "အသစ္ထုတ္ျပန္ထားေသာ အခ်က္အလက္မ်ား"
+
+#: ckanext/orgdashboards/templates/dashboards/index.html:240
+msgid "Resource Format"
+msgstr "အရင္းအျမစ္ဆိုင္ရာပံုစံ"
+
+#: ckanext/orgdashboards/templates/dashboards/index.html:246
+msgid "Relevance"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/dashboards/index.html:247
+#: ckanext/orgdashboards/templates/dashboards/snippets/search_form.html:4
+#: ckanext/orgdashboards/templates/group/index.html:20
+msgid "Name Ascending"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/dashboards/index.html:248
+#: ckanext/orgdashboards/templates/dashboards/snippets/search_form.html:4
+#: ckanext/orgdashboards/templates/group/index.html:20
+msgid "Name Descending"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/dashboards/index.html:249
+msgid "Last Modified"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/dashboards/index.html:250
+msgid "Popular"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/dashboards/index.html:267
+msgid "Filter Data by"
+msgstr "စီစစ္ထားေသာ အခ်က္အလက္မ်ား"
+
+#: ckanext/orgdashboards/templates/dashboards/index.html:291
+msgid "About USEDATA"
+msgstr "USEDATA အေၾကာင္း"
+
+#: ckanext/orgdashboards/templates/dashboards/index.html:293
+msgid "Terms of use"
+msgstr "ဝက္(ဘ္)ဆိုဒ္ အသံုးျပဳခြင့္ စည္းမ်ဥ္းမ်ား"
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/resource_view.html:10
+msgid "This resource view is not available at the moment."
+msgstr ""
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/resource_view.html:12
+msgid "Click here for more information."
+msgstr "ေနာက္ထပ္သိရွိလိုပါက ဤေနရာကို ႏွိပ္ပါ။ "
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/resource_view.html:19
+msgid "Download resource"
+msgstr "အရင္းအျမစ္အား ေဒါင္းလုတ္ဆြဲရယူရန္"
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/search_form.html:3
+msgid "Search datasets..."
+msgstr "ရွာေဖြေရးအခ်က္အလက္စံုမ်ား"
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/search_form.html:12
+msgid "Data"
+msgstr "အခ်က္အလက္မ်ား "
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/search_form.html:35
+msgid "There was an error while searching."
+msgstr "ရွာေဖြေနစဥ္ တစ္ခုခုမွားေနသည္။ "
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/search_form.html:35
+msgid "Please try again."
+msgstr "ေက်းဇူးျပဳ၍ ထပ္ႀကိဳးစားၾကည့္ပါ။"
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:41
+msgid "View dataset"
+msgstr "အခ်က္အလက္တြဲ ၾကည့္ရႈရန္"
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:65
+msgid "Unnamed resource"
+msgstr "အမည္မသိ အရင္းအျမစ္"
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:87
+msgid "This resource does not contain any description."
+msgstr "ဤအရင္းအျမစ္တြင္ ေဖာ္ျပခ်က္မပါရွိပါ။"
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:91
+msgid "View resource"
+msgstr "အရင္းအျမစ္ ၾကည့္ရႈရန္"
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:99
+msgid "This dataset does not contain any resources yet."
+msgstr "ဤအခ်က္အလက္စံုတြင္ အရင္းအျမစ္မ်ားမရွိေသးပါ။"
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:106
+msgid "Additional information"
+msgstr "ေနာက္ထပ္သတင္းအခ်က္အလက္မ်ား"
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:113
+msgid "Author"
+msgstr "စာတမ္းျပဳစုသူ"
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:124
+msgid "Maintainer"
+msgstr "ထိန္းသိမ္းသူ"
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:135
+msgid "Source"
+msgstr "မူရင္း"
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:146
+msgid "License"
+msgstr "လိုင္စင္"
+
+#: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:172
+msgid "Last updated"
+msgstr "ေနာက္ဆံုးျဖည့္စြက္ထားျခင္း"
+
+#: ckanext/orgdashboards/templates/group/edit_base.html:3
+#: ckanext/orgdashboards/templates/group/edit_base.html:11
+msgid "Manage"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/group/index.html:13
+msgid "Add Theme"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/group/index.html:20
+msgid "Search themes..."
+msgstr ""
+
+#: ckanext/orgdashboards/templates/group/index.html:29
+msgid "There are currently no themes for this site"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/group/index.html:31
+#: ckanext/orgdashboards/templates/organization/index.html:33
+msgid "How about creating one?"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/group/new.html:3
+#: ckanext/orgdashboards/templates/group/new.html:5
+#: ckanext/orgdashboards/templates/group/new.html:7
+msgid "Create a Theme"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/group/new_group_form.html:5
+msgid "Update Theme"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/group/new_group_form.html:7
+msgid "Create Theme"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/edit.html:3
+msgid "Edit"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/edit.html:6
+msgid "Edit Country"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/edit_base.html:7
+msgid "Admin"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/edit_dashboard.html:3
+msgid "Edit dashboard"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/edit_dashboard.html:9
+msgid "Dashboard fields"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/edit_dashboard.html:11
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:69
+msgid "Is dashboard active?"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/edit_dashboard.html:13
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:71
+msgid "Show language selector"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/edit_dashboard.html:15
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:84
+msgid "Dashboard header"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/edit_dashboard.html:15
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:84
+msgid "Set the dashboard header text"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/edit_dashboard.html:17
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:86
+msgid "Dashboard footer"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/edit_dashboard.html:17
+msgid "Set the dashboard header footer"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/edit_dashboard.html:19
+msgid "Choose dashboard base color"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/edit_dashboard.html:23
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:79
+msgid "Datasets per page"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/index.html:11
+msgid "Add Country"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/index.html:31
+msgid "There are currently no organizations for this site"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/new.html:3
+#: ckanext/orgdashboards/templates/organization/new.html:5
+#: ckanext/orgdashboards/templates/organization/new.html:7
+#: ckanext/orgdashboards/templates/organization/new.html:12
+msgid "Create a Country"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/new_organization_form.html:5
+msgid "Update Country"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/new_organization_form.html:7
+msgid "Create Country"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/charts_list.html:3
+msgid "Chart"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/colors.html:2
+msgid "Dashboard colors"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/colors.html:33
+msgid "Text colors"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/feeds.html:3
+msgid "Datasets in organization: {group}"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/feeds.html:4
+msgid "Recent Revision History"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/help.html:4
+msgid "What are Organizations?"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/help.html:7
+msgid ""
+" <p>Organizations act like publishing departments for datasets (for "
+"example, the Department of Health). This means that datasets can be "
+"published by and belong to a department instead of an individual "
+"user.</p> <p>Within organizations, admins can assign roles and authorise "
+"its members, giving individual users the right to publish datasets from "
+"that particular organisation (e.g. Office of National Statistics).</p> "
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/helper.html:4
+msgid "What are Countries?"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/helper.html:8
+msgid ""
+" CKAN Organizations are used to create, manage and publish collections of"
+" datasets. Users can have different roles within an Organization, "
+"depending on their level of authorisation to create, edit and publish. "
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/info.html:13
+#: ckanext/orgdashboards/templates/organization/snippets/info.html:16
+msgid "Edit Organization"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:13
+msgid "Name"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:13
+msgid "My Organization"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:22
+msgid "URL"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:22
+msgid "my-organization"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:24
+msgid "Description"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:24
+msgid "A little information about my organization..."
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:39
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:52
+msgid "Custom Field"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:60
+msgid "Dashboard settings"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:73
+msgid "Choose secondary dashboard"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:76
+msgid "Choose secondary language"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:86
+msgid "Set the dashboard footer"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:88
+msgid "Dashboard copyright"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:88
+msgid "Set the dashboard copyright"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:95
+msgid "Map options"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:97
+msgid "Choose dashboard map view"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:118
+msgid ""
+"Are you sure you want to delete this Organization? This will delete all "
+"the public and private datasets belonging to this organization."
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:121
+msgid "Delete"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_form.html:125
+msgid "Save Organization"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_item.html:31
+msgid "{num} Dataset"
+msgid_plural "{num} Datasets"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_item.html:33
+msgid "0 Datasets"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/organization/snippets/organization_item.html:37
+#: ckanext/orgdashboards/templates/organization/snippets/organization_item.html:38
+msgid "View {organization_name}"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/snippets/organization.html:23
+msgid "Organization"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/snippets/organization.html:37
+msgid "Deleted"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/snippets/organization.html:45
+msgid "read more"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/snippets/organization.html:48
+msgid "There is no description for this organization"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/snippets/organization.html:55
+msgid "Followers"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/snippets/search_result_text.html:3
+msgid "{number} dataset found for \"{query}\""
+msgid_plural "{number} datasets found for \"{query}\""
+msgstr[0] ""
+msgstr[1] ""
+
+#: ckanext/orgdashboards/templates/snippets/search_result_text.html:4
+msgid "No datasets found for \"{query}\""
+msgstr ""
+
+#: ckanext/orgdashboards/templates/snippets/search_result_text.html:5
+msgid "{number} dataset found"
+msgid_plural "{number} datasets found"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ckanext/orgdashboards/templates/snippets/search_result_text.html:6
+msgid "No datasets found"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/snippets/search_result_text.html:9
+msgid "{number} theme found for \"{query}\""
+msgid_plural "{number} themes found for \"{query}\""
+msgstr[0] ""
+msgstr[1] ""
+
+#: ckanext/orgdashboards/templates/snippets/search_result_text.html:10
+msgid "No themes found for \"{query}\""
+msgstr ""
+
+#: ckanext/orgdashboards/templates/snippets/search_result_text.html:11
+msgid "{number} theme found"
+msgid_plural "{number} themes found"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ckanext/orgdashboards/templates/snippets/search_result_text.html:12
+msgid "No themes found"
+msgstr ""
+
+#: ckanext/orgdashboards/templates/snippets/search_result_text.html:15
+msgid "{number} country found for \"{query}\""
+msgid_plural "{number} countries found for \"{query}\""
+msgstr[0] ""
+msgstr[1] ""
+
+#: ckanext/orgdashboards/templates/snippets/search_result_text.html:16
+msgid "No countries found for \"{query}\""
+msgstr ""
+
+#: ckanext/orgdashboards/templates/snippets/search_result_text.html:17
+msgid "{number} country found"
+msgid_plural "{number} countries found"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ckanext/orgdashboards/templates/snippets/search_result_text.html:18
+msgid "No country found"
+msgstr ""
+
+msgid "Feedback Survey"
+msgstr "သေဘာထားထင္ျမင္ခ်က္ စစ္တမ္း"
+
+msgid "No, thanks"
+msgstr "မလုပ္ဘူး၊ ေက်းဇူးပါ။"
+
+msgid "Yes, I'll give feedback"
+msgstr "ဟုတ္။ သေဘာထားထင္ျမင္ခ်က္ ေပးပါမည္။"

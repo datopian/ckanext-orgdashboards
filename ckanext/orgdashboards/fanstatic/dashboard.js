@@ -61,6 +61,11 @@ $(function () {
      });
 
      if ($('#survey_popup').length) {
+         var cookie = Cookies.get('survey_popup');
+         var survey_popup_link = $('.survey_link').attr('href');
+         var pathname = window.location.pathname;
+         var paths = pathname.split('/');
+         var country = paths.reverse()[1];
          var survey_popup = $('#survey_popup').popup({
              type: 'overlay',
              outline: true,
@@ -69,29 +74,23 @@ $(function () {
              closeelement: '#survey_popup_close',
              blur: false,
              onclose: function () {
-                 Cookies.set('survey_popup_link', $('.survey_link').attr('href'), { expires: 365 });
+                 Cookies.set('survey_popup', country + survey_popup_link, { expires: 365 });
              }
          });
-         var survey_popup_link = $('.survey_link').attr('href');
 
-         cookie = Cookies.get('survey_popup_link');
+         if (!cookie || cookie !== country + survey_popup_link) {
+            $('#survey_popup').removeClass('hidden');
+            survey_popup.popup('show');
 
-         if (undefined == cookie) {
-             $('#survey_popup').removeClass('hidden');
-             survey_popup.popup('show');
-         } else if (cookie != survey_popup_link) {
-             Cookies.set('survey_popup_link', survey_popup_link, { expires: 365 });
-             $('#survey_popup').removeClass('hidden');
-             survey_popup.popup('show');
+            Cookies.set('survey_popup', country + survey_popup_link, { expires: 365 });
+
+             $('#survey_link_button').click(function() {
+                 $('#survey_popup').popup('hide');
+             });
          }
      }
 
-     $('#survey_link_button').click(function() {
-         Cookies.set('survey_popup_link', survey_popup_link, { expires: 365 });
-         $('#survey_popup').popup('hide');
-     });
-
-    _setFocusOnSelectFilters();
+    _setFocusOnSelectFormControls();
   });
 
 });
@@ -124,18 +123,21 @@ function _setActiveLanguage() {
     languageElement = languageSelector.find('li')[0];
   }
 
-  languageElement.className = 'active';
+  if (languageElement) {
+    languageElement.className = 'active';
+  }
 }
 
-function _setFocusOnSelectFilters() {
+function _setFocusOnSelectFormControls() {
   var baseColor = $('.all-data > .data-block-header')[0].style.background;
   var rule = ['border-color: ' + baseColor + ';',
+              'outline: 0;', 
               'box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 3px ' + baseColor + ';'].join('');
   var organization = window.location.pathname.split('/').reverse()[1];
 
   // Check whether there is already a rule set for the current organization
   if (!_ruleExists('.' + organization + ':focus')) {
-    _addCssRule('.form-control.orgdashboards-filters:focus', rule);
+    _addCssRule('select.form-control:focus', rule);
   }
 }
 

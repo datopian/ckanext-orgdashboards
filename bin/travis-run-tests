@@ -3,4 +3,11 @@
 echo "NO_START=0\nJETTY_HOST=127.0.0.1\nJETTY_PORT=8983\nJAVA_HOME=$JAVA_HOME" | sudo tee /etc/default/jetty
 sudo cp ckan/ckan/config/solr/schema.xml /etc/solr/conf/schema.xml
 sudo service jetty restart
-nosetests --nologcapture --with-pylons=subdir/test.ini --with-coverage --cover-package=ckanext.orgdashboards --cover-inclusive --cover-erase --cover-tests
+
+# We need ckan to be running for some tests
+cd ckan
+paster serve test-core.ini &
+sleep 5
+cd -
+
+nosetests --ckan --nologcapture --with-pylons=test.travis.ini

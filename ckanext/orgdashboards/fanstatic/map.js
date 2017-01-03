@@ -8,28 +8,61 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
     renderMap(elementId, organizationName, mapURL, color, mainProperty);
   };
 
+  var pathName = window.location.pathname;
+  var paths = pathName.split('/').reverse();
+  var organization_entity_name;
+
+  if (paths[2] === 'country') {
+    organization_entity_name = 'country';
+  } else if (paths[2] === 'organization') {
+    organization_entity_name = 'organization';
+  }
+
   function renderMap(elementId, organizationName, mapURL, color, mainProperty) {
-    if (mapURL.length > 0) {
+    var mainProperties = [];
+    var fitBounds = false;
+
+    if (mapURL.length > 0 && typeof mainProperty === 'string') {
       var mapURLS = mapURL.split(',');
-      var mainProperties = mainProperty.split(',');
+
+      mainProperties = mainProperty.split(',');
     }
-    $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURI(organizationName)).done(function (data) {
-      if (data['status'] == 'ZERO_RESULTS') {
-        initLeaflet(elementId, 39, 40, 2);
-      } else {
-        var lat = data['results'][0]['geometry']['location']['lat'],
-          lng = data['results'][0]['geometry']['location']['lng'];
-        initLeaflet(elementId, lat, lng, 5);
-      }
-    }).fail(function (data) {
-      console.log(data);
-    })
+
+    if (organization_entity_name === 'country') {
+      $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + encodeURI(organizationName)).done(function (data) {
+         if (data['status'] == 'ZERO_RESULTS') {
+           initLeaflet(elementId, 39, 40, 2);
+         } else {
+           var lat = data['results'][0]['geometry']['location']['lat'],
+             lng = data['results'][0]['geometry']['location']['lng'];
+           initLeaflet(elementId, lat, lng, 5);
+         }
+       }).fail(function (data) {
+         console.log(data);
+         initLeaflet(elementId, 39, 40, 2);
+       });
+    } else {
+      fitBounds = true;
+      initLeaflet(elementId, 39, 40, 2);
+    }
+
 
     // geo layer
     var geoL;
 
     function initLeaflet(elementId, lat, lng, zoom) {
-      var map = new L.Map(elementId, {scrollWheelZoom: false, inertiaMaxSpeed: 200}).setView([lat, lng], zoom);
+      var map;
+
+      if (fitBounds) {
+        if (!mapURLS && mainProperties.length === 0) {
+          map = new L.Map(elementId, {scrollWheelZoom: false, inertiaMaxSpeed: 200}).setView([lat, lng], zoom);
+        } else {
+          map = new L.Map(elementId, {scrollWheelZoom: false, inertiaMaxSpeed: 200});
+        }
+      } else {
+        map = new L.Map(elementId, {scrollWheelZoom: false, inertiaMaxSpeed: 200}).setView([lat, lng], zoom);
+      }
+
       var osmUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
       var osmAttrib = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
       var osm = new L.TileLayer(osmUrl, {
@@ -40,7 +73,7 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
 
       map.addLayer(osm);
 
-      if (mapURLS && mainProperties) {
+      if (mapURLS && mainProperties.length > 0) {
 
         // Initialize markers
         initDatasetMarkers(mapURLS[0], mainProperties[0]);
@@ -135,6 +168,10 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
 
           $('#map-info').removeClass('hidden');
 
+          // Properly zoom the map to fit all markers/polygons
+          if (fitBounds) {
+            map.fitBounds(geoL.getBounds().pad(0.5));
+          }
         }).fail(function (data) {
           console.log("GeoJSON could not be loaded " + mapURL);
         });
@@ -151,6 +188,7 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
 
         select_resource.change(function click() {
           var selectedIndex = $('#orgdashboards_resource').prop('selectedIndex');
+          fitBounds = true;
           select_dataset.children('option').remove();
           layers = [];
           map.removeLayer(geoL);

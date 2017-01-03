@@ -138,25 +138,7 @@
             opts.append(new Option(elem.value, elem.value));
           });
           map_main_property.removeClass('hidden');
-
-          var organization_name = $('#field-name').val();
-          params = {id: organization_name};
-
-          // Select the map main property
-          api.get('orgdashboards_get_map_main_property', params)
-            .done(function (data) {
-              $.each(map_main_property.children(), function(key, el) {
-                if (el.textContent === data.result) {
-                  el.setAttribute('selected', '');
-                }
-              });
-            });
         });
-    }
-
-    var selects = $('select[name="orgdashboards_map"]');
-    for (var i = 0; i < selects.length; i++) {
-      changeMainPropertyValues(selects[i]);
     }
 
     $('.map-properties').on('change', 'select', function (event) {
@@ -181,7 +163,7 @@
       numResources++;
       resourceField.attr('id', 'map-field_' + numResources);
       resourceField.appendTo($('.map-properties'));
-      changeMainPropertyValues(resourceField);
+      changeMainPropertyValues(resourceField.find($('select[name="orgdashboards_map"]')));
     });
 
     $('.map-properties').on('click', 'a', function (e) {

@@ -4,6 +4,7 @@ import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.plugins as lib_plugins
 import ckanext.orgdashboards.helpers as helpers
+from ckan.lib.plugins import DefaultTranslation
 
 from routes.mapper import SubMapper
 from pylons import config
@@ -11,7 +12,7 @@ from pylons import config
 log = logging.getLogger(__name__)
 
 class OrgDashboardsPlugin(plugins.SingletonPlugin, 
-    lib_plugins.DefaultOrganizationForm):
+    lib_plugins.DefaultOrganizationForm, DefaultTranslation):
     
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.IActions)
@@ -19,14 +20,19 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
     plugins.implements(plugins.IConfigurer)
     plugins.implements(plugins.ITemplateHelpers)
     plugins.implements(plugins.IFacets, inherit=True)
+    plugins.implements(plugins.ITranslation)
 
     ## IRoutes
 
     def before_map(self, map):
         # Define dashboard controller routes
+
+        organization_entity_name = config.get(
+            'ckanext.orgdashboards.organization_entity_name', 
+            'organization')
         
         ctrl = 'ckanext.orgdashboards.controllers.dashboard:DashboardsController'
-        map.connect('/organization/{name}/dashboard', controller=ctrl, 
+        map.connect('/' + organization_entity_name + '/{name}/dashboard', controller=ctrl, 
                     action='organization_dashboard')
             
         return map
@@ -79,8 +85,9 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
         # Import core converters and validators
         _convert_to_extras = toolkit.get_converter('convert_to_extras')
         _ignore_missing = toolkit.get_validator('ignore_missing')
-
+        
         default_validators = [_ignore_missing,_convert_to_extras]
+
         schema.update({
             'orgdashboards_header': default_validators,
             'orgdashboards_footer': default_validators,
@@ -209,7 +216,9 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_get_organization_entity_name':
                 helpers.orgdashboards_get_organization_entity_name,
             'orgdashboards_get_group_entity_name':
-                helpers.orgdashboards_get_group_entity_name
+                helpers.orgdashboards_get_group_entity_name,
+            'orgdashboards_get_facet_items_dict':
+                helpers.orgdashboards_get_facet_items_dict
         }
         
     ## IConfigurer
