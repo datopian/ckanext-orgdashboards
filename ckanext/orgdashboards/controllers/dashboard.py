@@ -1,6 +1,7 @@
 import logging
 from logging import getLogger
 from urllib import urlencode
+from urlparse import urlparse
 
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
@@ -43,6 +44,7 @@ logger = getLogger(__name__)
 
 class DashboardsController(PackageController):
     def organization_dashboard(self, name):
+
         org = get_action('organization_show')({}, {'id': name, 'include_extras': True})
 
         if 'orgdashboards_is_active' in org and org['orgdashboards_is_active'] == '0':
@@ -178,6 +180,7 @@ class DashboardsController(PackageController):
                 facets = plugin.dataset_facets(facets, package_type)
 
             c.facet_titles = facets
+            c.name = name
 
             fq += ' +organization:"{}"'.format(name)
 
@@ -231,7 +234,6 @@ class DashboardsController(PackageController):
 
         self._setup_template_variables(context, {},
                                        package_type=package_type)
-        
 
         return plugins.toolkit.render('dashboards/index.html', extra_vars={'organization': org,
                                                                            'dataset_type': package_type})
@@ -286,3 +288,36 @@ class DashboardsController(PackageController):
             })
 
         return authors_list
+
+    def show_dashboard_by_domain(self):
+
+        name = None
+        request_url = urlparse(toolkit.request.url)
+        ckan_base_url = urlparse(config.get('ckan.site_url'))
+
+        if request_url.netloc != ckan_base_url.netloc:
+
+            org_list = get_action('organization_list')({}, {'all_fields': True, 'include_extras': True})
+
+            for org in org_list:
+                if 'orgdashboards_dashboard_url' in org:
+                    org_url = urlparse(org['orgdashboards_dashboard_url'])
+                    if org_url.netloc == request_url.netloc:
+                        name = org['name']
+
+            if name is None:
+                c.url = toolkit.request.url
+                return plugins.toolkit.render('dashboards/snippets/domain_not_registered.html')
+            else:
+                return self.organization_dashboard(name)
+
+        else:
+            return plugins.toolkit.render('home/index.html')
+
+
+    def preview_dashboard(self, name):
+        return self.organization_dashboard(name)
+
+
+
+

@@ -18,7 +18,6 @@ def package_files(directory):
 with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
-fanstatic_files = package_files('ckanext/orgdashboards/fanstatic')
 i18n_files = package_files('ckanext/orgdashboards/i18n')
 
 setup(
@@ -27,17 +26,17 @@ setup(
     # Versions should comply with PEP440.  For a discussion on single-sourcing
     # the version across setup.py and the project code, see
     # http://packaging.python.org/en/latest/tutorial.html#version
-    version='0.0.1',
+    version='0.5.0',
 
     description='''Organization Dashboards''',
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/keitaroinc/ckanext-orgdashboards',
+    url='https://github.com/ViderumGlobal/ckanext-orgdashboards',
 
     # Author details
     author='''KeitaroInc''',
-    author_email=''' info@keitaro.info''',
+    author_email=''' info@keitaro.com''',
 
     # Choose your license
     license='AGPL',
@@ -78,7 +77,6 @@ setup(
     # have to be included in MANIFEST.in as well.
     include_package_data=True,
     package_data={
-        '': fanstatic_files,
         '': i18n_files
     },
 

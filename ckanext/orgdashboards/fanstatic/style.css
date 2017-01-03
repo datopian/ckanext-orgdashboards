@@ -1801,7 +1801,7 @@ pre code {
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1320px) {
     .container {
         width: 1290px;
     }
@@ -7433,4 +7433,9 @@ footer .container {
 .top-navigation .list-inline li {
     padding-left: 15px;
     padding-right: 15px;
+}
+
+.leaflet-touch .leaflet-bar a {
+    width: initial !important;
+    height: initial !important;
 }

@@ -3,6 +3,7 @@ import os
 
 from datetime import datetime
 from urllib import urlencode
+from urlparse import urlparse
 
 from pylons import config
 
@@ -70,7 +71,10 @@ def orgdashboards_replace_or_add_url_param(name, value, params, controller,
 
     params.append((name, value))
 
-    url = h.url_for(controller=controller, action=action, name=context_name)
+    if action == 'show_dashboard_by_domain':
+        url = h.url_for(controller=controller, action=action)
+    else:
+        url = h.url_for(controller=controller, action=action, name=context_name)
 
     params = [(k, v.encode('utf-8') if isinstance(v, basestring) else str(v))
                   for k, v in params]
@@ -292,7 +296,11 @@ def orgdashboards_get_secondary_dashboard(organization_name):
         return 'none'
 
 def orgdashboards_get_current_url(page, params, controller, action, name, exclude_param=''):
-    url = h.url_for(controller=controller, action=action, name=name)
+
+    if action == 'show_dashboard_by_domain':
+        url = h.url_for(controller=controller, action=action)
+    else:
+        url = h.url_for(controller=controller, action=action, name=name)
 
     for k, v in params:
         if k == exclude_param:
@@ -326,3 +334,16 @@ def orgdashboards_get_facet_items_dict(value):
         return h.get_facet_items_dict(value)
     except:
         return None
+
+def orgdashboards_get_dashboard_url(org_name):
+
+    org = _get_action('organization_show', {}, {'id': org_name})
+
+    if 'orgdashboards_dashboard_url' in org and org['orgdashboards_dashboard_url'] != '':
+
+        url = urlparse(org['orgdashboards_dashboard_url'])
+        url = url.scheme + '://' + url.netloc
+
+        return url
+    else:
+        return ''

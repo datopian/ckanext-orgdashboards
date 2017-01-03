@@ -11,7 +11,7 @@
         {% endif %}
 
         <a class="btn" href="{% url_for controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController',
-                                                                       action='organization_dashboard',
+                                                                       action='preview_dashboard',
                                                                        locale=locale,
                                                                        name=c.group_dict.name%}" target="_blank"><i class="icon-globe"></i> View dashboard</a>
     {% endif %}
