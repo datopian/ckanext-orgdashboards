@@ -47,8 +47,19 @@
 
             var opts = $('#' + resource_select_id);
             $.each(data.result, function (idx, elem) {
-              opts.append(new Option(elem.name, elem.id));
+              var name;
+
+              if (elem.name) {
+                name = elem.name;
+              } else if (elem.description) {
+                name = elem.description;
+              } else {
+                name = 'Unnamed resource';
+              }
+
+              opts.append(new Option(name, elem.id));
             });
+
 
             $('.' + resource_select_id).removeClass('hidden');
           });
