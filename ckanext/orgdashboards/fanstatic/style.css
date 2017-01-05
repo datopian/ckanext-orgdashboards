@@ -1801,7 +1801,7 @@ pre code {
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1320px) {
     .container {
         width: 1290px;
     }
