@@ -7434,3 +7434,8 @@ footer .container {
     padding-left: 15px;
     padding-right: 15px;
 }
+
+.leaflet-touch .leaflet-bar a {
+   width: initial !important;
+   height: initial !important;
+} 
