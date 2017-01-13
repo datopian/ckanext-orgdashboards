@@ -232,8 +232,6 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
                 helpers.orgdashboards_get_facet_items_dict,
             'orgdashboards_get_dashboard_url':
                 helpers.orgdashboards_get_dashboard_url,
-            'orgdashboards_get_package':
-                helpers.orgdashboards_get_package,
             'orgdashboards_get_config_option':
                 helpers.orgdashboards_get_config_option
 
