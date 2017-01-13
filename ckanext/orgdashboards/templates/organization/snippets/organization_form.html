@@ -99,7 +99,9 @@
 
     {{ form.select('orgdashboards_is_active', 'orgdashboards_is_active', _('Is dashboard active?'), options=[{'value': '1', 'text': 'Yes'}, {'value': '0', 'text': 'No'}], selected=data.orgdashboards_is_active) }}
 
-    {{ form.input('orgdashboards_dashboard_url', 'orgdashboards_dashboard_url', label=_('Dashboard URL'), type='url', value=data.orgdashboards_dashboard_url, error=errors.orgdashboards_dashboard_url) }}
+    {% if h.orgdashboards_get_config_option('ckanext.orgdashboards.custom_dns_active') == 'true' %}
+      {{ form.input('orgdashboards_dashboard_url', 'orgdashboards_dashboard_url', label=_('Dashboard URL'), type='url', value=data.orgdashboards_dashboard_url, error=errors.orgdashboards_dashboard_url) }}
+    {% endif %}
 
     {{ form.select('orgdashboards_lang_is_active', 'orgdashboards_lang_is_active', _('Show language selector'), options=[{'value': '0', 'text': 'No'}, {'value': '1', 'text': 'Yes'}], selected=data.orgdashboards_lang_is_active) }}
 

@@ -1,5 +1,6 @@
 import logging
 
+from paste.deploy.converters import asbool
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.plugins as lib_plugins
@@ -32,9 +33,11 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
         organization_entity_name = config.get(
             'ckanext.orgdashboards.organization_entity_name', 
             'organization')
-        
+
         ctrl = 'ckanext.orgdashboards.controllers.dashboard:DashboardsController'
-        map.connect('/', controller=ctrl, action='show_dashboard_by_domain')
+
+        if asbool(config.get('ckanext.orgdashboards.custom_dns_active')):
+            map.connect('/', controller=ctrl, action='show_dashboard_by_domain')
 
         map.connect('/' + organization_entity_name + '/{name}/dashboard', controller=ctrl,
                     action='preview_dashboard')
@@ -228,7 +231,12 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_get_facet_items_dict':
                 helpers.orgdashboards_get_facet_items_dict,
             'orgdashboards_get_dashboard_url':
-                helpers.orgdashboards_get_dashboard_url
+                helpers.orgdashboards_get_dashboard_url,
+            'orgdashboards_get_package':
+                helpers.orgdashboards_get_package,
+            'orgdashboards_get_config_option':
+                helpers.orgdashboards_get_config_option
+
         }
         
     ## IConfigurer

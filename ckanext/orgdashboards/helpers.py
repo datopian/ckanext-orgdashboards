@@ -347,3 +347,15 @@ def orgdashboards_get_dashboard_url(org_name):
         return url
     else:
         return ''
+
+def orgdashboards_get_package(package_name):
+
+    package = toolkit.get_action('package_show')(data_dict={
+        'id': package_name,
+        'include_tracking': True
+    })
+
+    return package
+
+def orgdashboards_get_config_option(key):
+    return config.get(key)
