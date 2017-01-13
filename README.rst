@@ -74,7 +74,14 @@ it to ``theme`` it will use text references for "Theme/Themes" instead of
 certain parts of the UI. For some, you have to manually override/extend the 
 templates.
 
-7. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
+7. Add ``ckanext.orgdashboards.custom_dns_active`` as a setting in the
+config file::
+
+    ckanext.orgdashboards.custom_dns_active = true
+
+This setting enables functionality for adding custom domain for individual dashboards.
+
+8. Restart CKAN. For example if you've deployed CKAN with Apache on Ubuntu::
 
      sudo service apache2 reload
 
