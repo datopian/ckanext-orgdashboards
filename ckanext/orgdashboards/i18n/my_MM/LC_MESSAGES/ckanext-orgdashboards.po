@@ -141,7 +141,7 @@ msgstr ""
 
 #: ckanext/orgdashboards/templates/dashboards/index.html:267
 msgid "Filter Data by"
-msgstr "အခ်က္အလက္စံု ရွာေဖြရန"
+msgstr "စီစစ္ထားေသာ အခ်က္အလက္မ်ား"
 
 #: ckanext/orgdashboards/templates/dashboards/index.html:291
 msgid "About USEDATA"
@@ -165,7 +165,7 @@ msgstr "အရင္းအျမစ္အား ေဒါင္းလုတ္�
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/search_form.html:3
 msgid "Search datasets..."
-msgstr "ရွာေဖြေရးအခ်က္အလက္စံုမ်ား"
+msgstr "အခ်က္အလက္စံု ရွာေဖြရန္"
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/search_form.html:12
 msgid "Data"
@@ -565,7 +565,7 @@ msgid "Feedback Survey"
 msgstr "သေဘာထားထင္ျမင္ခ်က္ စစ္တမ္း"
 
 msgid "No, thanks"
-msgstr "မလုပ္ဘူး၊ ေက်းဇူးပါ။"
+msgstr "မလုပ္ဘူး။ ေက်းဇူးပါ။"
 
 msgid "Yes, I'll give feedback"
 msgstr "ဟုတ္။ သေဘာထားထင္ျမင္ခ်က္ ေပးပါမည္။"
