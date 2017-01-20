@@ -71,6 +71,8 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
 
       function initDatasetMarkers(mapURL, mainField) {
 
+        proj4.defs('EPSG:3044', '+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs');
+
         var layers = [];
 
         var smallIcon = L.icon({
@@ -84,7 +86,7 @@ this.ckan.orgdashboards.dashboardmap = this.ckan.dashboardmap || {};
         });
 
         $.getJSON(mapURL).done(function (data) {
-          geoL = L.geoJson(data, {
+          geoL = L.Proj.geoJson(data, {
             style: function (feature) {
               return feature.properties.style;
             },
