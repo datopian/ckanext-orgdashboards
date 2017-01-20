@@ -222,7 +222,13 @@ class OrgViews(object):
         allMaps = {}
         result = [{'value': '', 'text': 'None'}]
         for item in get_organization_views(name, type='Maps'):
-            result.append({'value': item['id'], 'text': 'UNNAMED' if item['name'] == '' else item['name']})
+            if item['name']:
+                text = item['name']
+            elif item['description']:
+                text = item['description']
+            else:
+                text = 'Unnamed resource'
+            result.append({'value': item['id'], 'text': text})
             allMaps.update({name: result})
 
         return allMaps.get(name) or {}
