@@ -568,3 +568,6 @@ msgstr "Nashukuru lakini hapana"
 
 msgid "Yes, I'll give feedback"
 msgstr "Ndio, nitakupa mrejesho"
+
+msgid "Select Data Point"
+msgstr "Chagua data unayotaka kuona" 
