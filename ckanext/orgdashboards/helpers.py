@@ -263,7 +263,11 @@ def orgdashboards_get_geojson_properties(resource_id):
     
     url = orgdashboards_get_resource_url(resource_id)
 
-    response = requests.get(url)    
+    try:
+        response = requests.get(url)
+    except Exception as e:
+        log.error(e)
+  
     geojson = response.json()
         
     result = []
