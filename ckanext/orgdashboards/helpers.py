@@ -222,6 +222,11 @@ class OrgViews(object):
         allMaps = {}
         result = [{'value': '', 'text': 'None'}]
         for item in get_organization_views(name, type='Maps'):
+            is_private = self._is_dataset_private(item['package_id'])
+            
+            if is_private:
+                continue
+                
             if 'name' in item:
                 text = item['name']
             elif 'description' in item:
@@ -232,6 +237,17 @@ class OrgViews(object):
             allMaps.update({name: result})
 
         return allMaps.get(name) or {}
+
+    def _is_dataset_private(self, package_id):
+        data_dict = {
+            'id': package_id
+        }
+        package = _get_action('package_show', {}, data_dict)
+        
+        if 'private' in package and package['private'] == True:
+            return True
+        else:
+            return False
         
 org_views = OrgViews()
 
