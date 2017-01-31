@@ -222,9 +222,9 @@ class OrgViews(object):
         allMaps = {}
         result = [{'value': '', 'text': 'None'}]
         for item in get_organization_views(name, type='Maps'):
-            if item['name']:
+            if 'name' in item:
                 text = item['name']
-            elif item['description']:
+            elif 'description' in item:
                 text = item['description']
             else:
                 text = 'Unnamed resource'
