@@ -226,7 +226,7 @@ class OrgViews(object):
             
             if is_private:
                 continue
-                
+
             if 'name' in item:
                 text = item['name']
             elif 'description' in item:
@@ -259,14 +259,12 @@ def orgdashboards_get_resource_url(id):
     return data['url']
 
 def orgdashboards_get_geojson_properties(resource_id):
-    import urllib
+    import requests
     
     url = orgdashboards_get_resource_url(resource_id)
 
-    r = urllib.urlopen(url)
-    
-    data = unicode(r.read(), errors='ignore')
-    geojson = json.loads(data)
+    response = requests.get(url)    
+    geojson = response.json()
         
     result = []
     for k, v in geojson.get('features')[0].get('properties').iteritems():
