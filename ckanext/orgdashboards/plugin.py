@@ -1,10 +1,13 @@
 import logging
 
+from paste.deploy.converters import asbool
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 import ckan.lib.plugins as lib_plugins
 import ckanext.orgdashboards.helpers as helpers
 from ckan.lib.plugins import DefaultTranslation
+from ckan import model as m
+from sqlalchemy import and_
 
 from routes.mapper import SubMapper
 from pylons import config
@@ -30,10 +33,14 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
         organization_entity_name = config.get(
             'ckanext.orgdashboards.organization_entity_name', 
             'organization')
-        
+
         ctrl = 'ckanext.orgdashboards.controllers.dashboard:DashboardsController'
-        map.connect('/' + organization_entity_name + '/{name}/dashboard', controller=ctrl, 
-                    action='organization_dashboard')
+
+        if asbool(config.get('ckanext.orgdashboards.custom_dns_active')):
+            map.connect('/', controller=ctrl, action='show_dashboard_by_domain')
+
+        map.connect('/' + organization_entity_name + '/{name}/dashboard', controller=ctrl,
+                    action='preview_dashboard')
             
         return map
 
@@ -93,6 +100,7 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_footer': default_validators,
             'orgdashboards_description': default_validators,
             'orgdashboards_copyright': default_validators,
+            'orgdashboards_dashboard_url': [_ignore_missing,_convert_to_extras,_domain_validator],
             'orgdashboards_lang_is_active': default_validators,
             'orgdashboards_base_color': default_validators,
             'orgdashboards_secondary_color': default_validators,
@@ -108,7 +116,8 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_secondary_language': default_validators,
             'orgdashboards_survey_enabled': default_validators,
             'orgdashboards_survey_text': default_validators,
-            'orgdashboards_survey_link': default_validators
+            'orgdashboards_survey_link': default_validators,
+            'orgdashboards_ga_tracking_id': default_validators,
         })
         
         charts = {}
@@ -136,6 +145,7 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_description': default_validators,
             'orgdashboards_copyright': default_validators,
             'orgdashboards_lang_is_active': default_validators,
+            'orgdashboards_dashboard_url': [_convert_from_extras, _ignore_missing,_domain_validator],
             'orgdashboards_base_color': default_validators,
             'orgdashboards_secondary_color': default_validators,
             'orgdashboards_is_active': default_validators,
@@ -151,6 +161,7 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_survey_enabled': default_validators,
             'orgdashboards_survey_text': default_validators,
             'orgdashboards_survey_link': default_validators,
+            'orgdashboards_ga_tracking_id': default_validators,
             'num_followers': [_not_empty],
             'package_count': [_not_empty],
         })
@@ -218,7 +229,12 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_get_group_entity_name':
                 helpers.orgdashboards_get_group_entity_name,
             'orgdashboards_get_facet_items_dict':
-                helpers.orgdashboards_get_facet_items_dict
+                helpers.orgdashboards_get_facet_items_dict,
+            'orgdashboards_get_dashboard_url':
+                helpers.orgdashboards_get_dashboard_url,
+            'orgdashboards_get_config_option':
+                helpers.orgdashboards_get_config_option
+
         }
         
     ## IConfigurer
@@ -240,3 +256,22 @@ def _get_logic_functions(module_root, logic_functions = {}):
             
     return logic_functions
         
+def _domain_validator(key, data, errors, context):
+
+    session = context['session']
+    group_name = data[('name',)]
+
+    if not data[key]:
+        return
+
+    query = session.query(m.Group) \
+        .join((m.GroupExtra, m.Group.id == m.GroupExtra.group_id)) \
+        .filter(and_(m.GroupExtra.key == 'orgdashboards_dashboard_url',
+                     m.GroupExtra.value == data[key],
+                     m.Group.name != group_name))
+
+    result = query.first()
+
+    if result:
+        errors[key].append(
+            toolkit._('Domain name already exists in database'))

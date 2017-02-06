@@ -3,6 +3,7 @@ import os
 
 from datetime import datetime
 from urllib import urlencode
+from urlparse import urlparse
 
 from pylons import config
 
@@ -70,7 +71,10 @@ def orgdashboards_replace_or_add_url_param(name, value, params, controller,
 
     params.append((name, value))
 
-    url = h.url_for(controller=controller, action=action, name=context_name)
+    if action == 'show_dashboard_by_domain':
+        url = h.url_for(controller=controller, action=action)
+    else:
+        url = h.url_for(controller=controller, action=action, name=context_name)
 
     params = [(k, v.encode('utf-8') if isinstance(v, basestring) else str(v))
                   for k, v in params]
@@ -218,10 +222,32 @@ class OrgViews(object):
         allMaps = {}
         result = [{'value': '', 'text': 'None'}]
         for item in get_organization_views(name, type='Maps'):
-            result.append({'value': item['id'], 'text': 'UNNAMED' if item['name'] == '' else item['name']})
+            is_private = self._is_dataset_private(item['package_id'])
+            
+            if is_private:
+                continue
+
+            if 'name' in item:
+                text = item['name']
+            elif 'description' in item:
+                text = item['description']
+            else:
+                text = 'Unnamed resource'
+            result.append({'value': item['id'], 'text': text})
             allMaps.update({name: result})
 
         return allMaps.get(name) or {}
+
+    def _is_dataset_private(self, package_id):
+        data_dict = {
+            'id': package_id
+        }
+        package = _get_action('package_show', {}, data_dict)
+        
+        if 'private' in package and package['private'] == True:
+            return True
+        else:
+            return False
         
 org_views = OrgViews()
 
@@ -233,14 +259,16 @@ def orgdashboards_get_resource_url(id):
     return data['url']
 
 def orgdashboards_get_geojson_properties(resource_id):
-    import urllib
+    import requests
     
     url = orgdashboards_get_resource_url(resource_id)
 
-    r = urllib.urlopen(url)
-    
-    data = unicode(r.read(), errors='ignore')
-    geojson = json.loads(data)
+    try:
+        response = requests.get(url)
+    except Exception as e:
+        log.error(e)
+  
+    geojson = response.json()
         
     result = []
     for k, v in geojson.get('features')[0].get('properties').iteritems():
@@ -292,7 +320,11 @@ def orgdashboards_get_secondary_dashboard(organization_name):
         return 'none'
 
 def orgdashboards_get_current_url(page, params, controller, action, name, exclude_param=''):
-    url = h.url_for(controller=controller, action=action, name=name)
+
+    if action == 'show_dashboard_by_domain':
+        url = h.url_for(controller=controller, action=action)
+    else:
+        url = h.url_for(controller=controller, action=action, name=name)
 
     for k, v in params:
         if k == exclude_param:
@@ -326,3 +358,19 @@ def orgdashboards_get_facet_items_dict(value):
         return h.get_facet_items_dict(value)
     except:
         return None
+
+def orgdashboards_get_dashboard_url(org_name):
+
+    org = _get_action('organization_show', {}, {'id': org_name})
+
+    if 'orgdashboards_dashboard_url' in org and org['orgdashboards_dashboard_url'] != '':
+
+        url = urlparse(org['orgdashboards_dashboard_url'])
+        url = url.scheme + '://' + url.netloc
+
+        return url
+    else:
+        return ''
+
+def orgdashboards_get_config_option(key):
+    return config.get(key)

@@ -90,15 +90,18 @@
         <a class="btn btn-info pull-right"
           target="_blank"
           href="{% url_for controller='ckanext.orgdashboards.controllers.dashboard:DashboardsController',
-                                                                   action='organization_dashboard',
+                                                                   action='preview_dashboard',
                                                                    locale=locale,
-                                                                   name=data.name%}">View Dashboard</a>
+                                                                   name=c.group_dict.name%}">View Dashboard</a>
       {% endif %}
       </h2>
     </legend>
 
-
     {{ form.select('orgdashboards_is_active', 'orgdashboards_is_active', _('Is dashboard active?'), options=[{'value': '1', 'text': 'Yes'}, {'value': '0', 'text': 'No'}], selected=data.orgdashboards_is_active) }}
+
+    {% if h.orgdashboards_get_config_option('ckanext.orgdashboards.custom_dns_active') == 'True' or h.orgdashboards_get_config_option('ckanext.orgdashboards.custom_dns_active') == 'true' %}
+      {{ form.input('orgdashboards_dashboard_url', 'orgdashboards_dashboard_url', label=_('Dashboard URL'), type='url', value=data.orgdashboards_dashboard_url, error=errors.orgdashboards_dashboard_url) }}
+    {% endif %}
 
     {{ form.select('orgdashboards_lang_is_active', 'orgdashboards_lang_is_active', _('Show language selector'), options=[{'value': '0', 'text': 'No'}, {'value': '1', 'text': 'Yes'}], selected=data.orgdashboards_lang_is_active) }}
 
@@ -120,6 +123,8 @@
     {{ form.markdown('orgdashboards_description', label=_('Dashboard description'), id='orgdashboards_description', placeholder=('Set the dashboard description'), value=data.orgdashboards_description, error=errors.orgdashboards_description) }}
 
     {{ form.markdown('orgdashboards_copyright', label=_('Dashboard copyright'), id='orgdashboards_copyright', placeholder=_('Set the dashboard copyright'), value=data.orgdashboards_copyright, error=errors.orgdashboards_copyright) }}
+
+    {{ form.input('orgdashboards_ga_tracking_id', 'orgdashboards_ga_tracking_id', label=_('Google Analytics Tracking ID'), value=data.orgdashboards_ga_tracking_id, error=errors.orgdashboards_ga_tracking_id) }}
 
     {% if data.id %}
 

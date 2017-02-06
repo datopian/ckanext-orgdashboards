@@ -165,7 +165,7 @@ msgstr "အရင္းအျမစ္အား ေဒါင္းလုတ္�
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/search_form.html:3
 msgid "Search datasets..."
-msgstr "ရွာေဖြေရးအခ်က္အလက္စံုမ်ား"
+msgstr "အခ်က္အလက္စံု ရွာေဖြရန္"
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/search_form.html:12
 msgid "Data"
@@ -559,3 +559,16 @@ msgstr[1] ""
 #: ckanext/orgdashboards/templates/snippets/search_result_text.html:18
 msgid "No country found"
 msgstr ""
+
+
+msgid "Feedback Survey"
+msgstr "သေဘာထားထင္ျမင္ခ်က္ စစ္တမ္း"
+
+msgid "No, thanks"
+msgstr "မလုပ္ဘူး။ ေက်းဇူးပါ။"
+
+msgid "Yes, I'll give feedback"
+msgstr "ဟုတ္။ သေဘာထားထင္ျမင္ခ်က္ ေပးပါမည္။"
+
+msgid "Select Data Point"
+msgstr "ေဒတာအခ်က္ကို ေရြးခ်ယ္ပါ။" 

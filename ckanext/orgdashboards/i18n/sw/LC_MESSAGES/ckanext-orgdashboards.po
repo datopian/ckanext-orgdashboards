@@ -33,7 +33,7 @@ msgstr ""
 #: ckanext/orgdashboards/controllers/dashboard.py:160
 #: ckanext/orgdashboards/templates/dashboards/index.html:239
 msgid "Tags"
-msgstr ""
+msgstr "Viambo"
 
 #: ckanext/orgdashboards/controllers/dashboard.py:161
 msgid "Formats"
@@ -42,12 +42,12 @@ msgstr ""
 #: ckanext/orgdashboards/controllers/dashboard.py:162
 #: ckanext/orgdashboards/templates/dashboards/index.html:241
 msgid "Licenses"
-msgstr ""
+msgstr "Leseni"
 
 #: ckanext/orgdashboards/controllers/dashboard.py:172
 #: ckanext/orgdashboards/templates/dashboards/index.html:242
 msgid "Authors"
-msgstr ""
+msgstr "Waandishi"
 
 #: ckanext/orgdashboards/controllers/dashboard.py:221
 msgid "Parameter \"{parameter_name}\" is not an integer"
@@ -76,47 +76,44 @@ msgstr ""
 #: ckanext/orgdashboards/templates/group/index.html:6
 #: ckanext/orgdashboards/templates/group/index.html:18
 msgid "Themes"
-msgstr ""
+msgstr "Mahadhi"
 
 #: ckanext/orgdashboards/templates/header.html:13
 #: ckanext/orgdashboards/templates/dashboards/index.html:116
 #: ckanext/orgdashboards/templates/dashboards/index.html:288
 msgid "About"
-msgstr ""
+msgstr "Kuhusu"
 
 #: ckanext/orgdashboards/templates/dashboards/index.html:117
 #: ckanext/orgdashboards/templates/dashboards/index.html:289
 msgid "Help"
-msgstr ""
+msgstr "Msaada"
 
 #: ckanext/orgdashboards/templates/dashboards/index.html:118
 #: ckanext/orgdashboards/templates/dashboards/index.html:290
 msgid "Resources"
-msgstr ""
+msgstr "Raslimali"
 
 #: ckanext/orgdashboards/templates/dashboards/index.html:119
 #: ckanext/orgdashboards/templates/dashboards/index.html:292
 msgid "Contact"
-msgstr ""
+msgstr "Wasiliana nasi"
 
 #: ckanext/orgdashboards/templates/dashboards/index.html:165
-msgid ""
-"All efforts have been made to make this map accurate. However, USEDATA "
-"and its Service Providers accept no liability for any errors, omissions, "
-"or inaccuracies in the information provided on this map."
-msgstr ""
+msgid "All efforts have been made to make this map accurate. However, USEDATA and its Service Providers accept no liability for any errors, omissions, or inaccuracies in the information provided on this map."
+msgstr "Kila juhudi zimefanywa kuhakikisha kwamba ramani hii ni sahihi. Hata hivyo, USEDATA na Watoa Huduma wake hawakubali lawama kwa makosa, kutoonekana au kasoro kwenye habari yoyote inayoonekana kwenye ramani hii."
 
 #: ckanext/orgdashboards/templates/dashboards/index.html:167
 msgid "contributors"
-msgstr ""
+msgstr "Wachangiaji"
 
 #: ckanext/orgdashboards/templates/dashboards/index.html:217
 msgid "Newly Released Data"
-msgstr ""
+msgstr "Data zilizotoka punde"
 
 #: ckanext/orgdashboards/templates/dashboards/index.html:240
 msgid "Resource Format"
-msgstr ""
+msgstr "Mfumo wa raslimali"
 
 #: ckanext/orgdashboards/templates/dashboards/index.html:246
 msgid "Relevance"
@@ -144,87 +141,87 @@ msgstr ""
 
 #: ckanext/orgdashboards/templates/dashboards/index.html:267
 msgid "Filter Data by"
-msgstr ""
+msgstr "Chuja data kwa"
 
 #: ckanext/orgdashboards/templates/dashboards/index.html:291
 msgid "About USEDATA"
-msgstr ""
+msgstr "Kuhusu USEDATA"
 
 #: ckanext/orgdashboards/templates/dashboards/index.html:293
 msgid "Terms of use"
-msgstr ""
+msgstr "Vigezo vya Matumizi"
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/resource_view.html:10
 msgid "This resource view is not available at the moment."
-msgstr ""
+msgstr "Kutazama raslimali hii hakuwezekani kwa sasa."
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/resource_view.html:12
 msgid "Click here for more information."
-msgstr ""
+msgstr "Bofya hapa kwa maelezo zaidi."
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/resource_view.html:19
 msgid "Download resource"
-msgstr ""
+msgstr "Pakua raslimali"
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/search_form.html:3
 msgid "Search datasets..."
-msgstr ""
+msgstr "Tafuta makundi ya data"
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/search_form.html:12
 msgid "Data"
-msgstr ""
+msgstr "Data"
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/search_form.html:35
 msgid "There was an error while searching."
-msgstr ""
+msgstr "Pametokea hitilafu wakati wa kutafuta."
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/search_form.html:35
 msgid "Please try again."
-msgstr ""
+msgstr "Tafadhali jaribu tena."
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:41
 msgid "View dataset"
-msgstr ""
+msgstr "Tazama kundi la data"
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:65
 msgid "Unnamed resource"
-msgstr ""
+msgstr "Raslimali isiyo na jina"
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:87
 msgid "This resource does not contain any description."
-msgstr ""
+msgstr "Raslimali hii haina maelezo yoyote."
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:91
 msgid "View resource"
-msgstr ""
+msgstr "Tazama raslimali"
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:99
 msgid "This dataset does not contain any resources yet."
-msgstr ""
+msgstr "Kundi la data hili bado halina raslimali."
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:106
 msgid "Additional information"
-msgstr ""
+msgstr "Habari za ziada"
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:113
 msgid "Author"
-msgstr ""
+msgstr "Mwandishi"
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:124
 msgid "Maintainer"
-msgstr ""
+msgstr "Mhudumiaji"
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:135
 msgid "Source"
-msgstr ""
+msgstr "Chanzo"
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:146
 msgid "License"
-msgstr ""
+msgstr "Hatimiliki"
 
 #: ckanext/orgdashboards/templates/dashboards/snippets/show_datasets.html:172
 msgid "Last updated"
-msgstr ""
+msgstr "Tarehe ya uhuisho wa mwisho"
 
 #: ckanext/orgdashboards/templates/group/edit_base.html:3
 #: ckanext/orgdashboards/templates/group/edit_base.html:11
@@ -562,3 +559,15 @@ msgstr[1] ""
 #: ckanext/orgdashboards/templates/snippets/search_result_text.html:18
 msgid "No country found"
 msgstr ""
+
+msgid "Feedback Survey"
+msgstr "Tupe mrejesho"
+
+msgid "No, thanks"
+msgstr "Nashukuru lakini hapana"
+
+msgid "Yes, I'll give feedback"
+msgstr "Ndio, nitakupa mrejesho"
+
+msgid "Select Data Point"
+msgstr "Chagua data unayotaka kuona" 

@@ -104,23 +104,14 @@ function toggleResources(resourceId) {
  * based on the active locale
  */
 function _setActiveLanguage() {
-  var pathname = window.location.pathname;
-  var paths = pathname.split('/');
   var languageSelector = $('.language-selector');
-  var currentLanguage;
+  var currentLanguage = $('html').attr('lang');
   var languageElement;
-
-  // If there is a locale then set the active one
-  if (paths.length === 5) {
-    currentLanguage = paths[1];
-    
-    if (currentLanguage === 'en') {
-      languageElement = languageSelector.find('li')[0];
-    } else {
-      languageElement = languageSelector.find('li')[1];
-    }
-  } else {
+  
+  if (currentLanguage === 'en') {
     languageElement = languageSelector.find('li')[0];
+  } else {
+    languageElement = languageSelector.find('li')[1];
   }
 
   if (languageElement) {
