@@ -256,7 +256,7 @@ def orgdashboards_get_resource_url(id):
         return None
     
     data = _get_action('resource_show', {}, {'id': id})
-    return data['url']
+    return data['url'] + '/'
 
 def orgdashboards_get_geojson_properties(resource_id):
     import requests
