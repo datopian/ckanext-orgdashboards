@@ -72,9 +72,29 @@
 {# set font_all_data_color = "#" + organization.orgdashboards_all_data_color #}
 
 {% set action = c.action %}
+{% set gtm_id = organization.orgdashboards_gtm_id %}
 
+{% block links%}
+    {% if gtm_id and action == 'show_dashboard_by_domain' %}
+<!-- Google Tag Manager -->
+      <script>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','{{gtm_id}}');
+      </script>
+<!-- End Google Tag Manager -->
+    {% endif %}
+{% endblock %}
 
 {% block page %}
+    {% if gtm_id and action == 'show_dashboard_by_domain' %}
+        <!-- Google Tag Manager (noscript) -->
+            <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{gtm_id}}"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+    {% endif %}
     <div class="boxed-layout">
     <header>
         <div class="container">
@@ -450,18 +470,4 @@
             <div class="copyright">© {{ organization.orgdashboards_copyright }}</div>
         </div>
     </footer>
-    {% set ga_tracking_id = organization.orgdashboards_ga_tracking_id %}
-
-    {% if ga_tracking_id and action == 'show_dashboard_by_domain' %}
-      <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-        ga('create', '{{ ga_tracking_id }}', 'auto');
-        ga('send', 'pageview');
-
-      </script>
-    {% endif %}
-{% endblock %}
+ {% endblock %}

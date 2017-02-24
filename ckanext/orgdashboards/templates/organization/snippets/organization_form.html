@@ -124,7 +124,7 @@
 
     {{ form.markdown('orgdashboards_copyright', label=_('Dashboard copyright'), id='orgdashboards_copyright', placeholder=_('Set the dashboard copyright'), value=data.orgdashboards_copyright, error=errors.orgdashboards_copyright) }}
 
-    {{ form.input('orgdashboards_ga_tracking_id', 'orgdashboards_ga_tracking_id', label=_('Google Analytics Tracking ID'), value=data.orgdashboards_ga_tracking_id, error=errors.orgdashboards_ga_tracking_id) }}
+    {{ form.input('orgdashboards_gtm_id', 'orgdashboards_gtm_id', label=_('Google Tag Manager ID'), value=data.orgdashboards_gtm_id, error=errors.orgdashboards_gtm_id) }}
 
     {% if data.id %}
 

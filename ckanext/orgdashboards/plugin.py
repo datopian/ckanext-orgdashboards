@@ -117,7 +117,7 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_survey_enabled': default_validators,
             'orgdashboards_survey_text': default_validators,
             'orgdashboards_survey_link': default_validators,
-            'orgdashboards_ga_tracking_id': default_validators,
+            'orgdashboards_gtm_id': default_validators,
         })
         
         charts = {}
@@ -161,7 +161,7 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_survey_enabled': default_validators,
             'orgdashboards_survey_text': default_validators,
             'orgdashboards_survey_link': default_validators,
-            'orgdashboards_ga_tracking_id': default_validators,
+            'orgdashboards_gtm_id': default_validators,
             'num_followers': [_not_empty],
             'package_count': [_not_empty],
         })
