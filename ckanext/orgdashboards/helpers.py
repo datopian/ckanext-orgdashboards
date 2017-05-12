@@ -10,6 +10,7 @@ from pylons import config
 import ckan.plugins as p
 import ckan.lib.helpers as h
 import ckan.plugins.toolkit as toolkit
+from ckan.lib.i18n import get_available_locales
 
 import ckan.logic as l
 import ckan.model as model
@@ -143,7 +144,7 @@ def orgdashboards_get_available_languages():
 
     languages = []
 
-    for locale in h.get_available_locales():
+    for locale in get_available_locales():
         languages.append({'value': locale, 'text': locale.english_name})
 
     languages.sort()
@@ -341,7 +342,7 @@ def orgdashboards_get_current_url(page, params, controller, action, name, exclud
     return url
 
 def orgdashboards_get_country_short_name(current_locale):
-    for locale in h.get_available_locales():
+    for locale in get_available_locales():
         if current_locale == str(locale):
             return locale.english_name[:3]
 
