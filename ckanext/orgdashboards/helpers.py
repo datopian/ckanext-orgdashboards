@@ -343,7 +343,7 @@ def orgdashboards_get_current_url(page, params, controller, action, name, exclud
     return url
 
 def orgdashboards_get_country_short_name(current_locale):
-    for locale in h.get_available_locales():
+    for locale in get_available_locales():
         if current_locale == str(locale):
             return locale.english_name[:3]
 
