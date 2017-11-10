@@ -2,11 +2,11 @@
    these badges work. The necessary Travis and Coverage config files have been
    generated for you.
 
-.. image:: https://travis-ci.org/keitaroinc/ckanext-orgdashboards.svg?branch=master
-    :target: https://travis-ci.org/keitaroinc/ckanext-orgdashboards
+.. image:: https://travis-ci.org/ViderumGlobal/ckanext-orgdashboards.svg?branch=master
+    :target: https://travis-ci.org/ViderumGlobal/ckanext-orgdashboards
 
-.. image:: https://coveralls.io/repos/keitaroinc/ckanext-orgdashboards/badge.svg
-  :target: https://coveralls.io/r/keitaroinc/ckanext-orgdashboards
+.. image:: https://coveralls.io/repos/ViderumGlobal/ckanext-orgdashboards/badge.svg
+  :target: https://coveralls.io/r/ViderumGlobal/ckanext-orgdashboards
 
 =============
 ckanext-orgdashboards
