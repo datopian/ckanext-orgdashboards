@@ -173,7 +173,7 @@ class TestHelpers():
         url = helpers.orgdashboards_get_resource_url(
             self.mock_data['resource_id'])
 
-        assert url == self.mock_data['resource']['url']
+        assert url == self.mock_data['resource']['url'] + '/'
 
     # def test_get_geojson_properties(self):
     #     resource_name = id_generator()
