@@ -82,17 +82,8 @@ class TestHelpers():
         name = 'tags'
         value = 'nature'
 
-        url = helpers.orgdashboards_replace_or_add_url_param(
-            name=name,
-            value=value,
-            params=[],
-            controller=controller,
-            action=action,
-            context_name=organization_name)
-
-        assert url == '/organization/{0}/dashboard?{1}={2}'.format(
-            organization_name, name, value)
-
+        # TODO: this is overridden by packages controller ?
+        # is test still valid ?
         url = helpers.orgdashboards_replace_or_add_url_param(
             name=name,
             value=value,
@@ -106,8 +97,8 @@ class TestHelpers():
                     '+'.join(author.split(' ')),
                     name,
                     value)
-
-        assert url == new_url
+        pkg_url = u"/packages?name={0}?page=1&author=Aleksandar+Jovanov&tags=nature".format(organization_name)
+        assert url == pkg_url
 
     def test_get_resourceview_resource_package(self):
         chart_resources = helpers.get_resourceview_resource_package(
