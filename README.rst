@@ -16,15 +16,6 @@ ckanext-orgdashboards
    What does it do? What features does it have?
    Consider including some screenshots or embedding a video!
 
-
-------------
-Requirements
-------------
-
-For example, you might want to mention here which versions of CKAN this
-extension works with.
-
-
 ------------
 Installation
 ------------
@@ -47,13 +38,11 @@ To install ckanext-orgdashboards:
    config file (by default the config file is located at
    ``/etc/ckan/default/production.ini``).
 
-4. Add ``ckanext.orgdashboards.datasets_per_page`` as a setting in the config 
-file::
+4. Add ``ckanext.orgdashboards.datasets_per_page`` as a setting in the config file::
 
     ckanext.orgdashboards.datasets_per_page = 5
 
-5. Add ``ckanext.orgdashboards.organization_entity_name`` as a setting in the 
-config file::
+5. Add ``ckanext.orgdashboards.organization_entity_name`` as a setting in the config file::
 
     ckanext.orgdashboards.organization_entity_name = organization
 
