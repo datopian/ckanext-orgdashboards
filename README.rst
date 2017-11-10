@@ -12,9 +12,8 @@
 ckanext-orgdashboards
 =============
 
-.. Put a description of your extension here:
-   What does it do? What features does it have?
-   Consider including some screenshots or embedding a video!
+Dashboard visualises selected datasets on a single overview screen. You can add graphs, charts, and maps to give a quick summary of the data. For more information about orgdashboard extension follow this tutorial
+`Data dashboards <https://www.youtube.com/watch?v=Gn32scwuMU4>`_.
 
 ------------
 Installation
