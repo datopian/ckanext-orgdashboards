@@ -27,7 +27,7 @@ class TestPlugin():
         mapper.connect.assert_called_with(
             '/' + organization_entity_name + '/{name}/dashboard',
             controller=ctrl,
-            action='organization_dashboard')
+            action='preview_dashboard')
 
     def test_is_fallback(self):
         is_fallback = self._plugin.is_fallback()
