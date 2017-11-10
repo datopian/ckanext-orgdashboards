@@ -5,9 +5,4 @@ sudo cp ckan/ckan/config/solr/schema.xml /etc/solr/conf/schema.xml
 sudo service jetty restart
 
 # We need ckan to be running for some tests
-cd ckan
-paster serve test-core.ini &
-sleep 5
-cd -
-
-nosetests --ckan --nologcapture --with-pylons=test.travis.ini
+nosetests --ckan --with-pylons=test.travis.ini --with-coverage --cover-package=ckanext.orgdashboards --cover-inclusive --cover-erase --cover-tests
