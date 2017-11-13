@@ -269,7 +269,10 @@ def orgdashboards_get_geojson_properties(resource_id):
     except Exception as e:
         log.error(e)
   
-    geojson = response.json()
+    try:
+        geojson = response.json()
+    except ValueError:
+        return []
         
     result = []
     for k, v in geojson.get('features')[0].get('properties').iteritems():
