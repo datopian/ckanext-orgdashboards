@@ -223,16 +223,17 @@ class DashboardsController(PackageController):
         for facet in c.search_facets.keys():
             try:
                 limit = int(request.params.get('_%s_limit' % facet,
-                                               g.facets_default_number))
+                                               g.facets_default_number or 10))
             except ValueError:
                 abort(400, _('Parameter "{parameter_name}" is not '
                              'an integer').format(
                     parameter_name='_%s_limit' % facet))
             c.search_facets_limits[facet] = limit
 
-        maintain.deprecate_context_item(
-            'facets',
-            'Use `c.search_facets` instead.')
+        if g.facets_default_number:
+            maintain.deprecate_context_item(
+                'facets',
+                'Use `c.search_facets` instead.')
 
         self._setup_template_variables(context, {},
                                        package_type=package_type)
