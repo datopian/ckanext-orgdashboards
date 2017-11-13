@@ -27,7 +27,6 @@ log = logging.getLogger(__name__)
 
 render = base.render
 abort = base.abort
-redirect = base.redirect
 
 NotAuthorized = logic.NotAuthorized
 ValidationError = logic.ValidationError
