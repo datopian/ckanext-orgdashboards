@@ -4,9 +4,9 @@
 
 .. image:: https://travis-ci.org/ViderumGlobal/ckanext-orgdashboards.svg?branch=master
     :target: https://travis-ci.org/ViderumGlobal/ckanext-orgdashboards
-
-.. image:: https://coveralls.io/repos/ViderumGlobal/ckanext-orgdashboards/badge.svg
-  :target: https://coveralls.io/r/ViderumGlobal/ckanext-orgdashboards
+.. image:: https://coveralls.io/repos/github/ViderumGlobal/ckanext-orgdashboards/badge.svg?branch=master
+    :target: https://coveralls.io/github/ViderumGlobal/ckanext-orgdashboards?branch=master
+  
 
 =============
 ckanext-orgdashboards
