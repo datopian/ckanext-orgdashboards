@@ -252,22 +252,30 @@ class OrgViews(object):
         
 org_views = OrgViews()
 
+
 def orgdashboards_get_resource_url(id):
     if not resource_id_exists(id, _get_ctx()):
         return None
-    
-    data = _get_action('resource_show', {}, {'id': id})
+    try:
+        data = _get_action('resource_show', {}, {'id': id})
+    except l.NotFound:
+        return ''
     return data['url'] + '/'
+
 
 def orgdashboards_get_geojson_properties(resource_id):
     import requests
-    
+
     url = orgdashboards_get_resource_url(resource_id)
 
     try:
-        response = requests.get(url)
-    except Exception as e:
-        log.error(e)
+        if url:
+            response = requests.get(url)
+            response.raise_for_status()
+        else:
+            return 'Wrong resource url'
+    except requests.exceptions.HTTPError as ex:
+        return [{'error': ex.message}]
   
     try:
         geojson = response.json()
@@ -280,9 +288,11 @@ def orgdashboards_get_geojson_properties(resource_id):
 
     return result
 
+
 def orgdashboards_resource_show_map_properties(id):
     return orgdashboards_get_geojson_properties(id)
-           
+
+
 def orgdashboards_convert_to_list(resources):
     if not resources.startswith('{'):
         return [resources]
@@ -307,6 +317,7 @@ def orgdashboards_smart_truncate(text, length=800):
         return text
     return text[:length].rsplit(' ', 1)[0]
 
+
 def orgdashboards_get_secondary_language(organization_name):
     organization = _get_action('organization_show', {}, {'id': organization_name})
 
@@ -315,6 +326,7 @@ def orgdashboards_get_secondary_language(organization_name):
     else:
         return 'none'
 
+
 def orgdashboards_get_secondary_dashboard(organization_name):
     organization = _get_action('organization_show', {}, {'id': organization_name})
 
@@ -322,6 +334,7 @@ def orgdashboards_get_secondary_dashboard(organization_name):
         return organization['orgdashboards_secondary_dashboard']
     else:
         return 'none'
+
 
 def orgdashboards_get_current_url(page, params, controller, action, name, exclude_param=''):
 
@@ -344,24 +357,29 @@ def orgdashboards_get_current_url(page, params, controller, action, name, exclud
 
     return url
 
+
 def orgdashboards_get_country_short_name(current_locale):
     for locale in get_available_locales():
         if current_locale == str(locale):
             return locale.english_name[:3]
 
+
 def orgdashboards_get_organization_entity_name():
     return config.get('ckanext.orgdashboards.organization_entity_name', 
             'organization')
 
+
 def orgdashboards_get_group_entity_name():
     return config.get('ckanext.orgdashboards.group_entity_name', 
             'group')
+
 
 def orgdashboards_get_facet_items_dict(value):
     try:
         return h.get_facet_items_dict(value)
     except:
         return None
+
 
 def orgdashboards_get_dashboard_url(org_name):
 
@@ -375,6 +393,7 @@ def orgdashboards_get_dashboard_url(org_name):
         return url
     else:
         return ''
+
 
 def orgdashboards_get_config_option(key):
     return config.get(key)
