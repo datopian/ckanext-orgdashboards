@@ -25,7 +25,7 @@ log = logging.getLogger(__name__)
 # TODO: Re-organize and re-factor helpers
 
 def _get_ctx():
-    return {'model': model, 
+    return {'model': model,
             'session': model.Session,
             'user': 'sysadmin'}
 
@@ -59,7 +59,7 @@ def orgdashboards_convert_time_format(package):
     return modified.strftime("%d %B %Y")
 
 
-def orgdashboards_replace_or_add_url_param(name, value, params, controller, 
+def orgdashboards_replace_or_add_url_param(name, value, params, controller,
     action, context_name):
     for k, v in params:
         # Reset the page to the first one
@@ -85,16 +85,16 @@ def orgdashboards_replace_or_add_url_param(name, value, params, controller,
 def get_resourceview_resource_package(resource_view_id):
     if not resource_view_id:
         return None
-    
+
     data_dict = {
         'id': resource_view_id
     }
     try:
         resource_view = toolkit.get_action('resource_view_show')({}, data_dict)
-        
+
     except l.NotFound:
         return None
-        
+
 
     data_dict = {
         'id': resource_view['resource_id']
@@ -104,10 +104,10 @@ def get_resourceview_resource_package(resource_view_id):
     data_dict = {
         'id': resource['package_id']
     }
-    
+
     try:
         package = toolkit.get_action('package_show')({}, data_dict)
-        
+
     except l.NotFound:
         return None
 
@@ -115,20 +115,20 @@ def get_resourceview_resource_package(resource_view_id):
 
 def orgdashboards_get_organization_list():
     return _get_action('organization_list', {},
-                      {'all_fields': True, 
-                       'include_extras': True, 
+                      {'all_fields': True,
+                       'include_extras': True,
                        'include_followers': True})
 
 def orgdashboards_get_all_organizations(current_org_name):
     ''' Get all created organizations '''
 
     organizations = _get_action('organization_list', {}, {'all_fields': True})
-    
-    organizations = map(lambda item: 
+
+    organizations = map(lambda item:
                         {
-                            'value': item['name'], 
-                            'text': item['display_name']
-                        }, 
+                            'value': item['name'],
+                            'text': item.get('display_name') or item.get('title')
+                        },
                         organizations
                     )
 
@@ -139,7 +139,7 @@ def orgdashboards_get_all_organizations(current_org_name):
 
     return organizations
 
-def orgdashboards_get_available_languages():   
+def orgdashboards_get_available_languages():
     ''' Read the languages listed in a json file '''
 
     languages = []
@@ -155,9 +155,9 @@ def orgdashboards_get_available_languages():
 
 def get_organization_views(name, type='chart builder'):
     data = _get_action('organization_show',{},
-                      {'id':name, 
+                      {'id':name,
                        'include_datasets': True})
-        
+
     result = []
     package_names = data.pop('packages', [])
     if any(package_names):
@@ -165,51 +165,51 @@ def get_organization_views(name, type='chart builder'):
             package = _get_action('package_show', {}, {'id': _['name']})
             if not package['num_resources'] > 0:
                 continue
-            
+
             if type == 'chart builder':
-                resource_views = map(lambda p: _get_action('resource_view_list', {}, 
+                resource_views = map(lambda p: _get_action('resource_view_list', {},
                                                           {'id': p['id']}), package['resources'])
                 if any(resource_views):
                     map(lambda l: result.extend(filter(lambda i: i['view_type'].lower() == type, l)), resource_views)
-                    
+
             elif type.lower() == 'maps':
                 result.extend(filter(lambda r: r['format'].lower() in ['geojson', 'gjson'], package['resources']))
-            
+
             else:
                 pass
             # Raise not handled exception
-            
+
     return result
 
 def get_resource_views(package):
     result = []
-    resource_views = map(lambda p: _get_action('resource_view_list', {}, 
+    resource_views = map(lambda p: _get_action('resource_view_list', {},
                                               {'id': p['id']}), package['resources'])
     if any(resource_views):
         map(lambda l: result.extend(l), resource_views)
-        
+
     return result
-    
+
 
 def get_dataset_resource_views(package_id):
     if not package_id_exists(package_id, _get_ctx()):
         return []
-    
+
     dataset = _get_action('package_show', {}, {'id': package_id})
     return get_resource_views(dataset)
-    
+
 def get_dataset_chart_resource_views(package_id):
     if not package_id_exists(package_id, _get_ctx()):
         return []
-    
-    return filter(lambda i: i['view_type'] == 'Chart builder', 
+
+    return filter(lambda i: i['view_type'] == 'Chart builder',
                   get_dataset_resource_views(package_id))
-    
+
 class OrgViews(object):
     def __init__(self):
         self.charts_cache = {}
         self.maps_cache = {}
-        
+
     def get_charts(self, name):
         allCharts = {}
         result = []
@@ -218,13 +218,13 @@ class OrgViews(object):
             allCharts.update({name: result})
 
         return allCharts.get(name) or {}
-    
+
     def get_maps(self, name):
         allMaps = {}
         result = [{'value': '', 'text': 'None'}]
         for item in get_organization_views(name, type='Maps'):
             is_private = self._is_dataset_private(item['package_id'])
-            
+
             if is_private:
                 continue
 
@@ -244,12 +244,12 @@ class OrgViews(object):
             'id': package_id
         }
         package = _get_action('package_show', {}, data_dict)
-        
+
         if 'private' in package and package['private'] == True:
             return True
         else:
             return False
-        
+
 org_views = OrgViews()
 
 
@@ -276,12 +276,12 @@ def orgdashboards_get_geojson_properties(resource_id):
             return 'Wrong resource url'
     except requests.exceptions.HTTPError as ex:
         return [{'error': ex.message}]
-  
+
     try:
         geojson = response.json()
     except ValueError:
         return []
-        
+
     result = []
     for k, v in geojson.get('features')[0].get('properties').iteritems():
         result.append({'value':k, 'text': k})
@@ -365,12 +365,12 @@ def orgdashboards_get_country_short_name(current_locale):
 
 
 def orgdashboards_get_organization_entity_name():
-    return config.get('ckanext.orgdashboards.organization_entity_name', 
+    return config.get('ckanext.orgdashboards.organization_entity_name',
             'organization')
 
 
 def orgdashboards_get_group_entity_name():
-    return config.get('ckanext.orgdashboards.group_entity_name', 
+    return config.get('ckanext.orgdashboards.group_entity_name',
             'group')
 
 
