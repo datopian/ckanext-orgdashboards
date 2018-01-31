@@ -429,25 +429,20 @@
                 </div>
                 <div class="col-md-2 col-lg-3">
                     <ul class="list-inline list-social-buttons">
-                        <li>
-                            <a class="btn-animated" href="https://www.facebook.com/usingextractivesdata">
-                                <img src="/img/facebook-circle-color.svg" width="50" height="50" alt="Share on Facebook">
-                            </a>
-                        </li>
-                        <!--
-                        <li><a class="btn-animated" href="#"><img src="/img/instagram-circle-color.svg" width="50"
-                                                                  height="50" alt="Share on Instagram"></a></li>
-                        -->
-                        <li>
-                            <a class="btn-animated" href="https://twitter.com/usedata15">
-                                <img src="/img/twitter-circle-color.svg" width="50" height="50" alt="Tweet">
-                            </a>
-                        </li>
-                        <!--
-                        <li><a class="btn-animated" href="#"><img src="/img/linkedin-circle-color.svg" width="50"
-                                                                  height="50"
-                                                                  alt="Share on LinkedIn"></a></li>
-                        -->
+                        {% if organization.orgdashboards_facebook_link %}
+                            <li>
+                                <a class="btn-animated" href="{{ organization.orgdashboards_facebook_link }}">
+                                    <img src="/img/facebook-circle-color.svg" width="50" height="50">
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% if organization.orgdashboards_twitter_link %}
+                            <li>
+                                <a class="btn-animated" href="{{ organization.orgdashboards_twitter_link }}">
+                                    <img src="/img/twitter-circle-color.svg" width="50" height="50">
+                                </a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
                 {% if organization_entity_name == 'country' %}

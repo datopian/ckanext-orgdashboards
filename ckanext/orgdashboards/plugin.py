@@ -14,9 +14,9 @@ from pylons import config
 
 log = logging.getLogger(__name__)
 
-class OrgDashboardsPlugin(plugins.SingletonPlugin, 
+class OrgDashboardsPlugin(plugins.SingletonPlugin,
     lib_plugins.DefaultOrganizationForm, DefaultTranslation):
-    
+
     plugins.implements(plugins.IRoutes, inherit=True)
     plugins.implements(plugins.IActions)
     plugins.implements(plugins.IGroupForm, inherit=True)
@@ -31,7 +31,7 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
         # Define dashboard controller routes
 
         organization_entity_name = config.get(
-            'ckanext.orgdashboards.organization_entity_name', 
+            'ckanext.orgdashboards.organization_entity_name',
             'organization')
 
         ctrl = 'ckanext.orgdashboards.controllers.dashboard:DashboardsController'
@@ -41,14 +41,14 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
 
         map.connect('/' + organization_entity_name + '/{name}/dashboard', controller=ctrl,
                     action='preview_dashboard')
-            
+
         return map
 
     ## IGroupForm
 
     def is_fallback(self):
         return False
-    
+
     def group_types(self):
         return ['organization']
 
@@ -92,7 +92,7 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
         # Import core converters and validators
         _convert_to_extras = toolkit.get_converter('convert_to_extras')
         _ignore_missing = toolkit.get_validator('ignore_missing')
-        
+
         default_validators = [_ignore_missing,_convert_to_extras]
 
         schema.update({
@@ -118,13 +118,15 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_survey_text': default_validators,
             'orgdashboards_survey_link': default_validators,
             'orgdashboards_gtm_id': default_validators,
+            'orgdashboards_facebook_link': default_validators,
+            'orgdashboards_twitter_link': default_validators,
         })
-        
+
         charts = {}
         for _ in range(1, 7):
             charts.update({'orgdashboards_chart_{idx}'.format(idx=_): default_validators,
                            'orgdashboards_chart_{idx}_subheader'.format(idx=_): default_validators})
-            
+
         schema.update(charts)
         return schema
 
@@ -162,18 +164,20 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_survey_text': default_validators,
             'orgdashboards_survey_link': default_validators,
             'orgdashboards_gtm_id': default_validators,
+            'orgdashboards_facebook_link': default_validators,
+            'orgdashboards_twitter_link': default_validators,
             'num_followers': [_not_empty],
             'package_count': [_not_empty],
         })
-        
+
         charts = {}
         for _ in range(1, 7):
             charts.update({'orgdashboards_chart_{idx}'.format(idx=_): default_validators,
                            'orgdashboards_chart_{idx}_subheader'.format(idx=_): default_validators})
-            
+
         schema.update(charts)
         return schema
-    
+
     ## IActions
 
     def get_actions(self):
@@ -195,11 +199,11 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
                 helpers.orgdashboards_get_organization_list,
             'orgdashboards_get_chart_resources':
                 helpers.get_resourceview_resource_package,
-            'orgdashboards_get_org_map_views': 
+            'orgdashboards_get_org_map_views':
                 helpers.org_views.get_maps,
             'orgdashboards_get_resource_url':
                 helpers.orgdashboards_get_resource_url,
-            'orgdashboards_get_geojson_properties': 
+            'orgdashboards_get_geojson_properties':
                 helpers.orgdashboards_get_geojson_properties,
             'orgdashboards_get_resource_view_url':
                 lambda id, dataset: '/dataset/{0}/resource/{1}'\
@@ -236,14 +240,14 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
                 helpers.orgdashboards_get_config_option
 
         }
-        
+
     ## IConfigurer
-    
+
     def update_config(self, config):
         toolkit.add_template_directory(config, 'templates')
         toolkit.add_resource('fanstatic', 'orgdashboards')
         toolkit.add_public_directory(config, 'public')
-        
+
 def _get_logic_functions(module_root, logic_functions = {}):
     module = __import__(module_root)
     for part in module_root.split('.')[1:]:
@@ -253,9 +257,9 @@ def _get_logic_functions(module_root, logic_functions = {}):
         if not key.startswith('_') and  (hasattr(value, '__call__')
                     and (value.__module__ == module_root)):
             logic_functions[key] = value
-            
+
     return logic_functions
-        
+
 def _domain_validator(key, data, errors, context):
 
     session = context['session']

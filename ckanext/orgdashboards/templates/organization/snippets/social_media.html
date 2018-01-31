@@ -1,0 +1,8 @@
+<fieldset>
+    <legend>{{ _('Footer Social media links') }}</legend>
+
+    <div class="control-group control-full">
+        {{ form.input('orgdashboards_facebook_link', 'orgdashboards_facebook_link', type='url', label=_('Facebook link'), value=data.orgdashboards_facebook_link, error=errors.orgdashboards_facebook_link) }}
+        {{ form.input('orgdashboards_twitter_link', 'orgdashboards_twitter_link', type='url', label=_('Twitter link'), value=data.orgdashboards_twitter_link, error=errors.orgdashboards_twitter_link) }}
+    </div>
+</fieldset>
