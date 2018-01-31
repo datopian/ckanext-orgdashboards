@@ -150,7 +150,7 @@
                             {% if country_short_name == 'Bur' %}
                               {% set country_short_name = 'Mya' %}
                             {% endif %}
-                          {% else %}  
+                          {% else %}
                             {% set flag_url = '/images/flags/' + organization.orgdashboards_secondary_language + '.svg' %}
                             {% set country_short_name = h.orgdashboards_get_country_short_name(current_locale) %}
 
@@ -158,7 +158,7 @@
                               {% set country_short_name = 'Mya' %}
                             {% endif %}
                           {% endif %}
-                     
+
                           <li>
                               {% if action == 'show_dashboard_by_domain' %}
                                 {% if h.orgdashboards_get_dashboard_url(organization_name) != ''%}
@@ -241,7 +241,7 @@
               {% else %}
                 data-module-mapurl="[]"
               {% endif %}
-              data-module-organizationName="{{ organization.display_name }}"
+              data-module-organizationName="{{ organization.display_name or organization.title }}"
               data-module-color="{{ base_color }}"
               data-module-main_property="{{ orgdashboards_map_main_properties|join(',') }}"
               id="hero_map"
@@ -346,7 +346,7 @@
             </div>
         </div>
 
-        
+
         <div class="all-data" id="search-data">
                     {% set group_entity_name = h.orgdashboards_get_group_entity_name() %}
 
@@ -355,7 +355,7 @@
                     {% elif group_entity_name == 'theme' %}
                       {% set group_filter_name = _('Themes') %}
                     {% endif %}
-                    
+
                     {% set facets = {
                   'fields': c.fields_grouped,
                   'search': c.search_facets,
