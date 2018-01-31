@@ -99,7 +99,11 @@ def get_resourceview_resource_package(resource_view_id):
     data_dict = {
         'id': resource_view['resource_id']
     }
-    resource = toolkit.get_action('resource_show')({}, data_dict)
+
+    try:
+        resource = toolkit.get_action('resource_show')({}, data_dict)
+    except l.NotFound:
+        return None
 
     data_dict = {
         'id': resource['package_id']
