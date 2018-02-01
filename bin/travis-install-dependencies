@@ -14,6 +14,8 @@ git clone https://github.com/ckan/ckan
 cd ckan
 git checkout "ckan-2.7.2"
 python setup.py develop
+# Travis has issues with older version 2.4.5
+pip install psycopg2==2.7.3.2
 pip install -r requirements.txt
 pip install -r dev-requirements.txt
 cd -
