@@ -178,6 +178,21 @@
                     </ul>
                 </div>
               {% endif %}
+
+    <nav class="top-navigation pull-right" style="background-color: {{ base_color }}">
+        <div class="">
+            <ul class="list-inline">
+                {% if organization_entity_name == 'country' %}
+                  <li><a href="http://www.usedata.info/about-2/">{{ _('About') }}</a></li>
+                  <li><a href="http://www.usedata.info/help/">{{ _('Help') }}</a></li>
+                  <li><a href="http://www.usedata.info/resources/">{{ _('Resources') }}</a></li>
+                  <li><a href="http://www.usedata.info/contact/">{{ _('Contact') }}</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+
             </div>
         </div>
     </header>
