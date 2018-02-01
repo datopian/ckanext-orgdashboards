@@ -3,6 +3,7 @@ python:
   - "2.7"
 env:
   - PGVERSION=9.2
+dist: trusty
 sudo: required
 cache: pip
 install:
