@@ -281,46 +281,12 @@
 
     <main class="container">
         <div class="graphs">
-          <div class="row">
-            {% if organization.orgdashboards_chart_1 %}
+            {% for chart in organization.orgdashboards_charts %}
                 {% snippet 'dashboards/snippets/show_charts.html',
-                    resource_view_id=organization.orgdashboards_chart_1,
-                    subheader=organization.orgdashboards_chart_1_subheader
+                        resource_view_id=chart.resource_view_id,
+                        subheader=chart.subheader
                 %}
-            {% endif %}
-            {% if organization.orgdashboards_chart_2 %}
-                {% snippet 'dashboards/snippets/show_charts.html',
-                    resource_view_id=organization.orgdashboards_chart_2,
-                    subheader=organization.orgdashboards_chart_2_subheader
-                %}
-            {% endif %}
-            {% if organization.orgdashboards_chart_3 %}
-                {% snippet 'dashboards/snippets/show_charts.html',
-                    resource_view_id=organization.orgdashboards_chart_3,
-                    subheader=organization.orgdashboards_chart_3_subheader
-                %}
-            {% endif %}
-              </div>
-          <div class="row">
-            {% if organization.orgdashboards_chart_4 %}
-                {% snippet 'dashboards/snippets/show_charts.html',
-                    resource_view_id=organization.orgdashboards_chart_4,
-                    subheader=organization.orgdashboards_chart_4_subheader
-                %}
-            {% endif %}
-            {% if organization.orgdashboards_chart_5 %}
-                {% snippet 'dashboards/snippets/show_charts.html',
-                    resource_view_id=organization.orgdashboards_chart_5,
-                    subheader=organization.orgdashboards_chart_5_subheader
-                %}
-            {% endif %}
-            {% if organization.orgdashboards_chart_6 %}
-                {% snippet 'dashboards/snippets/show_charts.html',
-                    resource_view_id=organization.orgdashboards_chart_6,
-                    subheader=organization.orgdashboards_chart_6_subheader
-                %}
-            {% endif %}
-          </div>
+            {% endfor %}
         </div>
         <div class="new-data">
             <h2 class="data-block-heading" style="color: {{ font_base_color }}">{{ _('Newly Released Data') }}

@@ -7076,11 +7076,14 @@ button.close {
 
 .graphs {
     padding-top: 30px;
-    padding-bottom: 30px
+    padding-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .graph-container {
-    min-height: 20em
+    min-height: 20em;
+    width: 33%;
 }
 
 .graph-flex {
