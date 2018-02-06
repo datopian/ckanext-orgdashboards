@@ -122,12 +122,6 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'orgdashboards_twitter_link': default_validators,
         })
 
-        charts = {}
-        for _ in range(1, 7):
-            charts.update({'orgdashboards_chart_{idx}'.format(idx=_): default_validators,
-                           'orgdashboards_chart_{idx}_subheader'.format(idx=_): default_validators})
-
-        schema.update(charts)
         return schema
 
     def db_to_form_schema(self):
@@ -170,12 +164,6 @@ class OrgDashboardsPlugin(plugins.SingletonPlugin,
             'package_count': [_not_empty],
         })
 
-        charts = {}
-        for _ in range(1, 7):
-            charts.update({'orgdashboards_chart_{idx}'.format(idx=_): default_validators,
-                           'orgdashboards_chart_{idx}_subheader'.format(idx=_): default_validators})
-
-        schema.update(charts)
         return schema
 
     ## IActions

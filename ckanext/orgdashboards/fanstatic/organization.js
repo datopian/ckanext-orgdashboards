@@ -18,104 +18,106 @@
     var url = window.location.pathname;
     var name = url.substr(url.lastIndexOf('/') + 1);
 
+    populateDropdownsForCharts();
+
     // Fetch and populate datasets dropdowns
+    function populateDropdownsForCharts() {
+      api.get('orgdashboards_show_datasets', {id: name}).done(function (data) {
+        var inputs = $('[id*=chart_dataset_]');
+        $.each(data.result, function (idx, elem) {
+          inputs.append(new Option(elem.title, elem.name));
+        });
 
-    api.get('orgdashboards_show_datasets', {id: name}).done(function (data) {
-      var inputs = $('[id*=chart_dataset_]');
-      $.each(data.result, function (idx, elem) {
-        inputs.append(new Option(elem.title, elem.name));
-      });
+        // Dataset event handlers
+        var dataset_name;
+        inputs.on('change', function () {
+          var elem = $(this);
+          dataset_name = elem.find(":selected").val();
+          var dataset_select_id = elem.attr('id');
+          var resource_select_id = dataset_select_id.replace('dataset', 'resource');
+          var resourceview_select_id = resource_select_id.replace('resource', 'resource_view');
 
-      // Dataset event handlers
-      var dataset_name;
-      inputs.on('change', function () {
-        var elem = $(this);
-        dataset_name = elem.find(":selected").val();
-        var dataset_select_id = elem.attr('id');
-        var resource_select_id = dataset_select_id.replace('dataset', 'resource');
-        var resourceview_select_id = resource_select_id.replace('resource', 'resource_view');
+          // Empty all child selects
+          if ($('#' + resource_select_id + ' option').length > 0)
+            $('#' + resource_select_id).find('option').not(':first').remove();
 
-        // Empty all child selects
-        if ($('#' + resource_select_id + ' option').length > 0)
-          $('#' + resource_select_id).find('option').not(':first').remove();
+          $('#' + resourceview_select_id + '_preview').empty();
+          // Fetch and populate resources drop down
+          api.get('orgdashboards_dataset_show_resources', {id: dataset_name}).done(
+            function (data) {
+              var opts = $('#' + resource_select_id);
+              $.each(data.result, function (idx, elem) {
+                var name;
 
-        $('#' + resourceview_select_id + '_preview').empty();
+                if (elem.name) {
+                  name = elem.name;
+                } else if (elem.description) {
+                  name = elem.description;
+                } else {
+                  name = 'Unnamed resource';
+                }
 
-        // Fetch and populate resources drop down
-        api.get('orgdashboards_dataset_show_resources', {id: dataset_name}).done(
-          function (data) {
-            var opts = $('#' + resource_select_id);
-            $.each(data.result, function (idx, elem) {
-              var name;
+                opts.append(new Option(name, elem.id));
+              });
 
-              if (elem.name) {
-                name = elem.name;
-              } else if (elem.description) {
-                name = elem.description;
-              } else {
-                name = 'Unnamed resource';
-              }
-
-              opts.append(new Option(name, elem.id));
+              $('.' + resource_select_id).removeClass('hidden');
             });
+        });
 
-            $('.' + resource_select_id).removeClass('hidden');
-          });
-      });
+        // Resource event handlers
 
-      // Resource event handlers
+        var resource_id;
+        var resource_inputs = $('[id*=chart_resource_]');
+        resource_inputs.on('change', function () {
 
-      var resource_id;
-      var resource_inputs = $('[id*=chart_resource_]');
-      resource_inputs.on('change', function () {
+          var elem = $(this);
+          resource_id = elem.find(":selected").val();
+          var resource_select_id = elem.attr('id');
+          var resourceview_select_id = resource_select_id.replace('resource', 'resourceview');
 
-        var elem = $(this);
-        resource_id = elem.find(":selected").val();
-        var resource_select_id = elem.attr('id');
-        var resourceview_select_id = resource_select_id.replace('resource', 'resourceview');
+          if ($('#' + resourceview_select_id + ' option').length > 0)
+            $('#' + resourceview_select_id).find('option').not(':first').remove();
 
-        if ($('#' + resourceview_select_id + ' option').length > 0)
-          $('#' + resourceview_select_id).find('option').not(':first').remove();
+          $('#' + resourceview_select_id + '_preview').html();
 
-        $('#' + resourceview_select_id + '_preview').html();
+          api.get('orgdashboards_resource_show_resource_views', {id: resource_id, view_type: 'Chart builder'}).done(
+            function (data) {
 
-        api.get('orgdashboards_resource_show_resource_views', {id: resource_id, view_type: 'Chart builder'}).done(
-          function (data) {
+              var opts = $('#' + resourceview_select_id);
+              $.each(data.result, function (idx, elem) {
+                opts.append(new Option(elem.title, elem.id));
+              });
 
-            var opts = $('#' + resourceview_select_id);
-            $.each(data.result, function (idx, elem) {
-              opts.append(new Option(elem.title, elem.id));
+              $('.' + resourceview_select_id).removeClass('hidden');
             });
+        });
 
-            $('.' + resourceview_select_id).removeClass('hidden');
-          });
+
+        // Resource views event handlers
+
+        var resourceview_inputs = $('[id*=chart_resourceview_]');
+        resourceview_inputs.on('change', function () {
+
+          var elem = $(this);
+          var resourceview_id = elem.find(":selected").val();
+
+          var resourceview_select_id = elem.attr('id');
+          var chart_nr = resourceview_select_id.substr(resourceview_select_id.lastIndexOf('_') + 1);
+
+          $('#orgdashboards_chart_' + chart_nr).val(resourceview_id)
+
+          var base_url = ckan.sandbox().client.endpoint;
+          var src = base_url + '/dataset/' + dataset_name + '/resource/' + resource_id + '/view/' + resourceview_id;
+
+          ckan.sandbox().client.getTemplate('iframe.html', {source: src})
+            .done(function (data) {
+
+              $('#' + resourceview_select_id + '_preview').html();
+              $('#' + resourceview_select_id + '_preview').html(data);
+            });
+        });
       });
-
-
-      // Resource views event handlers
-
-      var resourceview_inputs = $('[id*=chart_resourceview_]');
-      resourceview_inputs.on('change', function () {
-
-        var elem = $(this);
-        var resourceview_id = elem.find(":selected").val();
-
-        var resourceview_select_id = elem.attr('id');
-        var chart_nr = resourceview_select_id.substr(resourceview_select_id.lastIndexOf('_') + 1);
-
-        $('#orgdashboards_chart_' + chart_nr).val(resourceview_id)
-
-        var base_url = ckan.sandbox().client.endpoint;
-        var src = base_url + '/dataset/' + dataset_name + '/resource/' + resource_id + '/view/' + resourceview_id;
-
-        ckan.sandbox().client.getTemplate('iframe.html', {source: src})
-          .done(function (data) {
-
-            $('#' + resourceview_select_id + '_preview').html();
-            $('#' + resourceview_select_id + '_preview').html(data);
-          });
-      });
-    });
+    }
 
 
     // Map select event handler
@@ -190,5 +192,44 @@
       return rgb;
     }
 
+    var addChartBtn = $('#add-chart-btn');
+    var chartListContainer = $('.charts-list-container');
+
+    addChartBtn.on('click', function(event) {
+      event.preventDefault();
+
+      var totalItems = chartListContainer.children().length + 1;
+
+      ckan.sandbox().client.getTemplate('chart_item.html', {
+        n: totalItems,
+        data: {}
+      }).done(function(data) {
+          chartListContainer.append(data);
+          populateDropdownsForCharts();
+        });
+    });
+
+    var removeChartBtn = $('.remove-chart-btn');
+
+    // Remove chart event handler for existing items
+    removeChartBtn.on('click', function (e) {
+      $(this).parent().remove();
+      handleChartsOrder();
+    });
+
+    function handleChartsOrder() {
+        var charts = $('.chart-item-container');
+
+        $.each(charts, function(i, item) {
+            item = $(item);
+
+            var order = i + 1;
+            var resourceView = item.find('[id*=chart_resourceview_]');
+            var hiddenInput = item.find('[data-resource-view-id]');
+
+            resourceView.attr('id', 'chart_resourceview_' + order);
+            hiddenInput.attr('name', 'orgdashboards_chart_' + order);
+        });
+    }
   });
 })($);
